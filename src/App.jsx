@@ -17,6 +17,7 @@ import RiwayatAktivitasPage from './pages/RiwayatAktivitasPage';
 import PengaturanSistemPage from './pages/PengaturanSistemPage';
 import { notifyAllUsersExcept } from './utils/notifications';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
+import { usePageTitle } from './hooks/usePageTitle';
 
 function getFileType(mimeType, fileName) {
   const ext = fileName?.split('.').pop()?.toLowerCase();
@@ -88,6 +89,9 @@ export default function App({ supabase }) {
   const [searchQuery, setSearchQuery] = useState(''); // State untuk search di halaman Pencarian Pintar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State untuk mobile sidebar
   const isInitialLoginRef = useRef(true); // Track if this is initial login or just tab switch
+
+  // Update page title dynamically based on current page
+  usePageTitle(currentPage);
 
   useEffect(() => {
     const updateResetFlag = () => {
