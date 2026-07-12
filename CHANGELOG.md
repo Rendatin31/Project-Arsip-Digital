@@ -17,3 +17,9 @@
 
 ### Added
 - Custom hook `usePageTitle` untuk mengelola perubahan title halaman secara dinamis
+- **Loading Screen**: Menambahkan spinner loading saat aplikasi pertama kali dibuka
+- **Font Loading Strategy**: Menggunakan `font-display: block` untuk mencegah FOUT (Flash of Unstyled Text)
+
+### Fixed
+- **FOUT Issue**: Memperbaiki masalah font yang berubah-ubah saat pertama kali membuka aplikasi
+- Font sekarang dimuat dengan benar sebelum konten ditampilkan

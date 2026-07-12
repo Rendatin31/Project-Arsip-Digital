@@ -6,18 +6,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arsip Digital</title>
     
-    <!-- Preconnect to Google Fonts -->
+    <!-- Preconnect to Google Fonts (early DNS lookup) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <!-- Load Inter font with font-display=swap to avoid text flash -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <!-- Load Inter font with font-display=block to prevent FOUT -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=block" rel="stylesheet" />
     
-    <!-- Load Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Load Material Symbols with font-display=block -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet" />
+    
+    <!-- Inline critical CSS to prevent flash -->
+    <style>
+      /* Hide body until fonts loaded */
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease-in;
+      }
+      
+      /* Prevent icon flash */
+      .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: 'liga';
+      }
+      
+      /* Loading screen */
+      #app-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fafafa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease-out;
+      }
+      
+      #app-loader.loaded {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #e0e0e0;
+        border-top: 4px solid #6750a4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div id="app-loader">
+      <div class="loader-spinner"></div>
+    </div>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Remove loader after fonts loaded -->
+    <script>
+      document.fonts.ready.then(function() {
+        setTimeout(function() {
+          const loader = document.getElementById('app-loader');
+          if (loader) {
+            loader.classList.add('loaded');
+            setTimeout(function() {
+              loader.remove();
+            }, 300);
+          }
+        }, 100);
+      });
+      
+      // Fallback: Remove loader after 3 seconds even if fonts not loaded
+      setTimeout(function() {
+        const loader = document.getElementById('app-loader');
+        if (loader && !loader.classList.contains('loaded')) {
+          loader.classList.add('loaded');
+          setTimeout(function() {
+            loader.remove();
+          }, 300);
+        }
+      }, 3000);
+    </script>
   </body>
 </html>
