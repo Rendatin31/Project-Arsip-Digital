@@ -38,7 +38,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
           onClick={onClose}
           className="lg:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
         >
-          <span className="material-symbols-outlined text-2xl">close</span>
+          <span className="material-symbols-outlined text-3xl">close</span>
         </button>
 
         <div className="mb-sm px-sm pb-md">
@@ -84,7 +84,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
                 }`}
                 title={tooltipMessage}
               >
-                <span className="material-symbols-outlined text-2xl" data-icon={item.icon}>
+                <span className="material-symbols-outlined text-3xl" data-icon={item.icon}>
                   {item.icon}
                 </span>
                 <span className="font-body-md text-body-md">{item.label}</span>
@@ -97,7 +97,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             onClick={onLogout}
             className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
           >
-            <span className="material-symbols-outlined text-2xl" data-icon="logout">logout</span>
+            <span className="material-symbols-outlined text-3xl" data-icon="logout">logout</span>
             <span className="font-body-md text-body-md">Log out</span>
           </button>
         </div>
