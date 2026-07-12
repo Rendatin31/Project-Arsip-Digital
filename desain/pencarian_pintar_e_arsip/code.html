@@ -1,0 +1,346 @@
+<!DOCTYPE html><html class="light" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>E-Arsip Digital - Pencarian Pintar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .search-focus-ring:focus-within {
+            ring: 2px;
+            ring-color: #000000;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#0b1c30",
+                      "primary": "#000000",
+                      "surface-container-highest": "#d3e4fe",
+                      "outline-variant": "#c6c6cd",
+                      "on-secondary-fixed": "#002113",
+                      "surface-dim": "#cbdbf5",
+                      "tertiary-container": "#271901",
+                      "inverse-primary": "#bec6e0",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-tint": "#565e74",
+                      "outline": "#76777d",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#4edea3",
+                      "inverse-surface": "#213145",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-tertiary-fixed": "#271901",
+                      "on-surface-variant": "#45464d",
+                      "secondary-container": "#6cf8bb",
+                      "on-primary-container": "#7c839b",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-container-lowest": "#ffffff",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#bec6e0",
+                      "tertiary-fixed": "#fcdeb5",
+                      "on-background": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#00714d",
+                      "on-secondary": "#ffffff",
+                      "secondary": "#006c49",
+                      "on-primary-fixed": "#131b2e",
+                      "on-tertiary-container": "#98805d",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "primary-container": "#131b2e",
+                      "primary-fixed": "#dae2fd",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "background": "#f8f9ff",
+                      "surface-variant": "#d3e4fe",
+                      "tertiary": "#000000",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#005236",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "container-margin": "24px",
+                      "gutter": "16px",
+                      "xl": "32px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "title-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "table-data": ["Inter"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "title-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "table-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Side Navigation Shell -->
+<aside class="w-[260px] h-screen fixed left-0 top-0 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col p-lg gap-md z-50">
+<div class="mb-lg"><h1 class="font-headline-md text-headline-md font-bold text-primary">E-Arsip Digital</h1><p class="font-body-sm text-body-sm text-on-surface-variant">Arsip Negara Modern</p></div>
+<nav class="flex flex-col gap-xs flex-1"><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-body-md">Dashboard</span></a><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">folder_open</span><span class="font-body-md">Manajemen Dokumen</span></a><a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-semibold rounded-lg" href="#"><span class="material-symbols-outlined">manage_search</span><span class="font-body-md">Pencarian Pintar</span></a><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">admin_panel_settings</span><span class="font-body-md">Hak Akses</span></a><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">history</span><span class="font-body-md">Riwayat Aktivitas</span></a></nav>
+<div class="mt-auto space-y-xs pt-md border-t border-outline-variant"><button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary py-sm rounded-xl font-body-md hover:opacity-90 transition-opacity mb-md"><span class="material-symbols-outlined">upload</span>Unggah Dokumen</button><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">settings</span><span class="font-body-md text-body-md">Pengaturan</span></a><a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg" href="#"><span class="material-symbols-outlined">help</span><span class="font-body-md text-body-md">Bantuan</span></a></div>
+</aside>
+<!-- Main Canvas Area -->
+<main class="ml-[260px] h-screen flex flex-col bg-background">
+<!-- Top App Bar -->
+<header class="h-16 flex justify-between items-center px-lg bg-surface dark:bg-background border-b border-outline-variant dark:border-outline shadow-sm z-40">
+<div class="flex items-center gap-md">
+<span class="font-title-sm text-title-sm text-on-surface-variant">Pencarian Pintar</span>
+</div>
+<div class="flex items-center gap-lg">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button><button class="p-sm text-on-surface-variant hover:text-secondary transition-colors"><span class="material-symbols-outlined">settings</span></button><div class="h-8 w-[1px] bg-outline-variant mx-xs"></div>
+<div class="flex items-center gap-sm"><div class="text-right"><p class="font-title-sm text-sm text-on-surface">Admin Utama</p><p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Super Admin</p></div><img class="w-10 h-10 rounded-full border-2 border-secondary-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUaVwAFPOqt_4SXZ56O_rv-XCXeYKET3VaOeHuMSJVkf6dvfsWyJtG6Kp4lBKwX-91FlVb3rgsbqpLhjaSku6WMNeny28hNLi6IrOOMQJl-dLq02g-O2ekpSeeCtUtcW9iP0RbXP3cuukj3CUsnNF7p9rEaPKYgre97sCfoSfoksY9KrM8KLT3cYYtjcyoEHTPCdlfoJ66WdUp4I18w33h7-ArjsL0-taXMOk6qXN7oXJTCEtUtAL1vOlUC_G3RNLXYW8x0zwGwxGQ" alt="User Profile"></div>
+</div>
+</header>
+<!-- Search Interaction Canvas -->
+<div class="flex-1 overflow-hidden flex flex-col p-lg gap-lg">
+<!-- Search Control Center -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Temukan Dokumen Anda</h2>
+<p class="font-body-sm text-on-surface-variant">Cari berdasarkan metadata atau konten teks dalam dokumen (OCR).</p>
+</div>
+<div class="flex bg-surface-container rounded-full p-1 border border-outline-variant">
+<button class="px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 bg-primary text-on-primary shadow-sm" id="fulltext-btn" onclick="toggleSearchType('fulltext')">Full-Text Search</button>
+<button class="px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 text-on-surface-variant hover:bg-surface-container-highest" id="metadata-btn" onclick="toggleSearchType('metadata')">Metadata Only</button>
+</div>
+</div>
+<div class="glass-panel p-md rounded-xl shadow-sm flex flex-col gap-md">
+<div class="flex gap-md">
+<div class="flex-1 relative flex items-center group">
+<span class="material-symbols-outlined absolute left-md text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-xl pr-md py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md" placeholder="Masukkan kata kunci, nomor surat, atau perihal..." type="text">
+</div>
+<button class="bg-primary text-on-primary px-xl py-3 rounded-lg font-title-sm hover:opacity-90 active:scale-95 transition-all">Cari Sekarang</button>
+</div>
+<!-- Advanced Filters Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Rentang Tanggal</label>
+<div class="flex items-center gap-xs">
+<input class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-2 text-body-sm outline-none focus:border-primary" type="date">
+<span class="text-outline">-</span>
+<input class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-2 text-body-sm outline-none focus:border-primary" type="date">
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Kategori Dokumen</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-2 text-body-sm outline-none focus:border-primary">
+<option>Semua Kategori</option>
+<option>Nota Dinas</option>
+<option>Surat Keputusan</option>
+<option>Laporan Keuangan</option>
+<option>Kontrak Kerjasama</option>
+</select>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Nomor Surat (Metadata)</label>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-2 text-body-sm outline-none focus:border-primary" placeholder="Contoh: 001/SK/2023" type="text">
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex-1 flex items-center justify-center gap-xs border border-outline text-on-surface-variant px-sm py-2 rounded-lg text-body-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Reset Filter
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Search Results & Preview Container -->
+<section class="flex-1 flex gap-lg overflow-hidden">
+<!-- Results List -->
+<div class="w-1/2 flex flex-col gap-md overflow-y-auto pr-md custom-scrollbar">
+<div class="flex items-center justify-between mb-xs">
+<h3 class="font-title-sm text-title-sm">Hasil Pencarian (12 Dokumen)</h3>
+<span class="font-label-caps text-secondary font-bold">WAKTU: 0.24 DETIK</span>
+</div>
+<!-- Result Item 1 -->
+<div class="bg-surface-container-lowest border border-primary p-md rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all border-l-4">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+<h4 class="font-title-sm text-on-surface">SK Penetapan Anggaran 2024.pdf</h4>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-sm py-0.5 rounded text-[12px] font-bold">AKTIF</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-md">No: 045/SK-DIR/XII/2023 | Tanggal: 12 Des 2023</p>
+<div class="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface">
+                            "...alokasi dana untuk pengembangan sistem <strong>arsip digital</strong> akan diprioritaskan pada kuartal pertama tahun 2024..."
+                        </div>
+</div>
+<!-- Result Item 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">description</span>
+<h4 class="font-title-sm text-on-surface">Nota Dinas Pengadaan Server.docx</h4>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-0.5 rounded text-[12px] font-bold">DITINJAU</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-md">No: 122/ND-IT/I/2024 | Tanggal: 05 Jan 2024</p>
+<div class="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface">
+                            "...kebutuhan infrastruktur pendukung pengelolaan <strong>arsip digital</strong> korporasi yang aman dan terpusat..."
+                        </div>
+</div>
+<!-- Result Item 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">image</span>
+<h4 class="font-title-sm text-on-surface">Scan Kontrak Vendor Cloud.jpg</h4>
+</div>
+<span class="bg-error-container text-on-error-container px-sm py-0.5 rounded text-[12px] font-bold">RAHASIA</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-md">No: KNT-009-IX-23 | Tanggal: 20 Sep 2023</p>
+<div class="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface">
+                            "...terdeteksi teks melalui OCR: Layanan penyimpanan cloud untuk replikasi <strong>arsip digital</strong>..."
+                        </div>
+</div>
+</div>
+<!-- Preview Side Panel -->
+<div class="w-1/2 flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm relative">
+<div class="h-12 border-b border-outline-variant flex items-center justify-between px-md bg-surface-container-low">
+<span class="font-label-caps text-on-surface-variant">PRATINJAU DOKUMEN</span>
+<div class="flex gap-sm">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">zoom_in</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">zoom_out</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">download</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">open_in_new</span></button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-xl flex justify-center bg-outline-variant/10">
+<!-- Mock PDF Layout -->
+<div class="w-full max-w-2xl bg-white shadow-2xl p-xl flex flex-col gap-lg aspect-[1/1.4] relative overflow-hidden">
+<div class="flex flex-col gap-sm border-b-2 border-primary pb-md">
+<h5 class="font-headline-md text-center">SURAT KEPUTUSAN DIREKSI</h5>
+<p class="text-center text-body-sm font-semibold">NOMOR: 045/SK-DIR/XII/2023</p>
+</div>
+<div class="flex flex-col gap-md text-body-sm leading-relaxed">
+<p class=""><strong>Menimbang:</strong> Bahwa dalam rangka meningkatkan efisiensi tata kelola administrasi dan pengamanan data organisasi.</p>
+<p class=""><strong>Mengingat:</strong> Undang-Undang Kearsipan Nomor 43 Tahun 2009.</p>
+<div class="bg-yellow-100 p-2 border-l-4 border-yellow-400 relative">
+<p class=""><strong>MEMUTUSKAN:</strong></p>
+<p class="">Menetapkan alokasi anggaran tahun 2024 untuk implementasi platform <span class="bg-yellow-300 px-1 font-bold">arsip digital</span> terpadu.</p>
+<span class="absolute -right-2 -top-2 bg-primary text-white text-[10px] px-1 py-0.5 rounded">OCR Match</span>
+</div>
+<p class="">Seluruh unit kerja wajib mengunggah salinan digital dari dokumen fisik yang telah disahkan ke dalam sistem baru paling lambat Februari 2024.</p>
+<div class="mt-xl ml-auto w-48 text-center flex flex-col gap-sm items-center">
+<p class="">Jakarta, 12 Desember 2023</p>
+<div class="w-24 h-24 border border-dashed border-outline flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-4xl">fingerprint</span>
+</div>
+<p class="font-bold border-t border-on-surface pt-1 w-full text-center">Budi Sudarsono</p>
+<p class="text-[12px]">Direktur Utama</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual Floating Action Tooltip -->
+<div class="fixed bottom-lg right-lg bg-inverse-surface text-inverse-on-surface p-md rounded-xl shadow-xl max-w-xs flex items-start gap-md border border-outline/30 animate-bounce transition-all" id="hint-panel">
+<span class="material-symbols-outlined text-secondary-fixed">lightbulb</span>
+<div>
+<p class="text-body-sm font-semibold">Tips Pencarian</p>
+<p class="text-[12px] opacity-80">Gunakan tanda kutip ("") untuk mencari frase yang tepat di dalam dokumen.</p>
+</div>
+<button class="hover:text-error transition-colors" onclick="this.parentElement.remove()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<script>
+        function toggleSearchType(type) {
+            const ftBtn = document.getElementById('fulltext-btn');
+            const metaBtn = document.getElementById('metadata-btn');
+            
+            if (type === 'fulltext') {
+                ftBtn.className = 'px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 bg-primary text-on-primary shadow-sm';
+                metaBtn.className = 'px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 text-on-surface-variant hover:bg-surface-container-highest';
+            } else {
+                metaBtn.className = 'px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 bg-primary text-on-primary shadow-sm';
+                ftBtn.className = 'px-md py-1.5 rounded-full text-body-sm font-semibold transition-all duration-300 text-on-surface-variant hover:bg-surface-container-highest';
+            }
+        }
+
+        // Lightweight interaction for hovering result items
+        document.querySelectorAll('.cursor-pointer').forEach(item => {
+            item.addEventListener('click', function() {
+                // Clear previous active states
+                document.querySelectorAll('.cursor-pointer').forEach(i => {
+                    i.classList.remove('border-primary', 'border-l-4');
+                    i.classList.add('border-outline-variant');
+                });
+                // Add active state to clicked item
+                this.classList.add('border-primary', 'border-l-4');
+                this.classList.remove('border-outline-variant');
+            });
+        });
+    </script>
+
+
+</body></html>

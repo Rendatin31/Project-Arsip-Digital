@@ -1,0 +1,214 @@
+<!DOCTYPE html><html class="light" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Masuk | Arsip Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#6ffbbe",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "surface-dim": "#cbdbf5",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#6cf8bb",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "outline-variant": "#c6c6cd",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary-fixed": "#131b2e",
+                    "on-background": "#0b1c30",
+                    "tertiary-fixed": "#fcdeb5",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-primary-container": "#7c839b",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-surface": "#213145",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary-container": "#98805d",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#002113",
+                    "secondary-fixed-dim": "#4edea3",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary-fixed-variant": "#005236",
+                    "outline": "#76777d",
+                    "inverse-primary": "#bec6e0",
+                    "surface-tint": "#565e74",
+                    "on-tertiary-fixed": "#271901",
+                    "tertiary-container": "#271901",
+                    "tertiary": "#000000",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary": "#000000",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#006c49",
+                    "primary-container": "#131b2e",
+                    "on-surface": "#0b1c30",
+                    "on-surface-variant": "#45464d",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#00714d",
+                    "surface": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "container-margin": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "table-data": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "title-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "table-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .login-card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-surface min-h-screen flex flex-col justify-center items-center p-md">
+<div class="w-full max-w-[440px] flex flex-col gap-lg">
+<!-- Header / Logo Section -->
+<header class="flex flex-col items-center text-center gap-xs">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-secondary text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Arsip Digital</h1>
+</div>
+<p class="font-title-sm text-title-sm text-on-surface-variant">Arsip Negara Modern</p>
+</header>
+<!-- Login Card -->
+<main class="login-card bg-surface-container-lowest rounded-xl p-xl flex flex-col gap-lg">
+<div class="flex flex-col gap-xs">
+<h2 class="font-headline-md text-headline-md text-on-surface">Masuk ke Sistem</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Silakan masukkan kredensial Anda untuk mengakses arsip.</p>
+</div>
+<form class="flex flex-col gap-md" id="loginForm" onsubmit="return false;">
+<!-- Username/Email Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="username">Username atau Email</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-secondary transition-colors">person</span>
+<input class="w-full pl-[48px] pr-md py-sm bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all outline-none" id="username" placeholder="Masukkan username atau email" type="text">
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="password">Kata Sandi</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-secondary transition-colors">lock</span>
+<input class="w-full pl-[48px] pr-[48px] py-sm bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all outline-none" id="password" placeholder="••••••••" type="password">
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-on-surface-variant transition-colors flex items-center" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined" id="passwordToggleIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Forgot Password -->
+<div class="flex justify-between items-center py-xs">
+<label class="flex items-center gap-sm cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 rounded border-outline-variant text-secondary focus:ring-secondary transition-all" type="checkbox">
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Ingat Saya</span>
+</label>
+<a class="font-body-sm text-body-sm text-secondary font-medium hover:underline" href="#">Lupa Kata Sandi?</a>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-secondary text-on-secondary py-sm px-lg rounded-lg font-title-sm text-title-sm hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-sm shadow-sm" type="submit">
+                    Masuk
+                    <span class="material-symbols-outlined">login</span>
+</button>
+</form>
+<!-- Security Note -->
+<div class="flex justify-center items-center pt-md border-t border-outline-variant/30">
+<div class="flex items-center gap-xs bg-surface-container-high px-md py-xs rounded-full">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-caps text-[11px] text-on-secondary-container">Sistem Aman - Enkripsi AES-256</span>
+</div>
+</div>
+</main>
+<!-- Footer Links -->
+<footer class="flex justify-center items-center gap-lg text-on-surface-variant font-body-sm text-body-sm">
+<a class="hover:text-secondary transition-colors" href="#">Bantuan</a>
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+<a class="hover:text-secondary transition-colors" href="#">Kebijakan Privasi</a>
+</footer>
+</div>
+<!-- Decorative background element -->
+<div class="fixed top-0 right-0 p-xl opacity-5 pointer-events-none select-none">
+<span class="material-symbols-outlined text-[240px]">shield</span>
+</div>
+<script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility';
+            }
+        }
+
+        // Simple button interaction
+        document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+            const btn = this;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Memproses...';
+            btn.classList.add('opacity-80');
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = 'Masuk <span class="material-symbols-outlined">login</span>';
+                btn.classList.remove('opacity-80');
+                btn.disabled = false;
+                // Add your login logic here
+            }, 1500);
+        });
+    </script>
+
+
+</body></html>

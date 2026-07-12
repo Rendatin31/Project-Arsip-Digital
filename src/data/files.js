@@ -1,0 +1,83 @@
+export const files = [
+  {
+    id: 1,
+    letterNumber: 'SR-001/KEU/VIII/2023',
+    subject: 'Laporan Realisasi Anggaran Divisi IT Agustus',
+    date: '15 Agu 2023',
+    category: 'KEUANGAN',
+    categoryVariant: 'secondary',
+    icon: 'picture_as_pdf',
+    iconColor: 'text-error',
+    size: '2.4 MB',
+  },
+  {
+    id: 2,
+    letterNumber: 'INV-2309-992',
+    subject: 'Invoice Pengadaan Cloud Server Amazon AWS',
+    date: '12 Sep 2023',
+    category: 'TAGIHAN',
+    categoryVariant: 'outline',
+    icon: 'description',
+    iconColor: 'text-[#1D6F42]',
+    size: '840 KB',
+  },
+  {
+    id: 3,
+    letterNumber: 'SK-DIR-2023-012',
+    subject: 'Salinan SK Direksi Penetapan Target Q4',
+    date: '01 Okt 2023',
+    category: 'RAHASIA',
+    categoryVariant: 'error',
+    icon: 'picture_as_pdf',
+    iconColor: 'text-error',
+    size: '1.2 MB',
+  },
+  {
+    id: 4,
+    letterNumber: 'MOU-OPS-44',
+    subject: 'Draft MoU Kerjasama Operasional PT Maju Jaya',
+    date: '05 Okt 2023',
+    category: 'DITINJAU',
+    categoryVariant: 'tertiary-fixed',
+    icon: 'article',
+    iconColor: 'text-primary-container',
+    size: '3.5 MB',
+  },
+];
+
+export const categories = [
+  { name: 'Arsip Keuangan', children: ['Laporan Bulanan', 'Invoice Vendor'] },
+  { name: 'Arsip Kepegawaian' },
+  { name: 'Surat Keputusan' },
+  { name: 'Dokumen Proyek' },
+];
+
+export const recentPreviews = [
+  {
+    id: 1,
+    name: 'Laporan_Pajak_Q2.pdf',
+    size: '2.4 MB',
+    time: '2 jam yang lalu',
+    type: 'PDF',
+    typeColor: 'error',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCTcbfc-SCHiS7t11iHJywRXspvLANYVuW42iH5RxTiZdGsuMwZ9LZU89X-OV8_tjZaWeDqPfqwna_KdBJKbjRpCNPXQWI_XVLgrGcVO2SD9xCtyFyQhMC5DTXAD_IqKh41KILyY2sBgs2-JX7SyKwLlKHmnjqX6Ufg6RLgiguOQm17tlnRtuWOwaA2Mo0dISQfswZy5Af2iqhwtoAPBKAfy3ODv5yRvWFKCKbo8LT_myn_9vAXFVyDQDib8kDVqaZA3GCOt0SaGXoN',
+  },
+  {
+    id: 2,
+    name: 'Surat_Keterangan_Kerja.docx',
+    size: '840 KB',
+    time: '5 jam yang lalu',
+    type: 'DOCX',
+    typeColor: 'secondary',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAeJsGlomNhm78OJRMU1d_sPqWHOV012u2655qRHQeaxUWT-ueyuo3e1kNJTHg_1AljfOdlTfpGPkQRVF9LkD7PlAzAL0HKwZ2qdnO7H0knvhJt3LZBWeRa2hLA4VeBl-oANxW2fqYIK4WJrOh1MIfQ9p5RrKdkdN8Gmpnu7j66nk2HmPVVWuhiqlSmXp6sbTL4ab8EgPJfU7mrsW68ZHwobDGBbiB31Qu1_V5L6bQbVFhPIWxruA_E8RZ3MeDBRUv2vgvYR2txfO0Y',
+  },
+  {
+    id: 3,
+    name: 'Data_Karyawan_2023.xlsx',
+    size: '4.1 MB',
+    time: '1 hari yang lalu',
+    type: 'XLSX',
+    typeColor: '#1D6F42',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDwgyWC0KPx0EuY7Kun6CBw1cNXBmhWAq5DlBtgK_FqDE87CBL1l_AD3vf5btWfvlAXXsIbHwBVP-mjhGCKrer6K_f68G2qODwR0u7QGCU5y10WZS1PU9hS_gs45Uk8x593uRqzgx7dx1gQV2DGN-Hf9AhPCWpLXC_CWbsJciFT60JSycrGZEhukPQqAWbJrFNhbq4fEMT_RP-OnrorgEirUHqANcoLRTEmRZi-fgHnlpfZPEPbQYTw83hWe8qxsVUAOLJSCuiUtwh',
+  },
+];

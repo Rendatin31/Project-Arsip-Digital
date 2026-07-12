@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Arsip - Arsip Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#98805d",
+                    "surface-bright": "#f8f9ff",
+                    "primary": "#000000",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "secondary": "#006c49",
+                    "tertiary": "#000000",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "outline-variant": "#c6c6cd",
+                    "surface-tint": "#565e74",
+                    "on-tertiary-fixed": "#271901",
+                    "on-secondary-fixed": "#002113",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#bec6e0",
+                    "on-primary-container": "#7c839b",
+                    "surface-container-high": "#dce9ff",
+                    "on-surface-variant": "#45464d",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "tertiary-fixed": "#fcdeb5",
+                    "secondary-fixed-dim": "#4edea3",
+                    "surface": "#f8f9ff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "outline": "#76777d",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#271901",
+                    "on-secondary-container": "#00714d",
+                    "primary-fixed": "#dae2fd",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#005236",
+                    "secondary-container": "#6cf8bb",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "background": "#f8f9ff",
+                    "on-background": "#0b1c30",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-fixed": "#6ffbbe",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "primary-container": "#131b2e",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#131b2e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "container-margin": "24px",
+                    "sm": "8px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "title-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "table-data": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "table-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        /* Custom scrollbar for better corporate look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex overflow-hidden">
+<!-- SideNavBar Shared Component -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest dark:bg-on-primary-container border-r border-outline-variant dark:border-outline flex flex-col p-md gap-base z-50">
+<div class="mb-lg px-xs flex items-center gap-sm">
+<div class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary dark:text-secondary-fixed-dim leading-none">Arsip Digital</h1>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Sistem Manajemen Dokumen</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- ACTIVE: Data Arsip -->
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed font-semibold rounded-lg transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span>Data Arsip</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">manage_search</span>
+<span>Pencarian Pintar</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">lock_person</span>
+<span>Hak Akses</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Riwayat Aktivitas</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Bantuan</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container/10 transition-all active:scale-95 duration-150 font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Keluar</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="flex-1 ml-[260px] flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar Shared Component -->
+<header class="flex justify-between items-center px-lg py-sm w-full sticky top-0 z-40 bg-surface-container-lowest dark:bg-on-primary-container border-b border-outline-variant dark:border-outline shadow-sm">
+<div class="flex items-center gap-md">
+<div class="flex flex-col">
+<nav class="flex items-center gap-xs text-[12px] text-on-surface-variant">
+<span>Arsip Digital</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Data Arsip</span>
+</nav>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="relative hidden lg:block w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-sm focus:ring-2 focus:ring-secondary/50" placeholder="Cari dokumen..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-sm"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors">
+<img class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a corporate administrator, middle-aged with a confident and kind expression, wearing a dark blazer over a crisp white shirt. The background is a blurred office setting with soft indigo and slate blue lighting, maintaining a clean and trustworthy aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByrqh-M8iUteBd14IY36Ov-ukdAxWpcqDHo6W65_V7WydN2ZpDfT-mgHhOakfRCYJEh9QMCNJYmI7Cy3_Oeqa-npLaQJl6Hv-Z_il-D_VECFvaFdadqQFIRfluFLN64VMzg7SRnsQ3iSTAEUC25dLLFNGjZVrPGRLxWugfVXu7C149BYYPrnMPIU59JUTztt4jox3WLGg7HmrbPnaCr4SGkK949Fp8ZViL-qVwU9LJww88N5pdzdcZlkXfwe_UjT7-QwFKfBXEQVpy"/>
+<div class="hidden sm:block">
+<p class="text-label-caps leading-none font-bold">Admin Utama</p>
+<p class="text-[10px] text-on-surface-variant">Arsiparis Madya</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto p-lg space-y-lg">
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col gap-lg md:flex-row md:items-end md:justify-between">
+<div class="space-y-1">
+<h2 class="font-display-lg text-display-lg font-bold text-primary">Data Arsip</h2>
+<p class="text-on-surface-variant font-body-md">Pusat manajemen dan penyimpanan dokumen digital terpadu.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs px-md py-2.5 bg-surface-container-highest text-primary font-semibold rounded-lg hover:bg-surface-container-high transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+<span>Export</span>
+</button>
+<button class="flex items-center gap-xs px-lg py-2.5 bg-secondary text-white font-semibold rounded-lg hover:brightness-110 shadow-lg shadow-secondary/20 transition-all active:scale-95 text-body-sm">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>Tambah Arsip Baru</span>
+</button>
+</div>
+</div>
+<!-- Statistics Row (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-lg">
+<div class="w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-caps uppercase tracking-wider">Total Dokumen</p>
+<h3 class="text-display-lg font-bold">1,248</h3>
+<p class="text-[12px] text-secondary font-semibold flex items-center gap-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>12% bulan ini</span>
+</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-lg">
+<div class="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">history</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-caps uppercase tracking-wider">Baru Ditambahkan</p>
+<h3 class="text-display-lg font-bold">42</h3>
+<p class="text-[12px] text-on-surface-variant mt-1">24 jam terakhir</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-lg">
+<div class="w-14 h-14 bg-on-tertiary-container/10 rounded-xl flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-caps uppercase tracking-wider">Menunggu Tinjauan</p>
+<h3 class="text-display-lg font-bold">18</h3>
+<p class="text-[12px] text-error font-semibold flex items-center gap-xs mt-1">
+<span>Perlu tindakan segera</span>
+</p>
+</div>
+</div>
+</div>
+<!-- Filter System -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-sm text-on-surface-variant px-sm border-r border-outline-variant pr-md">
+<span class="material-symbols-outlined">filter_alt</span>
+<span class="text-label-caps">FILTERS</span>
+</div>
+<div class="flex-1 min-w-[200px] flex gap-sm">
+<div class="relative group flex-1">
+<select class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer">
+<option>Semua Kategori</option>
+<option>Kepegawaian</option>
+<option>Keuangan</option>
+<option>Surat Keputusan</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="relative group flex-1">
+<select class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer">
+<option>Semua Status</option>
+<option>Aktif</option>
+<option>Terarsip</option>
+<option>Terbatas</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="relative group flex-1">
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer" type="date"/>
+</div>
+</div>
+<button class="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm">
+                    Reset Filter
+                </button>
+</div>
+<!-- Main Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-md font-label-caps text-on-surface-variant uppercase tracking-wider">Nama Dokumen</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant uppercase tracking-wider">Kategori</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant uppercase tracking-wider">Tanggal Unggah</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-md font-label-caps text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1: PDF -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-lg py-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-error/10 text-error rounded flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-semibold text-primary text-table-data">SK_Pengangkatan_2023_v2.pdf</p>
+<p class="text-[12px] text-on-surface-variant">2.4 MB</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-sm">
+<span class="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">Kepegawaian</span>
+</td>
+<td class="px-lg py-sm">
+<p class="text-table-data text-on-surface">14 Okt 2023</p>
+<p class="text-[12px] text-on-surface-variant">08:45 WIB</p>
+</td>
+<td class="px-lg py-sm">
+<div class="inline-flex items-center gap-xs px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container text-[11px] font-bold border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>AKTIF</span>
+</div>
+</td>
+<td class="px-lg py-sm text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Lihat">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: DOCX -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-lg py-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-blue-100 text-blue-600 rounded flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div>
+<p class="font-semibold text-primary text-table-data">Laporan_Keuangan_Q3_Final.docx</p>
+<p class="text-[12px] text-on-surface-variant">1.1 MB</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-sm">
+<span class="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">Keuangan</span>
+</td>
+<td class="px-lg py-sm">
+<p class="text-table-data text-on-surface">12 Okt 2023</p>
+<p class="text-[12px] text-on-surface-variant">15:20 WIB</p>
+</td>
+<td class="px-lg py-sm">
+<div class="inline-flex items-center gap-xs px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant text-[11px] font-bold border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+<span>TERARSIP</span>
+</div>
+</td>
+<td class="px-lg py-sm text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Lihat">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Restricted PDF -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-lg py-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-error/10 text-error rounded flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<div>
+<p class="font-semibold text-primary text-table-data">Draft_Kebijakan_Privasi_RHS.pdf</p>
+<p class="text-[12px] text-on-surface-variant">512 KB</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-sm">
+<span class="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">Surat Keputusan</span>
+</td>
+<td class="px-lg py-sm">
+<p class="text-table-data text-on-surface">11 Okt 2023</p>
+<p class="text-[12px] text-on-surface-variant">11:10 WIB</p>
+</td>
+<td class="px-lg py-sm">
+<div class="inline-flex items-center gap-xs px-2 py-0.5 rounded-full bg-error-container/30 text-on-error-container text-[11px] font-bold border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>TERBATAS</span>
+</div>
+</td>
+<td class="px-lg py-sm text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Lihat">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- More rows mock -->
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-lg py-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-yellow-100 text-yellow-700 rounded flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">image</span>
+</div>
+<div>
+<p class="font-semibold text-primary text-table-data">Scan_Bukti_Penerimaan_001.jpg</p>
+<p class="text-[12px] text-on-surface-variant">3.8 MB</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-sm">
+<span class="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">Keuangan</span>
+</td>
+<td class="px-lg py-sm">
+<p class="text-table-data text-on-surface">10 Okt 2023</p>
+<p class="text-[12px] text-on-surface-variant">09:00 WIB</p>
+</td>
+<td class="px-lg py-sm">
+<div class="inline-flex items-center gap-xs px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container text-[11px] font-bold border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>AKTIF</span>
+</div>
+</td>
+<td class="px-lg py-sm text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Lihat">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="px-lg py-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-error/10 text-error rounded flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-semibold text-primary text-table-data">Surat_Edaran_Direksi_102.pdf</p>
+<p class="text-[12px] text-on-surface-variant">845 KB</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-sm">
+<span class="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">Surat Keputusan</span>
+</td>
+<td class="px-lg py-sm">
+<p class="text-table-data text-on-surface">09 Okt 2023</p>
+<p class="text-[12px] text-on-surface-variant">14:55 WIB</p>
+</td>
+<td class="px-lg py-sm">
+<div class="inline-flex items-center gap-xs px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container text-[11px] font-bold border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>AKTIF</span>
+</div>
+</td>
+<td class="px-lg py-sm text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Lihat">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="bg-surface-container-lowest px-lg py-md border-t border-outline-variant flex items-center justify-between">
+<p class="text-body-sm text-on-surface-variant">Menampilkan <span class="font-bold text-on-surface">1-10</span> dari <span class="font-bold text-on-surface">1,248</span> data</p>
+<div class="flex items-center gap-sm">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-secondary text-white font-bold text-body-sm shadow-md">1</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all text-body-sm">2</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all text-body-sm">3</button>
+<span class="text-on-surface-variant px-1">...</span>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all text-body-sm">125</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contextual Information Card -->
+<div class="bg-secondary/5 rounded-xl p-lg border border-secondary/20 flex flex-col md:flex-row items-center gap-lg">
+<div class="flex-shrink-0 w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">info</span>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h4 class="font-bold text-primary text-body-md">Pengingat Keamanan Data</h4>
+<p class="text-on-surface-variant text-body-sm">Semua dokumen dengan status "Terbatas" hanya dapat diakses oleh Administrator Tingkat Lanjut dan pemilik dokumen asli. Pastikan Anda telah melakukan klasifikasi data dengan benar sesuai dengan tingkat sensitivitas informasi.</p>
+</div>
+<button class="whitespace-nowrap px-md py-2 border border-secondary text-secondary font-semibold rounded-lg hover:bg-secondary/5 transition-all text-body-sm">
+                    Pelajari Selengkapnya
+                </button>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for sidebar links
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.classList.contains('bg-secondary-container')) {
+                    // This is just a UI demo, so we won't actually navigate
+                    // but we can show the active state switch
+                    console.log('Navigating to:', this.innerText.trim());
+                }
+            });
+        });
+
+        // Hover effect for table rows
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+                row.style.transition = 'transform 0.2s ease-out';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body></html>
