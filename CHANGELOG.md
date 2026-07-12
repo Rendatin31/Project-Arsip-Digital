@@ -17,9 +17,17 @@
 
 ### Added
 - Custom hook `usePageTitle` untuk mengelola perubahan title halaman secara dinamis
-- **Loading Screen**: Menambahkan spinner loading saat aplikasi pertama kali dibuka
-- **Font Loading Strategy**: Menggunakan `font-display: block` untuk mencegah FOUT (Flash of Unstyled Text)
+- **Enhanced Loading Screen**: 
+  - Spinner loading dengan teks "Memuat Arsip Digital..."
+  - Menunggu hingga font Inter dan Material Icons selesai dimuat
+  - Smooth fade-in transition untuk konten aplikasi
+- **Font Loading Strategy**: 
+  - Menggunakan `font-display: block` untuk mencegah FOUT (Flash of Unstyled Text)
+  - Preload font Inter dan Material Symbols Outlined
+  - Promise-based font loading detection
 
 ### Fixed
 - **FOUT Issue**: Memperbaiki masalah font yang berubah-ubah saat pertama kali membuka aplikasi
-- Font sekarang dimuat dengan benar sebelum konten ditampilkan
+- **Sidebar Layout Issue**: Memperbaiki masalah tombol menu sidebar yang tidak beraturan saat login pertama kali
+- **Material Icons Flash**: Icons sekarang dimuat sempurna sebelum aplikasi ditampilkan
+- Font dan icons sekarang dimuat dengan benar sebelum konten ditampilkan
