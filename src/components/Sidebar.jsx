@@ -33,13 +33,6 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
         flex flex-col py-md pl-sm pr-md gap-md z-50 transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Close button for mobile */}
-        <button
-          onClick={onClose}
-          className="lg:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
-        >
-          <span className="material-symbols-outlined text-3xl">close</span>
-        </button>
 
         <div className="mb-sm px-sm pb-md">
           <div className="flex items-center gap-3">
@@ -84,7 +77,11 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
                 }`}
                 title={tooltipMessage}
               >
-                <span className="material-symbols-outlined text-3xl" data-icon={item.icon}>
+                <span 
+                  className="material-symbols-outlined" 
+                  data-icon={item.icon}
+                  style={{ fontSize: '32px' }}
+                >
                   {item.icon}
                 </span>
                 <span className="font-body-md text-body-md">{item.label}</span>
@@ -97,7 +94,13 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             onClick={onLogout}
             className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
           >
-            <span className="material-symbols-outlined text-3xl" data-icon="logout">logout</span>
+            <span 
+              className="material-symbols-outlined" 
+              data-icon="logout"
+              style={{ fontSize: '32px' }}
+            >
+              logout
+            </span>
             <span className="font-body-md text-body-md">Log out</span>
           </button>
         </div>

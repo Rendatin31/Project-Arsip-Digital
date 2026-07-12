@@ -39,4 +39,6 @@
 - **Sidebar Layout Issue**: Memperbaiki masalah tombol menu sidebar yang tidak beraturan saat login pertama kali
 - **Material Icons Flash**: Icons sekarang dimuat sempurna sebelum aplikasi ditampilkan
 - **Mobile Icon Size**: Icons di mobile terlalu kecil dan sulit dibaca/disentuh - sekarang diperbesar secara responsive
+- **Sidebar Close Button**: Menghapus tombol X (close) di sidebar mobile yang tidak perlu (user bisa tap overlay untuk close)
+- **Icon Size Consistency**: Menggunakan inline style untuk memastikan icon size 32px benar-benar ter-apply di semua device
 - Font dan icons sekarang dimuat dengan benar sebelum konten ditampilkan

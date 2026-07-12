@@ -44,39 +44,6 @@
         -moz-osx-font-smoothing: grayscale;
         font-feature-settings: 'liga';
       }
-      
-      /* Make icons larger on mobile for better touch targets */
-      @media (max-width: 768px) {
-        .material-symbols-outlined {
-          font-size: 28px; /* Larger on mobile */
-        }
-        
-        /* Override small icon sizes on mobile */
-        .material-symbols-outlined[class*="text-[12px]"],
-        .material-symbols-outlined[class*="text-[14px]"],
-        .material-symbols-outlined[class*="text-[16px]"],
-        .material-symbols-outlined.text-sm,
-        .material-symbols-outlined.text-xs {
-          font-size: 20px !important; /* Minimum size on mobile */
-        }
-      }
-      
-      /* Ensure Tailwind text size classes work properly */
-      .material-symbols-outlined.text-xl {
-        font-size: 1.25rem !important; /* 20px */
-      }
-      
-      .material-symbols-outlined.text-2xl {
-        font-size: 1.5rem !important; /* 24px */
-      }
-      
-      .material-symbols-outlined.text-3xl {
-        font-size: 1.875rem !important; /* 30px */
-      }
-      
-      .material-symbols-outlined.text-4xl {
-        font-size: 2.25rem !important; /* 36px */
-      }
       }
       
       /* Loading screen */
