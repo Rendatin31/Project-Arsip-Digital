@@ -98,20 +98,53 @@ export default function App({ supabase }) {
       if (typeof window === 'undefined') return false;
       const hash = window.location.hash;
       const pathname = window.location.pathname;
-      const urlParams = new URLSearchParams(window.location.search);
+      const search = window.location.search;
+      const urlParams = new URLSearchParams(search);
 
-      if (hash.includes('access_token')) return true;
-      if (pathname === '/reset-password') return true;
-      if (urlParams.has('access_token') || urlParams.has('token')) return true;
+      console.log('=== CHECKING RESET PASSWORD ===');
+      console.log('Full URL:', window.location.href);
+      console.log('Hash:', hash);
+      console.log('Pathname:', pathname);
+      console.log('Search:', search);
+
+      // Check hash for access_token (most common from Supabase)
+      if (hash && hash.includes('access_token')) {
+        console.log('✅ Found access_token in hash - RESET PASSWORD MODE');
+        return true;
+      }
+      
+      // Check hash for type=recovery
+      if (hash && hash.includes('type=recovery')) {
+        console.log('✅ Found type=recovery in hash - RESET PASSWORD MODE');
+        return true;
+      }
+      
+      // Check pathname
+      if (pathname === '/reset-password' || pathname.includes('reset-password')) {
+        console.log('✅ Found reset-password in pathname - RESET PASSWORD MODE');
+        return true;
+      }
+      
+      // Check query params
+      if (urlParams.has('access_token') || urlParams.has('token') || urlParams.get('type') === 'recovery') {
+        console.log('✅ Found token in query params - RESET PASSWORD MODE');
+        return true;
+      }
+      
+      console.log('❌ No reset password indicators found');
       return false;
     };
 
     const checkResetPassword = () => {
-      setIsResetPassword(updateResetFlag());
+      const isReset = updateResetFlag();
+      console.log('Setting isResetPassword to:', isReset);
+      setIsResetPassword(isReset);
     };
 
+    // Check immediately
     checkResetPassword();
 
+    // Listen to URL changes
     window.addEventListener('hashchange', checkResetPassword);
     window.addEventListener('popstate', checkResetPassword);
 
@@ -709,6 +742,11 @@ export default function App({ supabase }) {
     ? files.filter((f) => f.directoryId === selectedDirectoryId)
     : files;
 
+  if (isResetPassword) {
+    console.log('Rendering RESET PASSWORD page');
+    return <ResetPasswordPage supabase={supabase} />;
+  }
+
   if (loading) {
     return (
       <div className="bg-surface min-h-screen flex items-center justify-center">
@@ -732,10 +770,6 @@ export default function App({ supabase }) {
         </div>
       </div>
     );
-  }
-
-  if (isResetPassword) {
-    return <ResetPasswordPage supabase={supabase} />;
   }
 
   if (!user) {
