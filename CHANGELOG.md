@@ -15,6 +15,11 @@
 
 - **Favicon**: Logo tab browser diganti dengan logo KPU yang sama dengan halaman login
 
+- **Mobile Icon Sizing**: Icon pada versi mobile diperbesar untuk meningkatkan readability dan touch targets:
+  - Default icons: 24px → 28px pada mobile
+  - Small icons (12px-16px): 20px minimum pada mobile
+  - Ukuran icons sekarang responsive untuk semua breakpoint
+
 ### Added
 - Custom hook `usePageTitle` untuk mengelola perubahan title halaman secara dinamis
 - **Enhanced Loading Screen**: 
@@ -25,9 +30,11 @@
   - Menggunakan `font-display: block` untuk mencegah FOUT (Flash of Unstyled Text)
   - Preload font Inter dan Material Symbols Outlined
   - Promise-based font loading detection
+- **Responsive Material Icons CSS**: Media queries untuk memperbesar icons pada viewport mobile
 
 ### Fixed
 - **FOUT Issue**: Memperbaiki masalah font yang berubah-ubah saat pertama kali membuka aplikasi
 - **Sidebar Layout Issue**: Memperbaiki masalah tombol menu sidebar yang tidak beraturan saat login pertama kali
 - **Material Icons Flash**: Icons sekarang dimuat sempurna sebelum aplikasi ditampilkan
+- **Mobile Icon Size**: Icons di mobile terlalu kecil dan sulit dibaca/disentuh - sekarang diperbesar secara responsive
 - Font dan icons sekarang dimuat dengan benar sebelum konten ditampilkan

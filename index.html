@@ -26,12 +26,12 @@
         transition: opacity 0.2s ease-in;
       }
       
-      /* Prevent icon flash */
+      /* Prevent icon flash - with responsive sizing */
       .material-symbols-outlined {
         font-family: 'Material Symbols Outlined';
         font-weight: normal;
         font-style: normal;
-        font-size: 24px;
+        font-size: 24px; /* Default size for desktop */
         line-height: 1;
         letter-spacing: normal;
         text-transform: none;
@@ -43,6 +43,22 @@
         text-rendering: optimizeLegibility;
         -moz-osx-font-smoothing: grayscale;
         font-feature-settings: 'liga';
+      }
+      
+      /* Make icons larger on mobile for better touch targets */
+      @media (max-width: 768px) {
+        .material-symbols-outlined {
+          font-size: 28px; /* Larger on mobile */
+        }
+        
+        /* Override small icon sizes on mobile */
+        .material-symbols-outlined[class*="text-[12px]"],
+        .material-symbols-outlined[class*="text-[14px]"],
+        .material-symbols-outlined[class*="text-[16px]"],
+        .material-symbols-outlined.text-sm,
+        .material-symbols-outlined.text-xs {
+          font-size: 20px !important; /* Minimum size on mobile */
+        }
       }
       
       /* Loading screen */
