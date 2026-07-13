@@ -44,6 +44,22 @@
         -moz-osx-font-smoothing: grayscale;
         font-feature-settings: 'liga';
       }
+      
+      /* Force icon sizes with !important */
+      .material-symbols-outlined.\!text-\[48px\] {
+        font-size: 48px !important;
+      }
+      
+      .material-symbols-outlined.\!text-\[32px\] {
+        font-size: 32px !important;
+      }
+      
+      /* Media query for desktop */
+      @media (min-width: 768px) {
+        .material-symbols-outlined.md\:\!text-\[32px\] {
+          font-size: 32px !important;
+        }
+      }
       }
       
       /* Loading screen */

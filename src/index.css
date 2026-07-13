@@ -322,7 +322,7 @@ body {
 /* Responsive icon sizing for mobile devices */
 @media (max-width: 768px) {
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 28;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
   
   /* Ensure minimum readable size for small icons on mobile */
@@ -330,6 +330,21 @@ body {
   .material-symbols-outlined[style*="font-size: 14px"],
   .material-symbols-outlined[style*="font-size: 16px"] {
     font-size: 20px !important;
+  }
+}
+
+/* Force icon sizes with Tailwind arbitrary values */
+.material-symbols-outlined.\!text-\[48px\] {
+  font-size: 48px !important;
+}
+
+.material-symbols-outlined.\!text-\[32px\] {
+  font-size: 32px !important;
+}
+
+@media (min-width: 768px) {
+  .material-symbols-outlined.md\:\!text-\[32px\] {
+    font-size: 32px !important;
   }
 }
 

@@ -78,9 +78,8 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
                 title={tooltipMessage}
               >
                 <span 
-                  className="material-symbols-outlined" 
+                  className="material-symbols-outlined md:!text-[32px] !text-[48px]" 
                   data-icon={item.icon}
-                  style={{ fontSize: '40px' }}
                 >
                   {item.icon}
                 </span>
@@ -95,9 +94,8 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
           >
             <span 
-              className="material-symbols-outlined" 
+              className="material-symbols-outlined md:!text-[32px] !text-[48px]" 
               data-icon="logout"
-              style={{ fontSize: '40px' }}
             >
               logout
             </span>
