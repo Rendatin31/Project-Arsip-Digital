@@ -391,7 +391,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback ${profile?.avatar_url ? 'hidden' : ''}`}>
               <span 
                 className="material-symbols-outlined text-gray-600 block"
-                style={{ fontSize: '24px', width: '24px', height: '24px', position: 'relative', left: '1px' }}
+                style={{ fontSize: '24px', width: '24px', height: '24px', position: 'relative', left: '3px' }}
               >
                 person
               </span>
