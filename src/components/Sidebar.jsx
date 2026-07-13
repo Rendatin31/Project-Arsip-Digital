@@ -80,7 +80,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
                 <span 
                   className="material-symbols-outlined" 
                   data-icon={item.icon}
-                  style={{ fontSize: '32px' }}
+                  style={{ fontSize: '40px' }}
                 >
                   {item.icon}
                 </span>
@@ -97,7 +97,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             <span 
               className="material-symbols-outlined" 
               data-icon="logout"
-              style={{ fontSize: '32px' }}
+              style={{ fontSize: '40px' }}
             >
               logout
             </span>

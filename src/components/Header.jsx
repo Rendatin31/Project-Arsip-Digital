@@ -164,7 +164,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         >
           <span 
             className="material-symbols-outlined text-on-surface-variant"
-            style={{ fontSize: '32px' }}
+            style={{ fontSize: '40px' }}
           >
             menu
           </span>

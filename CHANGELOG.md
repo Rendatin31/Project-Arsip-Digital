@@ -16,8 +16,8 @@
 - **Favicon**: Logo tab browser diganti dengan logo KPU yang sama dengan halaman login
 
 - **Mobile Icon Sizing**: Icon pada versi mobile diperbesar untuk meningkatkan readability dan touch targets:
-  - Sidebar menu icons: 24px → 32px (text-2xl)
-  - Hamburger menu icon: 24px → 32px
+  - Sidebar menu icons: 24px → **40px** (67% lebih besar!)
+  - Hamburger menu icon: 24px → **40px**
   - Default icons: 24px → 28px pada mobile
   - Small icons (12px-16px): 20px minimum pada mobile
   - Ukuran icons sekarang responsive untuk semua breakpoint
