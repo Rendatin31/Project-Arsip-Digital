@@ -371,11 +371,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             </span>
           </button>
           <div className="h-8 w-[1px] bg-outline-variant mx-sm"></div>
-          <div className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[3px] lg:left-0">
+          <div className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[5px] lg:left-0">
             {/* Avatar - dari database atau default */}
             {profile?.avatar_url ? (
               <img
-                className="w-8 h-8 rounded-full object-cover border border-outline-variant"
+                className="w-8 h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
                 src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
                 alt={profile?.full_name || 'User'}
                 onError={(e) => {
@@ -388,7 +388,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               />
             ) : null}
             {/* Default avatar icon - Simple person icon with gray background */}
-            <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback ${profile?.avatar_url ? 'hidden' : ''}`}>
+            <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
               <span className="material-symbols-outlined text-gray-600 text-2xl">
                 person
               </span>
