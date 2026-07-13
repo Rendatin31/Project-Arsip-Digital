@@ -185,8 +185,16 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             </span>
           </button>
           <span 
-            className="material-symbols-outlined text-on-surface-variant block"
-            style={{ fontSize: '16px', width: '16px', height: '16px' }}
+            className="material-symbols-outlined text-on-surface-variant block relative"
+            style={{ 
+              fontSize: '14px', 
+              width: '14px', 
+              height: '14px',
+              top: '-3px',
+              marginLeft: '6px',
+              marginRight: '6px',
+              transform: 'none'
+            }}
           >
             chevron_right
           </span>
