@@ -335,14 +335,6 @@ body {
   .material-symbols-outlined[style*="font-size: 16px"] {
     font-size: 20px !important;
   }
-  
-  /* Profile icon specific styling for mobile */
-  .profile-icon-mobile {
-    font-size: 48px !important;
-    width: 48px !important;
-    height: 48px !important;
-    transform: none !important;
-  }
 }
 
 /* Force icon sizes with Tailwind arbitrary values */
