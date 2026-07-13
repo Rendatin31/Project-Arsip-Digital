@@ -163,7 +163,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-surface-container transition-colors"
         >
           <span 
-            className="material-symbols-outlined text-on-surface-variant !text-[48px]"
+            className="material-symbols-outlined text-on-surface-variant block scale-[2]"
+            style={{ 
+              fontSize: '24px',
+              width: '24px',
+              height: '24px'
+            }}
           >
             menu
           </span>
