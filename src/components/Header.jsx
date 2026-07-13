@@ -177,9 +177,19 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         {/* Mobile: Home Icon + Page Name */}
         <div className="lg:hidden flex items-center gap-xs -ml-4">
           <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors">
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant">home</span>
+            <span 
+              className="material-symbols-outlined text-on-surface-variant block scale-[1.5] lg:scale-100"
+              style={{ fontSize: '20px', width: '20px', height: '20px' }}
+            >
+              home
+            </span>
           </button>
-          <span className="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span>
+          <span 
+            className="material-symbols-outlined text-on-surface-variant block scale-[1.5] lg:scale-100"
+            style={{ fontSize: '16px', width: '16px', height: '16px' }}
+          >
+            chevron_right
+          </span>
           <h1 className="text-sm font-semibold text-on-surface">
             {breadcrumbs[breadcrumbs.length - 1]?.name || 'Page'}
           </h1>
@@ -192,12 +202,24 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {/* Home icon untuk breadcrumb pertama */}
               {index === 0 && crumb.id === null ? (
                 <button onClick={() => onNavigate?.(crumb.id)} className="flex items-center hover:text-primary transition-colors">
-                  <span className="material-symbols-outlined text-[18px]">home</span>
+                  <span 
+                    className="material-symbols-outlined block scale-[1.5] lg:scale-100"
+                    style={{ fontSize: '18px', width: '18px', height: '18px' }}
+                  >
+                    home
+                  </span>
                 </button>
               ) : (
                 <>
                   {/* Chevron separator (skip untuk home dan Arsip Digital) */}
-                  {index > 1 && <span className="material-symbols-outlined text-[18px]">chevron_right</span>}
+                  {index > 1 && (
+                    <span 
+                      className="material-symbols-outlined block scale-[1.5] lg:scale-100"
+                      style={{ fontSize: '18px', width: '18px', height: '18px' }}
+                    >
+                      chevron_right
+                    </span>
+                  )}
                   
                   {/* Breadcrumb text */}
                   {index === breadcrumbs.length - 1 ? (
@@ -242,7 +264,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowNotifications(!showNotifications)}
               className="p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
-              <span className="material-symbols-outlined text-on-surface-variant">notifications</span>
+              <span 
+                className="material-symbols-outlined text-on-surface-variant block scale-[1.5] lg:scale-100"
+                style={{ fontSize: '24px', width: '24px', height: '24px' }}
+              >
+                notifications
+              </span>
               {unreadCount > 0 && (
                 <>
                   <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
@@ -341,7 +368,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </div>
 
           <button onClick={() => onNavigate?.('settings')} className="p-2 rounded-full hover:bg-surface-container transition-colors">
-            <span className="material-symbols-outlined text-on-surface-variant">settings</span>
+            <span 
+              className="material-symbols-outlined text-on-surface-variant block scale-[1.5] lg:scale-100"
+              style={{ fontSize: '24px', width: '24px', height: '24px' }}
+            >
+              settings
+            </span>
           </button>
           <div className="h-8 w-[1px] bg-outline-variant mx-sm"></div>
           <div className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors">
@@ -362,7 +394,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             ) : null}
             {/* Default avatar icon - Simple person icon with gray background */}
             <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback ${profile?.avatar_url ? 'hidden' : ''}`}>
-              <span className="material-symbols-outlined text-gray-600 text-[20px]">
+              <span 
+                className="material-symbols-outlined text-gray-600 block scale-[1.3] lg:scale-100"
+                style={{ fontSize: '20px', width: '20px', height: '20px' }}
+              >
                 person
               </span>
             </div>
