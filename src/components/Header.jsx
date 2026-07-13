@@ -175,8 +175,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         </button>
 
         {/* Mobile: Home Icon + Page Name */}
-        <div className="lg:hidden flex items-center gap-sm -ml-6">
-          <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors -ml-2">
+        <div className="lg:hidden flex items-center gap-sm -ml-5">
+          <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors">
             <span 
               className="material-symbols-outlined text-on-surface-variant block"
               style={{ fontSize: '24px', width: '24px', height: '24px' }}
