@@ -160,7 +160,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         {/* Hamburger Menu Button - Mobile Only */}
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-surface-container transition-colors"
+          className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-surface-container transition-colors relative"
+          style={{ top: '2px' }}
         >
           <span 
             className="material-symbols-outlined text-on-surface-variant block"
