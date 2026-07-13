@@ -392,9 +392,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               <span 
                 className="material-symbols-outlined text-gray-600 block"
                 style={{ 
-                  fontSize: '24px', 
-                  width: '24px', 
-                  height: '24px', 
+                  fontSize: '48px', 
+                  width: '48px', 
+                  height: '48px', 
                   transform: 'none',
                   position: 'relative', 
                   left: '2px' 
