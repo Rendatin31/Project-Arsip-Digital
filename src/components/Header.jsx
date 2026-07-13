@@ -390,12 +390,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             {/* Default avatar icon - Simple person icon with gray background */}
             <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback ${profile?.avatar_url ? 'hidden' : ''}`}>
               <span 
-                className="material-symbols-outlined text-gray-600 block"
+                className="material-symbols-outlined text-gray-600 block profile-icon-mobile"
                 style={{ 
-                  fontSize: '48px', 
-                  width: '48px', 
-                  height: '48px', 
-                  transform: 'none',
+                  fontSize: '24px', 
+                  width: '24px', 
+                  height: '24px', 
                   position: 'relative', 
                   left: '2px' 
                 }}
