@@ -362,7 +362,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             )}
           </div>
 
-          <button onClick={() => onNavigate?.('settings')} className="p-2 rounded-full hover:bg-surface-container transition-colors">
+          <button onClick={() => onNavigate?.('settings')} className="p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
             <span 
               className="material-symbols-outlined text-on-surface-variant block"
               style={{ fontSize: '24px', width: '24px', height: '24px' }}
