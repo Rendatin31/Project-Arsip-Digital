@@ -175,8 +175,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         </button>
 
         {/* Mobile: Home Icon + Page Name */}
-        <div className="lg:hidden flex items-center gap-sm -ml-4">
-          <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors">
+        <div className="lg:hidden flex items-center gap-sm -ml-6">
+          <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors -ml-2">
             <span 
               className="material-symbols-outlined text-on-surface-variant block"
               style={{ fontSize: '24px', width: '24px', height: '24px' }}
@@ -184,7 +184,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               home
             </span>
           </button>
-          <h1 className="text-sm font-semibold text-on-surface">
+          <h1 className="text-sm font-semibold text-on-surface relative" style={{ top: '2px' }}>
             {breadcrumbs[breadcrumbs.length - 1]?.name || 'Page'}
           </h1>
         </div>
