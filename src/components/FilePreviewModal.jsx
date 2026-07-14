@@ -172,15 +172,12 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
           ) : isPdf && isMobile ? (
-            <div className="w-full h-[70vh] flex flex-col">
+            <div className="w-full h-[70vh] flex flex-col bg-gray-900">
               <iframe 
-                src={`https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`}
+                src={`${url}#view=FitH&toolbar=0&navpanes=0`}
                 title={name} 
-                className="w-full h-full border-0 rounded-lg bg-white"
-                onError={(e) => {
-                  console.error('Google Docs Viewer failed, trying direct URL');
-                  e.target.src = url;
-                }}
+                className="w-full h-full border-0"
+                allow="fullscreen"
               />
             </div>
           ) : isPdf ? (
