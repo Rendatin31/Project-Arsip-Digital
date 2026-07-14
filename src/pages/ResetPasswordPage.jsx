@@ -189,8 +189,8 @@ export default function ResetPasswordPage({ supabase: supabaseClient, onNavigate
             <span className="material-symbols-outlined text-secondary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
               account_balance
             </span>
-            <h1 className="font-headline-md text-headline-md font-bold text-primary">E-Arsip Digital</h1>
-            <p className="font-title-sm text-title-sm text-on-surface-variant">Arsip Negara Modern</p>
+            <h1 className="font-headline-md text-headline-md font-bold text-primary">Arsip Digital</h1>
+            <p className="font-title-sm text-title-sm text-on-surface-variant">Rendatin - KPU Halmahera Utara</p>
           </header>
           <main className="login-card bg-surface-container-lowest rounded-xl p-xl flex flex-col gap-md">
             <div className="bg-error-container/30 border border-error/20 text-error px-md py-sm rounded-lg text-body-sm text-center">
