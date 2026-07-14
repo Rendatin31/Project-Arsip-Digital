@@ -67,6 +67,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const name = preview?.name || '-';
   const isImage = preview?.type === 'img' || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name || '');
   const isPdf = preview?.type === 'pdf' || /\.pdf$/i.test(name || '');
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
   return (
     <div
@@ -169,6 +170,25 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
           ) : isImage ? (
             <div className="h-full flex items-center justify-center">
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
+            </div>
+          ) : isPdf && isMobile ? (
+            <div className="h-full flex items-center justify-center text-center">
+              <div className="space-y-md">
+                <span className="material-symbols-outlined text-6xl text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  picture_as_pdf
+                </span>
+                <p className="text-on-surface font-semibold text-lg">{name}</p>
+                <p className="text-on-surface-variant max-w-xs mx-auto text-body-sm">
+                  Untuk melihat file PDF ini, silakan buka di tab baru menggunakan tombol di bawah.
+                </p>
+                <button
+                  onClick={() => window.open(url, '_blank')}
+                  className="flex items-center justify-center gap-sm px-lg py-sm rounded-lg bg-secondary text-white font-semibold hover:brightness-110 transition-all text-body-md mx-auto"
+                >
+                  <span className="material-symbols-outlined">open_in_new</span>
+                  Buka
+                </button>
+              </div>
             </div>
           ) : isPdf ? (
             <iframe src={url} title={name} className="w-full h-[70vh] border-0 rounded-lg bg-white" />
