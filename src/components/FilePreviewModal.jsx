@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import FileTypeIcon from './FileTypeIcon';
 
 export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete }) {
@@ -6,9 +6,6 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pdfPages, setPdfPages] = useState([]);
-  const [pdfLoading, setPdfLoading] = useState(false);
-  const canvasRefs = useRef([]);
 
   useEffect(() => {
     let active = true;
@@ -71,82 +68,6 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const isImage = preview?.type === 'img' || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name || '');
   const isPdf = preview?.type === 'pdf' || /\.pdf$/i.test(name || '');
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-
-  // Load and render PDF for mobile using PDF.js
-  useEffect(() => {
-    if (!isPdf || !isMobile || !url || pdfLoading || pdfPages.length > 0) return;
-    
-    let active = true;
-    const loadPdf = async () => {
-      setPdfLoading(true);
-      try {
-        // Dynamically import PDF.js
-        const pdfjsLib = await import('pdfjs-dist');
-        
-        // Set worker source
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-        
-        // Load PDF document
-        const loadingTask = pdfjsLib.getDocument(url);
-        const pdf = await loadingTask.promise;
-        
-        if (!active) return;
-        
-        // Render first 3 pages (to keep it fast on mobile)
-        const numPages = Math.min(pdf.numPages, 3);
-        const pages = [];
-        
-        for (let i = 1; i <= numPages; i++) {
-          const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 1.5 });
-          
-          pages.push({
-            pageNum: i,
-            viewport,
-            page,
-            totalPages: pdf.numPages
-          });
-        }
-        
-        if (active) {
-          setPdfPages(pages);
-          setPdfLoading(false);
-        }
-      } catch (err) {
-        console.error('Error loading PDF:', err);
-        if (active) {
-          setPdfLoading(false);
-        }
-      }
-    };
-    
-    loadPdf();
-    
-    return () => {
-      active = false;
-    };
-  }, [isPdf, isMobile, url, pdfLoading, pdfPages.length]);
-
-  // Render PDF pages to canvas
-  useEffect(() => {
-    if (pdfPages.length === 0) return;
-    
-    pdfPages.forEach((pageData, idx) => {
-      const canvas = canvasRefs.current[idx];
-      if (!canvas) return;
-      
-      const context = canvas.getContext('2d');
-      canvas.height = pageData.viewport.height;
-      canvas.width = pageData.viewport.width;
-      
-      const renderContext = {
-        canvasContext: context,
-        viewport: pageData.viewport
-      };
-      
-      pageData.page.render(renderContext);
-    });
-  }, [pdfPages]);
 
   return (
     <div
@@ -251,58 +172,17 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
           ) : isPdf && isMobile ? (
-            pdfLoading ? (
-              <div className="h-full flex items-center justify-center">
-                <div className="text-center space-y-sm">
-                  <div className="animate-spin inline-block w-8 h-8 border-4 border-secondary border-t-transparent rounded-full"></div>
-                  <p className="text-body-sm text-on-surface-variant">Memuat PDF...</p>
-                </div>
-              </div>
-            ) : pdfPages.length > 0 ? (
-              <div className="space-y-md">
-                {pdfPages.map((pageData, idx) => (
-                  <div key={idx} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <canvas 
-                      ref={el => canvasRefs.current[idx] = el}
-                      className="w-full h-auto"
-                    />
-                  </div>
-                ))}
-                {pdfPages[0]?.totalPages > 3 && (
-                  <div className="text-center py-md">
-                    <p className="text-body-sm text-on-surface-variant mb-sm">
-                      Menampilkan 3 dari {pdfPages[0].totalPages} halaman
-                    </p>
-                    <button
-                      onClick={() => window.open(url, '_blank')}
-                      className="inline-flex items-center gap-xs px-md py-sm rounded-lg bg-secondary text-white font-semibold hover:brightness-110 transition-all text-body-sm"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-                      Lihat semua halaman
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="h-full flex items-center justify-center text-center">
-                <div className="space-y-md">
-                  <span className="material-symbols-outlined text-6xl text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    picture_as_pdf
-                  </span>
-                  <p className="text-on-surface font-semibold text-lg">{name}</p>
-                  <p className="text-on-surface-variant max-w-xs mx-auto text-body-sm">
-                    Gagal memuat preview. Silakan buka file di tab baru.
-                  </p>
-                  <button
-                    onClick={() => window.open(url, '_blank')}
-                    className="flex items-center justify-center gap-sm px-lg py-sm rounded-lg bg-secondary text-white font-semibold hover:brightness-110 transition-all text-body-md mx-auto"
-                  >
-                    <span className="material-symbols-outlined">open_in_new</span>
-                    Buka
-                  </button>
-                </div>
-              </div>
-            )
+            <div className="w-full h-[70vh] flex flex-col">
+              <iframe 
+                src={`https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`}
+                title={name} 
+                className="w-full h-full border-0 rounded-lg bg-white"
+                onError={(e) => {
+                  console.error('Google Docs Viewer failed, trying direct URL');
+                  e.target.src = url;
+                }}
+              />
+            </div>
           ) : isPdf ? (
             <iframe src={url} title={name} className="w-full h-[70vh] border-0 rounded-lg bg-white" />
           ) : content?.kind === 'html' ? (
