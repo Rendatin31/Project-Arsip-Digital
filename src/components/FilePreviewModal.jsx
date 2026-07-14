@@ -6,6 +6,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -31,6 +32,20 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
         const lower = (preview.name || '').toLowerCase();
         const isDoc = preview.type === 'doc' || /\.(docx?|rtf|odt)$/i.test(lower);
         const isXls = preview.type === 'xls' || /\.(xlsx?|csv)$/i.test(lower);
+        const isPdfFile = preview.type === 'pdf' || /\.pdf$/i.test(lower);
+        const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+        // For PDF on mobile, download and create blob URL for better compatibility
+        if (isPdfFile && isMobileDevice) {
+          try {
+            const response = await fetch(signedUrl);
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            if (active) setPdfBlobUrl(blobUrl);
+          } catch (err) {
+            console.error('Failed to create PDF blob:', err);
+          }
+        }
 
         if (isDoc || isXls) {
           const res = await fetch(signedUrl);
@@ -61,6 +76,10 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
     load();
     return () => {
       active = false;
+      // Cleanup blob URL
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl);
+      }
     };
   }, [preview, supabase]);
 
@@ -172,14 +191,23 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
           ) : isPdf && isMobile ? (
-            <div className="w-full h-[70vh] flex flex-col bg-gray-900">
-              <iframe 
-                src={`${url}#view=FitH&toolbar=0&navpanes=0`}
-                title={name} 
-                className="w-full h-full border-0"
-                allow="fullscreen"
-              />
-            </div>
+            pdfBlobUrl ? (
+              <div className="w-full h-[70vh] bg-gray-900">
+                <iframe 
+                  src={pdfBlobUrl}
+                  title={name} 
+                  className="w-full h-full border-0"
+                  allow="fullscreen"
+                />
+              </div>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <div className="text-center space-y-sm">
+                  <div className="animate-spin inline-block w-8 h-8 border-4 border-secondary border-t-transparent rounded-full"></div>
+                  <p className="text-body-sm text-on-surface-variant">Memuat PDF...</p>
+                </div>
+              </div>
+            )
           ) : isPdf ? (
             <iframe src={url} title={name} className="w-full h-[70vh] border-0 rounded-lg bg-white" />
           ) : content?.kind === 'html' ? (
