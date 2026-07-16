@@ -25,7 +25,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
-    btn.innerHTML = '<span class="animate-spin">⏳</span> Memproses...';
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin" style="font-size: 18px; vertical-align: middle;">progress_activity</span> <span style="vertical-align: middle;">Memproses...</span>';
     btn.classList.add('opacity-80');
 
     try {
