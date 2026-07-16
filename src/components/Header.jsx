@@ -6,6 +6,17 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [loading, setLoading] = useState(true);
   const notifRef = useRef(null);
 
+  // Helper function to get display name for role
+  const getRoleDisplayName = (role) => {
+    const roleMap = {
+      'super_admin': 'Super Admin',
+      'admin': 'Admin',
+      'editor': 'Editor',
+      'viewer': 'Viewer'
+    };
+    return roleMap[role] || 'User';
+  };
+
   // Fetch notifications from database
   useEffect(() => {
     if (!user || !supabase) return;
@@ -397,7 +408,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             <div className="hidden sm:block">
               <p className="text-label-caps leading-none font-bold">{profile?.full_name || user?.email || 'User'}</p>
               <p className="text-[10px] text-on-surface-variant">
-                {profile?.role === 'admin' ? 'Super Admin' : profile?.role === 'editor' ? 'Editor' : profile?.role === 'viewer' ? 'Viewer' : 'User'}
+                {getRoleDisplayName(profile?.role)}
               </p>
             </div>
           </div>
