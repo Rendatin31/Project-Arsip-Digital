@@ -59,7 +59,7 @@ function ImageThumbnail({ file, supabase }) {
   );
 }
 
-export default function FileTable({ files, title = 'File Saya', onOpenAdd, supabase, onEdit, onRefresh, onPreview, onDeleteFile }) {
+export default function FileTable({ files, title = 'File Saya', onOpenAdd, supabase, onEdit, onRefresh, onPreview, onDeleteFile, onConfirmDelete }) {
   const [viewMode, setViewMode] = React.useState('grid'); // 'list' or 'grid'
   const [showFilter, setShowFilter] = React.useState(false);
   const [filterType, setFilterType] = React.useState('');
@@ -202,32 +202,60 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
   };
 
   const handleDelete = async (file) => {
-    if (!confirm(`Apakah Anda yakin ingin menghapus "${file.fileName}"?`)) {
-      return;
+    // Use modern confirm dialog if available
+    if (onConfirmDelete) {
+      onConfirmDelete(file, async () => {
+        try {
+          // Jika ada callback onDeleteFile, gunakan itu (untuk handle localStorage cleanup)
+          if (onDeleteFile) {
+            await onDeleteFile(file);
+          } else {
+            // Fallback: delete langsung
+            const { error } = await supabase
+              .from('documents')
+              .delete()
+              .eq('id', file.id);
+            
+            if (error) throw error;
+          }
+          
+          // Call refresh callback instead of window.reload
+          if (onRefresh) {
+            onRefresh();
+          }
+        } catch (err) {
+          console.error('Gagal menghapus dokumen:', err);
+          // Error will be handled by parent through onDeleteFile
+        }
+      });
+    } else {
+      // Fallback to native confirm
+      if (!confirm(`Apakah Anda yakin ingin menghapus "${file.fileName}"?`)) {
+        return;
+      }
+      try {
+        // Jika ada callback onDeleteFile, gunakan itu (untuk handle localStorage cleanup)
+        if (onDeleteFile) {
+          await onDeleteFile(file);
+        } else {
+          // Fallback: delete langsung
+          const { error } = await supabase
+            .from('documents')
+            .delete()
+            .eq('id', file.id);
+          
+          if (error) throw error;
+        }
+        
+        // Call refresh callback instead of window.reload
+        if (onRefresh) {
+          onRefresh();
+        }
+      } catch (err) {
+        console.error('Gagal menghapus dokumen:', err);
+      }
     }
-    try {
-      // Jika ada callback onDeleteFile, gunakan itu (untuk handle localStorage cleanup)
-      if (onDeleteFile) {
-        await onDeleteFile(file);
-      } else {
-        // Fallback: delete langsung
-        const { error } = await supabase
-          .from('documents')
-          .delete()
-          .eq('id', file.id);
-        
-        if (error) throw error;
-        
-        alert('Dokumen berhasil dihapus');
-      }
-      
-      // Call refresh callback instead of window.reload
-      if (onRefresh) {
-        onRefresh();
-      }
-    } catch (err) {
-      console.error('Gagal menghapus dokumen:', err);
-      alert('Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
+  };
     }
   };
 

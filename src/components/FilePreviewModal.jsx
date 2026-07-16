@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import FileTypeIcon from './FileTypeIcon';
 
-export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete }) {
+export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete }) {
   const [url, setUrl] = useState(null);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -154,9 +154,18 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             {onDelete && (
               <button
                 onClick={async () => {
-                  if (confirm(`Apakah Anda yakin ingin menghapus "${preview.name}"?`)) {
-                    await onDelete(preview);
-                    onClose();
+                  // Use modern confirm dialog if available
+                  if (onConfirmDelete) {
+                    onConfirmDelete(preview, async () => {
+                      await onDelete(preview);
+                      onClose();
+                    });
+                  } else {
+                    // Fallback to native confirm
+                    if (confirm(`Apakah Anda yakin ingin menghapus "${preview.name}"?`)) {
+                      await onDelete(preview);
+                      onClose();
+                    }
                   }
                 }}
                 className="p-sm rounded-full hover:bg-error-container text-error transition-colors"

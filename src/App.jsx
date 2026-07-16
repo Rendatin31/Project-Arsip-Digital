@@ -926,6 +926,15 @@ export default function App({ supabase }) {
                         onEdit={(file) => setEditDoc(file)}
                         onRefresh={refreshDocuments}
                         onPreview={handleOpenFile}
+                        onConfirmDelete={(file, onConfirm) => {
+                          showAlert(
+                            'confirm',
+                            'Konfirmasi Hapus',
+                            `Apakah Anda yakin ingin menghapus "${file.fileName}"?`,
+                            onConfirm,
+                            true
+                          );
+                        }}
                         onDeleteFile={async (file) => {
                           try {
                             // Get user profile for notification
@@ -993,7 +1002,10 @@ export default function App({ supabase }) {
           userId={user.id}
           currentDirectoryId={selectedDirectoryId}
           onClose={() => setShowAddModal(false)}
-          onSave={refreshDocuments}
+          onSave={() => {
+            refreshDocuments();
+            showAlert('success', 'Berhasil', 'Dokumen berhasil ditambahkan');
+          }}
         />
       )}
       {editDoc && (
@@ -1017,6 +1029,15 @@ export default function App({ supabase }) {
             if (fullFile) {
               setEditDoc(fullFile);
             }
+          }}
+          onConfirmDelete={(file, onConfirm) => {
+            showAlert(
+              'confirm',
+              'Konfirmasi Hapus',
+              `Apakah Anda yakin ingin menghapus "${file.name}"?`,
+              onConfirm,
+              true
+            );
           }}
           onDelete={async (file) => {
             try {
