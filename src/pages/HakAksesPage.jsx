@@ -514,15 +514,15 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                 </button>
               </div>
               <form onSubmit={handleSubmit} className="px-lg pt-sm pb-xl space-y-lg">
-                <div className="space-y-xs">
+                <div className="flex flex-col gap-xs mb-md md:mb-lg">
                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap</label>
                   <input value={form.full_name} onChange={handleFormChange('full_name')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="Masukkan nama lengkap" type="text" required />
                 </div>
-                <div className="space-y-xs">
+                <div className="flex flex-col gap-xs mb-md md:mb-lg">
                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email</label>
                   <input value={form.email} onChange={handleFormChange('email')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="contoh@earsip.go.id" type="email" required />
                 </div>
-                <div className="space-y-xs">
+                <div className="flex flex-col gap-xs mb-md md:mb-lg">
                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role</label>
                   <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                     <option value="">--- Pilih ---</option>
@@ -536,7 +536,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                     <option value="viewer">Viewer</option>
                   </select>
                 </div>
-                <div className="space-y-xs">
+                <div className="flex flex-col gap-xs mb-md md:mb-lg">
                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status</label>
                   <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                     <option value="Aktif">Aktif</option>
@@ -570,15 +570,15 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                  </button>
                </div>
                <form onSubmit={handleEditUser} className="px-lg pt-sm pb-xl space-y-lg">
-                 <div className="space-y-xs">
+                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
                    <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap</label>
                    <input value={form.full_name} onChange={handleFormChange('full_name')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="Masukkan nama lengkap" type="text" required />
                  </div>
-                 <div className="space-y-xs">
+                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
                    <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email</label>
                    <input value={form.email} onChange={handleFormChange('email')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="contoh@earsip.go.id" type="email" required />
                  </div>
-                 <div className="space-y-xs">
+                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
                    <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role</label>
                    <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                      <option value="">--- Pilih ---</option>
@@ -592,7 +592,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                      <option value="viewer">Viewer</option>
                    </select>
                  </div>
-                 <div className="space-y-xs">
+                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
                    <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status</label>
                    <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                      <option value="Aktif">Aktif</option>
