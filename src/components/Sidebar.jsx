@@ -1,15 +1,15 @@
 export default function Sidebar({ user, profile, onLogout, currentPage, onNavigate, isOpen, onClose }) {
   const userRole = profile?.role || 'viewer';
-  const isAdmin = userRole === 'admin';
+  const isAdmin = userRole === 'admin' || userRole === 'super_admin';
   
   const menuItems = [
-    { id: 'dashboard', icon: 'dashboard', label: 'Dashboard', allowedRoles: ['admin', 'editor', 'viewer'] },
-    { id: 'documents', icon: 'folder_open', label: 'File Saya', allowedRoles: ['admin', 'editor'] },
-    { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['admin', 'editor'] },
-    { id: 'search', icon: 'manage_search', label: 'Pencarian Pintar', allowedRoles: ['admin', 'editor', 'viewer'] },
-    { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['admin'] },
-    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['admin'] },
-    { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['admin', 'editor', 'viewer'] },
+    { id: 'dashboard', icon: 'dashboard', label: 'Dashboard', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
+    { id: 'documents', icon: 'folder_open', label: 'File Saya', allowedRoles: ['super_admin', 'admin', 'editor'] },
+    { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['super_admin', 'admin', 'editor'] },
+    { id: 'search', icon: 'manage_search', label: 'Pencarian Pintar', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
+    { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['super_admin', 'admin'] },
+    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
+    { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
   ];
 
   const handleNavigate = (id) => {
@@ -56,10 +56,16 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             // Determine tooltip message based on allowed roles
             let tooltipMessage = '';
             if (isDisabled) {
-              if (item.allowedRoles.includes('admin') && item.allowedRoles.includes('editor')) {
-                tooltipMessage = 'Hanya untuk Administrator dan Editor';
-              } else if (item.allowedRoles.includes('admin') && item.allowedRoles.length === 1) {
-                tooltipMessage = 'Hanya untuk Administrator';
+              if (item.allowedRoles.includes('super_admin') && item.allowedRoles.includes('admin') && item.allowedRoles.includes('editor')) {
+                tooltipMessage = 'Hanya untuk Super Admin, Admin, dan Editor';
+              } else if (item.allowedRoles.includes('super_admin') && item.allowedRoles.includes('admin')) {
+                tooltipMessage = 'Hanya untuk Super Admin dan Admin';
+              } else if (item.allowedRoles.includes('admin') && item.allowedRoles.includes('editor')) {
+                tooltipMessage = 'Hanya untuk Admin dan Editor';
+              } else if (item.allowedRoles.includes('super_admin')) {
+                tooltipMessage = 'Hanya untuk Super Admin';
+              } else if (item.allowedRoles.includes('admin')) {
+                tooltipMessage = 'Hanya untuk Admin';
               }
             }
             
