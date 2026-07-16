@@ -15,6 +15,7 @@ import PencarianPintarPage from './pages/PencarianPintarPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RiwayatAktivitasPage from './pages/RiwayatAktivitasPage';
 import PengaturanSistemPage from './pages/PengaturanSistemPage';
+import ProfilePage from './pages/ProfilePage';
 import { notifyAllUsersExcept } from './utils/notifications';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
@@ -839,6 +840,8 @@ export default function App({ supabase }) {
               <RiwayatAktivitasPage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} renderHeader={false} />
             ) : currentPage === 'access' ? (
               <HakAksesPage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} renderHeader={false} />
+            ) : currentPage === 'profile' ? (
+              <ProfilePage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} onProfileUpdate={handleProfileUpdate} renderHeader={false} />
             ) : currentPage === 'settings' ? (
               <PengaturanSistemPage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} onCategoryChange={handleCategoryChange} onProfileUpdate={handleProfileUpdate} renderHeader={false} />
             ) : (
