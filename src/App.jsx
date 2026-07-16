@@ -1015,7 +1015,10 @@ export default function App({ supabase }) {
           categories={categories}
           userId={user.id}
           onClose={() => setEditDoc(null)}
-          onSaved={refreshDocuments}
+          onSaved={() => {
+            refreshDocuments();
+            showAlert('success', 'Berhasil', 'Dokumen berhasil diperbarui');
+          }}
         />
       )}
       {previewFile && (

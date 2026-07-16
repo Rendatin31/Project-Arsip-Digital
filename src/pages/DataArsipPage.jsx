@@ -562,7 +562,10 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
             supabase={supabase}
             userId={userId}
             onClose={() => setEditDoc(null)}
-            onSaved={fetchDocuments}
+            onSaved={() => {
+              fetchDocuments();
+              showAlert('success', 'Berhasil', 'Dokumen berhasil diperbarui');
+            }}
           />
         )}
         
