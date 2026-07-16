@@ -486,7 +486,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Two-Factor Authentication */}
-                  <div className="mb-sm mt-md">
+                  <div className="mb-md mt-md">
                     <div className="max-w-2xl">
                       <div className="flex items-center justify-between bg-surface-container rounded-lg p-lg border border-outline-variant">
                         <div className="flex-1">
@@ -509,7 +509,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Session Timeout */}
-                  <div className="mb-sm mt-md">
+                  <div className="mb-md mt-md">
                     <div className="max-w-2xl">
                       <label className="text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
                       <select
@@ -530,7 +530,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Security Log */}
-                  <div className="mt-md">
+                  <div className="mt-md mb-md">
                     <div className="max-w-2xl space-y-sm">
                       <div className="flex items-start gap-md bg-surface-container rounded-lg p-md border border-outline-variant">
                         <span className="material-symbols-outlined text-secondary text-[20px] mt-xs">verified_user</span>
