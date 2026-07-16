@@ -389,8 +389,8 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                        paginatedDocuments.map((doc) => (
                          <tr
                            key={doc.id}
-                           onDoubleClick={profile?.role === 'admin' ? () => handleEdit(doc) : undefined}
-                           className={`hover:bg-surface-container/30 transition-colors group ${profile?.role === 'admin' ? 'cursor-pointer' : 'cursor-default'}`}
+                           onDoubleClick={(profile?.role === 'super_admin' || profile?.role === 'admin') ? () => handleEdit(doc) : undefined}
+                           className={`hover:bg-surface-container/30 transition-colors group ${(profile?.role === 'super_admin' || profile?.role === 'admin') ? 'cursor-pointer' : 'cursor-default'}`}
                          >
                             <td className="px-lg py-sm">
                               <span className="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">{doc.category}</span>
