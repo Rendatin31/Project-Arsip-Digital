@@ -228,6 +228,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                     />
                   </div>
                   
+                  {/* Date Range with Reset Button on the right */}
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-xs flex-1 min-w-[200px]">
                     <input
                       value={dateStart}
@@ -242,16 +243,16 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                       className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
                       type="date"
                     />
+                    
+                    {/* Reset Button - Aligned with date fields */}
+                    <button
+                      onClick={() => { setQuery(''); setDateStart(''); setDateEnd(''); setCategory(''); setLetterNumber(''); }}
+                      className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm whitespace-nowrap"
+                    >
+                      Reset Filter
+                    </button>
                   </div>
                 </div>
-                
-                {/* Reset Button - Below filters */}
-                <button
-                  onClick={() => { setQuery(''); setDateStart(''); setDateEnd(''); setCategory(''); setLetterNumber(''); }}
-                  className="mt-md px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm whitespace-nowrap w-full sm:w-auto"
-                >
-                  Reset Filter
-                </button>
               </div>
             </div>
 
