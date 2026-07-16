@@ -13,6 +13,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [form, setForm] = useState({ full_name: '', email: '', role: '', status: '' });
   const [sendingPasswordLink, setSendingPasswordLink] = useState(null);
+  const [submitting, setSubmitting] = useState(false); // Loading state untuk form submission
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +111,9 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
   const handleEditUser = async (e) => {
     e.preventDefault();
     if (!editingUser) return;
+    
+    setSubmitting(true); // Start loading
+    
     try {
       const roleMap = { 
         'super_admin': 'super_admin',
@@ -128,11 +132,13 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       
       if (!mappedRole) {
         alert('Silakan pilih peran yang valid.');
+        setSubmitting(false);
         return;
       }
       
       if (!form.status) {
         alert('Silakan pilih status yang valid.');
+        setSubmitting(false);
         return;
       }
       
@@ -193,6 +199,8 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     } catch (err) {
       console.error('Gagal memperbarui pengguna:', err);
       alert('Gagal memperbarui pengguna: ' + (err.message || 'Unknown error'));
+    } finally {
+      setSubmitting(false); // Stop loading
     }
   };
 
@@ -257,9 +265,13 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    setSubmitting(true); // Start loading
+    
     try {
       if (form.email === userId) {
         alert('Tidak dapat menambahkan pengguna dengan email yang sama dengan akun Anda saat ini.');
+        setSubmitting(false);
         return;
       }
 
@@ -277,11 +289,13 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       
       if (!mappedRole) {
         alert('Silakan pilih peran yang valid.');
+        setSubmitting(false);
         return;
       }
       
       if (!form.status) {
         alert('Silakan pilih status yang valid.');
+        setSubmitting(false);
         return;
       }
 
@@ -289,6 +303,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       const accessToken = sessionData?.session?.access_token;
       if (!accessToken) {
         alert('Sesi tidak valid. Silakan login kembali.');
+        setSubmitting(false);
         return;
       }
 
@@ -314,6 +329,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       if (!response.ok) {
         console.error('Gagal menambahkan pengguna:', result.error);
         alert('Gagal menambahkan pengguna: ' + (result.error || 'Unknown error'));
+        setSubmitting(false);
         return;
       }
 
@@ -336,6 +352,8 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     } catch (err) {
       console.error('Gagal menambahkan pengguna:', err);
       alert('Terjadi kesalahan saat menambahkan pengguna.');
+    } finally {
+      setSubmitting(false); // Stop loading
     }
   };
 
@@ -552,7 +570,20 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                   </div>
                 </div>
                 <div className="flex justify-end pt-md mb-lg">
-                   <button type="submit" className="px-lg py-sm bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-opacity text-xs uppercase tracking-widest shadow-md">Simpan</button>
+                   <button 
+                     type="submit" 
+                     disabled={submitting}
+                     className="px-lg py-sm bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-opacity text-xs uppercase tracking-widest shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
+                   >
+                     {submitting ? (
+                       <>
+                         <span className="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+                         <span>Menyimpan...</span>
+                       </>
+                     ) : (
+                       'Simpan'
+                     )}
+                   </button>
                  </div>
                </form>
              </div>
@@ -600,7 +631,20 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    </select>
                  </div>
                  <div className="flex justify-end pt-md mb-lg">
-                   <button type="submit" className="px-lg py-sm bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-opacity text-xs uppercase tracking-widest shadow-md">Simpan</button>
+                   <button 
+                     type="submit" 
+                     disabled={submitting}
+                     className="px-lg py-sm bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-opacity text-xs uppercase tracking-widest shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
+                   >
+                     {submitting ? (
+                       <>
+                         <span className="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+                         <span>Menyimpan...</span>
+                       </>
+                     ) : (
+                       'Simpan'
+                     )}
+                   </button>
                  </div>
                </form>
              </div>
