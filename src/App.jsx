@@ -280,17 +280,19 @@ export default function App({ supabase }) {
     
     const cleanup = initSessionTimeout(async () => {
       console.log('Session timeout triggered - logging out user');
-      showAlert('warning', 'Sesi Berakhir', 'Sesi Anda telah berakhir karena tidak aktif. Silakan login kembali.', async () => {
-        // Clear session data
-        clearSessionData();
-        
-        // Logout user
-        await supabase.auth.signOut();
-        
-        // Redirect to login
-        setUser(null);
-        setProfile(null);
-      });
+      
+      // Clear session data
+      clearSessionData();
+      
+      // Logout user IMMEDIATELY
+      await supabase.auth.signOut();
+      
+      // Redirect to login
+      setUser(null);
+      setProfile(null);
+      
+      // Show alert AFTER logout
+      showAlert('warning', 'Sesi Berakhir', 'Sesi Anda telah berakhir karena tidak aktif. Silakan login kembali.');
     });
 
     return () => {

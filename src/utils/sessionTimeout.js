@@ -107,13 +107,14 @@ export function initSessionTimeout(onTimeout) {
     document.addEventListener(event, handleActivity, { passive: true });
   });
   
-  // Check for timeout every minute
+  // Check for timeout every 10 seconds
   const checkInterval = setInterval(() => {
     if (isSessionExpired()) {
       console.log('Session expired due to inactivity');
+      clearInterval(checkInterval); // Clear interval immediately after timeout
       onTimeout();
     }
-  }, 60 * 1000); // Check every minute
+  }, 10 * 1000); // Check every 10 seconds
   
   // Cleanup function
   return () => {
