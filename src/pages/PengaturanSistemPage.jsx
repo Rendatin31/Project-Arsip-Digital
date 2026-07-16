@@ -458,7 +458,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                           </button>
                         </div>
                       </div>
-                      <div className="mb-sm">
+                      <div className="mb-md">
                         <label className="text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
                         <div className="relative">
                           <input
@@ -532,7 +532,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {/* Security Log */}
                   <div className="mt-md mb-md">
                     <div className="max-w-2xl space-y-sm">
-                      <div className="flex items-start gap-md bg-surface-container rounded-lg p-md border border-outline-variant">
+                      <div className="flex items-start gap-md bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
                         <span className="material-symbols-outlined text-secondary text-[20px] mt-xs">verified_user</span>
                         <div className="flex-1">
                           <p className="text-body-md font-semibold text-on-surface">Login Terakhir</p>
