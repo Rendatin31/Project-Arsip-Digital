@@ -256,8 +256,6 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
       }
     }
   };
-    }
-  };
 
   // Handle page change
   const handlePageChange = (page) => {
