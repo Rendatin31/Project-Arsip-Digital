@@ -87,11 +87,12 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     setEditingUser(u);
     // Map role dari database ke display value untuk form
     const roleDisplayMap = { 
-      admin: 'Administrator', 
-      editor: 'Editor', 
-      viewer: 'Viewer' 
+      super_admin: 'super_admin',
+      admin: 'admin', 
+      editor: 'editor', 
+      viewer: 'viewer' 
     };
-    const displayRole = roleDisplayMap[u.role] || 'Viewer';
+    const displayRole = roleDisplayMap[u.role] || 'viewer';
     
     setForm({ 
       full_name: profiles[u.id]?.name || u.email || '', 
@@ -111,9 +112,10 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     if (!editingUser) return;
     try {
       const roleMap = { 
-        'Administrator': 'admin', 
-        'Editor': 'editor', 
-        'Viewer': 'viewer' 
+        'super_admin': 'super_admin',
+        'admin': 'admin', 
+        'editor': 'editor', 
+        'viewer': 'viewer' 
       };
       
       const mappedRole = roleMap[form.role];
@@ -158,7 +160,12 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       }
 
       // Send notification to user about access change
-      const roleNames = { admin: 'Administrator', editor: 'Editor', viewer: 'Viewer' };
+      const roleNames = { 
+        super_admin: 'Super Admin',
+        admin: 'Admin', 
+        editor: 'Editor', 
+        viewer: 'Viewer' 
+      };
       const statusNames = { Aktif: 'Aktif', 'Non-aktif': 'Non-aktif' };
       
       let changeMessage = `Hak akses Anda telah diperbarui. `;
@@ -257,9 +264,10 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       }
 
       const roleMap = {
-        'Administrator': 'admin',
-        'Editor': 'editor',
-        'Viewer': 'viewer',
+        'super_admin': 'super_admin',
+        'admin': 'admin',
+        'editor': 'editor',
+        'viewer': 'viewer',
       };
 
       const mappedRole = roleMap[form.role];
@@ -518,9 +526,10 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                   <label className="text-label-caps text-on-surface-variant text-xs">Role</label>
                   <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                     <option value="">--- Pilih ---</option>
-                    <option value="Administrator">Administrator</option>
-                    <option value="Editor">Editor</option>
-                    <option value="Viewer">Viewer</option>
+                    <option value="super_admin">Super Admin</option>
+                    <option value="admin">Admin</option>
+                    <option value="editor">Editor</option>
+                    <option value="viewer">Viewer</option>
                   </select>
                 </div>
                 <div className="space-y-xs">
@@ -569,9 +578,10 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    <label className="text-label-caps text-on-surface-variant text-xs">Role</label>
                    <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                      <option value="">--- Pilih ---</option>
-                     <option value="Administrator">Administrator</option>
-                     <option value="Editor">Editor</option>
-                     <option value="Viewer">Viewer</option>
+                     <option value="super_admin">Super Admin</option>
+                     <option value="admin">Admin</option>
+                     <option value="editor">Editor</option>
+                     <option value="viewer">Viewer</option>
                    </select>
                  </div>
                  <div className="space-y-xs">
