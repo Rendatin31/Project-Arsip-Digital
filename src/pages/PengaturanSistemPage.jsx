@@ -347,10 +347,10 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                     <button
                       onClick={handleAddCategory}
-                      className="flex items-center gap-sm px-lg py-sm bg-secondary text-on-secondary rounded-lg font-title-sm text-title-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm"
+                      className="flex items-center gap-sm px-md py-sm bg-secondary text-on-secondary rounded-lg font-semibold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm"
                     >
-                      <span className="material-symbols-outlined">add</span>
-                      Tambah Kategori
+                      <span className="material-symbols-outlined text-[20px]">add</span>
+                      Tambah
                     </button>
                   </div>
                   
@@ -730,19 +730,19 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
               <button
                 onClick={handleCancel}
                 disabled={savingPassword}
-                className="px-lg py-sm border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-md py-sm border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Batalkan
+                Batal
               </button>
               <button
                 onClick={handleSave}
                 disabled={savingPassword}
-                className="px-lg py-sm bg-secondary text-on-secondary rounded-lg hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
+                className="px-md py-sm bg-secondary text-on-secondary rounded-lg hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
               >
                 {savingPassword && (
                   <span className="animate-spin">⏳</span>
                 )}
-                {savingPassword ? 'Menyimpan...' : 'Simpan Perubahan'}
+                {savingPassword ? 'Menyimpan...' : 'Simpan'}
               </button>
             </div>
           </div>
