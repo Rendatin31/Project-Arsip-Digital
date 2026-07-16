@@ -87,6 +87,25 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
     { id: 'notifikasi', icon: 'notifications', label: 'Notifikasi' },
   ];
 
+  // Access control: Only divrendatin31@gmail.com can access Konfigurasi Sistem
+  const SUPER_ADMIN_EMAIL = 'divrendatin31@gmail.com';
+  const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
+  
+  // Filter tabs based on user access
+  const visibleTabs = tabs.filter(tab => {
+    if (tab.id === 'konfigurasi') {
+      return isSuperAdmin;
+    }
+    return true;
+  });
+
+  // Redirect if trying to access restricted tab
+  useEffect(() => {
+    if (activeTab === 'konfigurasi' && !isSuperAdmin) {
+      setActiveTab('profil');
+    }
+  }, [activeTab, isSuperAdmin]);
+
   // Fetch categories
   const fetchCategories = async () => {
     const { data } = await supabase
@@ -450,7 +469,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-lg overflow-hidden">
               <div className="border-b border-outline-variant">
                 <nav className="flex">
-                  {tabs.map((tab) => (
+                  {visibleTabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
@@ -558,7 +577,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
               )}
 
               {/* Tab Content - Konfigurasi Sistem (Categories) */}
-              {activeTab === 'konfigurasi' && (
+              {activeTab === 'konfigurasi' && isSuperAdmin && (
                 <div className="p-lg">
                   <div className="flex justify-between items-center mb-lg">
                     <div>
