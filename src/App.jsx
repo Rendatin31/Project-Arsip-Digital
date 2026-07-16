@@ -85,6 +85,12 @@ export default function App({ supabase }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editDoc, setEditDoc] = useState(null);
   const [currentPage, setCurrentPage] = useState('dashboard');
+  
+  // Debug: Track currentPage changes
+  useEffect(() => {
+    console.log('=== CURRENT PAGE CHANGED ===');
+    console.log('New page:', currentPage);
+  }, [currentPage]);
   const [initError, setInitError] = useState('');
   const [isResetPassword, setIsResetPassword] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // State untuk search di halaman Pencarian Pintar
@@ -658,6 +664,7 @@ export default function App({ supabase }) {
   };
 
   const handleBreadcrumbClick = (id) => {
+    console.log('Breadcrumb clicked:', id);
     if (id === null || id === 'home') {
       setCurrentPage('dashboard');
     } else if (id === 'arsip-digital') {
@@ -683,6 +690,8 @@ export default function App({ supabase }) {
       setCurrentPage('access');
     } else if (id === 'settings') {
       setCurrentPage('settings');
+    } else if (id === 'profile') {
+      setCurrentPage('profile');
     } else {
       // Klik folder di breadcrumb - navigate ke folder tersebut
       const found = directories.find((d) => d.id === id);
@@ -797,6 +806,8 @@ export default function App({ supabase }) {
         return [{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'access', name: 'Hak Akses' }];
       case 'settings':
         return [{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'settings', name: 'Pengaturan Sistem' }];
+      case 'profile':
+        return [{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'profile', name: 'Profil' }];
       default:
         return breadcrumbPath;
     }
