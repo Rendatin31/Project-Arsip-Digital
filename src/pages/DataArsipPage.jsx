@@ -3,6 +3,7 @@ import { supabase as supabaseClient } from '../lib/supabase';
 import Header from '../components/Header';
 import EditDocumentModal from '../components/EditDocumentModal';
 import FilePreviewModal from '../components/FilePreviewModal';
+import ModernAlert from '../components/ModernAlert';
 
 export default function DataArsipPage({ supabase, userId, user, profile, onBack, onOpenAdd, onEditDocument, onNavigate, categories = [], renderHeader = true }) {
   const [documents, setDocuments] = useState([]);
@@ -17,9 +18,35 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
+
   const handleView = async (doc) => {
     if (!doc.filePath) {
-      alert('Dokumen ini tidak memiliki file yang diunggah.');
+      showAlert('warning', 'Tidak Ada File', 'Dokumen ini tidak memiliki file yang diunggah.');
       return;
     }
     
@@ -46,7 +73,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
 
   const handleDownload = async (doc) => {
     if (!doc.filePath) {
-      alert('Dokumen ini tidak memiliki file yang diunggah.');
+      showAlert('warning', 'Tidak Ada File', 'Dokumen ini tidak memiliki file yang diunggah.');
       return;
     }
     console.log('Download file_path:', doc.filePath);
@@ -55,7 +82,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
       .download(doc.filePath);
     if (error || !data) {
       console.error('Gagal mengunduh file:', error);
-      alert('Gagal mengunduh file: ' + (error?.message || 'Unknown error'));
+      showAlert('error', 'Gagal Mengunduh', 'Gagal mengunduh file: ' + (error?.message || 'Unknown error'));
       return;
     }
     const url = URL.createObjectURL(data);
@@ -68,42 +95,50 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
-      const handleDelete = async (doc) => {
-    if (!window.confirm(`Hapus arsip "${doc.subject}"?`)) return;
-    try {
-      const { error: auditError } = await supabase.from('audit_logs').insert({
-        user_id: userId,
-        action: 'DELETE',
-        document_id: doc.id,
-        metadata: { file_name: doc.fileName || doc.subject, ip: '127.0.0.1' },
-      });
-      if (auditError) {
-        console.error('Gagal mencatat aktivitas hapus:', auditError);
-        alert('Gagal mencatat aktivitas hapus: ' + (auditError.message || JSON.stringify(auditError)));
-        return;
-      }
+  const handleDelete = async (doc) => {
+    showAlert(
+      'confirm',
+      'Konfirmasi Hapus',
+      `Hapus arsip "${doc.subject}"?`,
+      async () => {
+        try {
+          const { error: auditError } = await supabase.from('audit_logs').insert({
+            user_id: userId,
+            action: 'DELETE',
+            document_id: doc.id,
+            metadata: { file_name: doc.fileName || doc.subject, ip: '127.0.0.1' },
+          });
+          if (auditError) {
+            console.error('Gagal mencatat aktivitas hapus:', auditError);
+            showAlert('error', 'Gagal Mencatat', 'Gagal mencatat aktivitas hapus: ' + (auditError.message || JSON.stringify(auditError)));
+            return;
+          }
 
-      if (doc.filePath) {
-        const { error: storageError } = await supabase.storage
-          .from('documents')
-          .remove([doc.filePath]);
-        if (storageError) console.error('Gagal hapus file storage:', storageError);
-      }
+          if (doc.filePath) {
+            const { error: storageError } = await supabase.storage
+              .from('documents')
+              .remove([doc.filePath]);
+            if (storageError) console.error('Gagal hapus file storage:', storageError);
+          }
 
-      const { error } = await supabase
-        .from('documents')
-        .delete()
-        .eq('id', doc.id);
-      if (error) {
-        alert('Gagal menghapus arsip: ' + (error.message || JSON.stringify(error)));
-        return;
-      }
+          const { error } = await supabase
+            .from('documents')
+            .delete()
+            .eq('id', doc.id);
+          if (error) {
+            showAlert('error', 'Gagal Menghapus', 'Gagal menghapus arsip: ' + (error.message || JSON.stringify(error)));
+            return;
+          }
 
-      setDocuments((prev) => prev.filter((d) => d.id !== doc.id));
-    } catch (err) {
-      console.error('Gagal menghapus:', err);
-      alert('Terjadi kesalahan saat menghapus.');
-    }
+          setDocuments((prev) => prev.filter((d) => d.id !== doc.id));
+          showAlert('success', 'Berhasil', 'Arsip berhasil dihapus');
+        } catch (err) {
+          console.error('Gagal menghapus:', err);
+          showAlert('error', 'Terjadi Kesalahan', 'Terjadi kesalahan saat menghapus.');
+        }
+      },
+      true
+    );
   };
 
   const handleEdit = (doc) => {
@@ -544,6 +579,17 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
             } : null}
           />
         )}
+        
+        {/* Modern Alert Component */}
+        <ModernAlert
+          show={alert.show}
+          onClose={closeAlert}
+          type={alert.type}
+          title={alert.title}
+          message={alert.message}
+          onConfirm={alert.onConfirm}
+          showCancel={alert.showCancel}
+        />
       </div>
     </div>
   );

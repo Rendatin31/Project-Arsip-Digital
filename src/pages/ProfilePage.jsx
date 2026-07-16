@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import ModernAlert from '../components/ModernAlert';
 
 export default function ProfilePage({ supabase, userId, user, profile, onNavigate, onProfileUpdate, renderHeader = true }) {
   const [fullName, setFullName] = useState(profile?.full_name || '');
@@ -10,6 +11,32 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
 
   // Update form when profile prop changes
   useEffect(() => {
@@ -25,13 +52,13 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
 
     // Validate file size (max 2MB)
     if (file.size > 2 * 1024 * 1024) {
-      alert('Ukuran file maksimal 2MB!');
+      showAlert('warning', 'File Terlalu Besar', 'Ukuran file maksimal 2MB!');
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('File harus berupa gambar!');
+      showAlert('warning', 'Format Tidak Valid', 'File harus berupa gambar!');
       return;
     }
 
@@ -46,34 +73,40 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
   };
 
   const handleRemoveAvatar = async () => {
-    if (!confirm('Hapus foto profil?')) return;
+    showAlert(
+      'confirm',
+      'Konfirmasi Hapus',
+      'Hapus foto profil?',
+      async () => {
+        try {
+          // Delete from storage
+          if (avatarUrl) {
+            const oldPath = avatarUrl.replace('avatars/', '');
+            await supabase.storage.from('avatars').remove([oldPath]);
+          }
 
-    try {
-      // Delete from storage
-      if (avatarUrl) {
-        const oldPath = avatarUrl.replace('avatars/', '');
-        await supabase.storage.from('avatars').remove([oldPath]);
-      }
+          // Update database
+          await supabase
+            .from('profiles')
+            .update({ avatar_url: null })
+            .eq('id', userId);
 
-      // Update database
-      await supabase
-        .from('profiles')
-        .update({ avatar_url: null })
-        .eq('id', userId);
+          setAvatarUrl(null);
+          setAvatar(null);
+          setAvatarPreview(null);
+          showAlert('success', 'Berhasil', 'Foto profil berhasil dihapus!');
 
-      setAvatarUrl(null);
-      setAvatar(null);
-      setAvatarPreview(null);
-      alert('Foto profil berhasil dihapus!');
-
-      // Refresh profile in parent
-      if (onProfileUpdate) {
-        onProfileUpdate();
-      }
-    } catch (err) {
-      console.error('Error removing avatar:', err);
-      alert('Gagal menghapus foto profil');
-    }
+          // Refresh profile in parent
+          if (onProfileUpdate) {
+            onProfileUpdate();
+          }
+        } catch (err) {
+          console.error('Error removing avatar:', err);
+          showAlert('error', 'Gagal Menghapus', 'Gagal menghapus foto profil');
+        }
+      },
+      true
+    );
   };
 
   const handleSave = async () => {
@@ -84,7 +117,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
       // Validasi
       if (!fullName || fullName.trim() === '') {
         setSavingProfile(false);
-        alert('Nama lengkap tidak boleh kosong!');
+        showAlert('warning', 'Validasi Gagal', 'Nama lengkap tidak boleh kosong!');
         return;
       }
 
@@ -115,7 +148,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
           console.error('Error uploading avatar:', uploadError);
           setSavingProfile(false);
           setUploadingAvatar(false);
-          alert('Gagal mengupload avatar: ' + uploadError.message);
+          showAlert('error', 'Gagal Upload', 'Gagal mengupload avatar: ' + uploadError.message);
           return;
         }
 
@@ -137,7 +170,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
       if (updateError) {
         console.error('Error updating profile:', updateError);
         setSavingProfile(false);
-        alert('Gagal memperbarui profil: ' + updateError.message);
+        showAlert('error', 'Gagal Memperbarui', 'Gagal memperbarui profil: ' + updateError.message);
         return;
       }
 
@@ -164,12 +197,12 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
       }
       
       setSavingProfile(false);
-      alert('Profil berhasil diperbarui!');
+      showAlert('success', 'Berhasil', 'Profil berhasil diperbarui!');
       
     } catch (err) {
       console.error('Error saving profile:', err);
       setSavingProfile(false);
-      alert('Gagal menyimpan profil');
+      showAlert('error', 'Gagal Menyimpan', 'Gagal menyimpan profil');
     }
   };
 
@@ -314,6 +347,17 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
           </div>
         </div>
       </main>
+      
+      {/* Modern Alert Component */}
+      <ModernAlert
+        show={alert.show}
+        onClose={closeAlert}
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        onConfirm={alert.onConfirm}
+        showCancel={alert.showCancel}
+      />
     </div>
   );
 }
