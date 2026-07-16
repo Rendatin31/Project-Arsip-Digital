@@ -120,7 +120,7 @@ export default function ModernAlert({
           </div>
 
           {/* Actions - Compact */}
-          <div className="px-md pb-sm flex gap-xs justify-end">
+          <div className="px-md pb-md flex gap-xs justify-end">
             <button
               onClick={onClose}
               className="px-md py-xs bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-all"
