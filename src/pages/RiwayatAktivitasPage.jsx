@@ -377,14 +377,14 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
       <div className={renderHeader ? "ml-0 lg:ml-[230px] flex flex-col min-h-screen lg:w-[calc(100%-230px)]" : "flex flex-col min-h-screen"} style={{ width: '100%', minWidth: 0 }}>
         {renderHeader && <Header user={user} profile={currentProfile} onLogout={() => {}} breadcrumbs={[{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'history', name: 'Riwayat Aktivitas' }]} onNavigate={onNavigate} supabase={supabase} />}
 
-        {/* Access Guard - Only Admin */}
-        {profile?.role !== 'admin' ? (
+        {/* Access Guard - Only Super Admin and Admin */}
+        {profile?.role !== 'super_admin' && profile?.role !== 'admin' ? (
           <div className="flex-1 overflow-auto flex items-center justify-center">
             <div className="text-center max-w-md p-lg">
               <span className="material-symbols-outlined text-6xl text-outline mb-md block">lock</span>
               <h2 className="text-2xl font-bold text-primary mb-sm">Akses Terbatas</h2>
               <p className="text-on-surface-variant mb-lg">
-                Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Administrator</span>.
+                Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Super Admin</span> dan <span className="font-bold text-primary">Admin</span>.
               </p>
               <button 
                 onClick={() => onNavigate?.('dashboard')} 
