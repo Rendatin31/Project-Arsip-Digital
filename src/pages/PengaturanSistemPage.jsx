@@ -582,7 +582,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div className="mb-sm">
                     <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Notifikasi Aktivitas</h3>
                     <div className="max-w-2xl space-y-sm">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-secondary text-[20px]">upload_file</span>
                           <div>
@@ -603,7 +603,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                       {/* Update Dokumen - Hanya untuk Admin & Editor */}
                       {(profile?.role === 'admin' || profile?.role === 'editor') && (
-                        <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
+                        <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
                           <div className="flex items-center gap-md flex-1">
                             <span className="material-symbols-outlined text-tertiary text-[20px]">edit</span>
                             <div>
@@ -623,7 +623,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-error text-[20px]">warning</span>
                           <div>
