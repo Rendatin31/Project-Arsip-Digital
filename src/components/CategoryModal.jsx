@@ -58,16 +58,26 @@ export default function CategoryModal({ category, userId, onClose, onSave }) {
       if (category) {
         const { error } = await supabase.from('categories').update(payload).eq('id', category.id);
         if (error) throw error;
+        
+        // Call onSave first to refresh data
+        if (onSave) onSave();
+        
+        // Show success alert
         showAlert('success', 'Berhasil', 'Kategori berhasil diperbarui', () => {
-          onSave?.();
-          onClose?.();
+          // Close modal after alert is dismissed
+          if (onClose) onClose();
         });
       } else {
         const { error } = await supabase.from('categories').insert(payload);
         if (error) throw error;
+        
+        // Call onSave first to refresh data
+        if (onSave) onSave();
+        
+        // Show success alert
         showAlert('success', 'Berhasil', 'Kategori berhasil ditambahkan', () => {
-          onSave?.();
-          onClose?.();
+          // Close modal after alert is dismissed
+          if (onClose) onClose();
         });
       }
     } catch (err) {
