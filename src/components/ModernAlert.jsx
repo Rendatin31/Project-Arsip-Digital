@@ -69,8 +69,8 @@ export default function ModernAlert({
     },
     confirm: {
       icon: 'help',
-      bgColor: 'bg-[#9B59B6]',
-      iconBgColor: 'bg-[#8E44AD]',
+      bgColor: 'bg-[#E74C3C]',
+      iconBgColor: 'bg-[#C0392B]',
       textColor: 'text-white'
     }
   };
@@ -84,7 +84,7 @@ export default function ModernAlert({
     onClose?.();
   };
 
-  // If showCancel is true, show as modal dialog
+  // If showCancel is true, show as modal dialog (compact version)
   if (showCancel) {
     return (
       <div className="fixed inset-0 z-[200] flex items-center justify-center p-lg animate-fade-in">
@@ -94,43 +94,42 @@ export default function ModernAlert({
           onClick={onClose}
         />
         
-        {/* Alert Card */}
-        <div className="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant overflow-hidden animate-scale-in">
-          {/* Icon Header */}
-          <div className={`p-lg flex items-center justify-center ${config.bgColor}`}>
-            <div className={`w-16 h-16 rounded-full ${config.iconBgColor} flex items-center justify-center shadow-md`}>
-              <span className={`material-symbols-outlined text-5xl ${config.textColor}`}>
+        {/* Alert Card - Compact */}
+        <div className="relative w-full max-w-sm bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant overflow-hidden animate-scale-in">
+          {/* Icon Header - Compact */}
+          <div className={`px-md py-sm flex items-center gap-sm ${config.bgColor}`}>
+            <div className={`w-10 h-10 rounded-full ${config.iconBgColor} flex items-center justify-center shadow-sm flex-shrink-0`}>
+              <span className={`material-symbols-outlined text-2xl ${config.textColor}`}>
                 {config.icon}
               </span>
             </div>
-          </div>
-
-          {/* Content */}
-          <div className="p-lg">
             {title && (
-              <h3 className="text-xl font-bold text-on-surface text-center mb-sm">
+              <h3 className={`text-base font-bold ${config.textColor}`}>
                 {title}
               </h3>
             )}
-            
+          </div>
+
+          {/* Content - Compact */}
+          <div className="px-md py-sm">
             {message && (
-              <div className="text-body-sm text-on-surface-variant text-center leading-relaxed whitespace-pre-line">
+              <div className="text-sm text-on-surface-variant leading-relaxed whitespace-pre-line">
                 {message}
               </div>
             )}
           </div>
 
-          {/* Actions */}
-          <div className="px-lg pb-lg flex gap-sm justify-end">
+          {/* Actions - Compact */}
+          <div className="px-md pb-sm flex gap-xs justify-end">
             <button
               onClick={onClose}
-              className="px-lg py-sm bg-surface-container-high text-on-surface rounded-lg font-semibold hover:bg-surface-container-highest transition-all"
+              className="px-md py-xs bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-all"
             >
               {cancelText}
             </button>
             <button
               onClick={handleConfirm}
-              className={`px-lg py-sm rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-sm ${config.bgColor} ${config.textColor}`}
+              className={`px-md py-xs rounded-lg text-sm font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-sm ${config.bgColor} ${config.textColor}`}
               autoFocus
             >
               {confirmText}
