@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { notifyAllUsersExcept } from '../utils/notifications';
 
-export default function EditDocumentModal({ doc, categories, supabase, userId, onClose, onSaved }) {
+export default function EditDocumentModal({ doc, categories, directories = [], supabase, userId, onClose, onSaved }) {
   const [form, setForm] = useState({
+    directory_id: doc.directory_id || '',
     category_id: doc.category_id || '',
     subject: doc.subject || '',
     perihal: doc.perihal || '',
@@ -12,6 +13,8 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
     recipient: doc.recipient || '',
     status: doc.status || 'DRAFT',
   });
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
 
@@ -69,7 +72,35 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
     setError('');
 
     try {
+      let filePath = doc.filePath;
+      let fileName = doc.fileName;
+      let fileSize = doc.fileSize;
+
+      // Upload new file if provided
+      if (file) {
+        const uniqueName = `${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from('documents')
+          .upload(uniqueName, file);
+
+        if (uploadError) {
+          setError('Gagal mengunggah file: ' + uploadError.message);
+          setUploading(false);
+          return;
+        }
+
+        // Delete old file if exists
+        if (doc.filePath) {
+          await supabase.storage.from('documents').remove([doc.filePath]);
+        }
+
+        filePath = uniqueName;
+        fileName = file.name;
+        fileSize = file.size;
+      }
+
       const payload = {
+        directory_id: form.directory_id || null,
         category_id: form.category_id || null,
         subject: form.subject,
         perihal: form.perihal || null,
@@ -78,6 +109,9 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
         sender: form.sender,
         recipient: form.recipient,
         status: form.status,
+        file_path: filePath,
+        file_name: fileName,
+        file_size: fileSize,
       };
 
       const { error: updateError } = await supabase
@@ -172,8 +206,27 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
             </div>
           )}
           <div className="flex flex-col gap-xs">
+            <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="directory_id">
+              Folder
+            </label>
+            <select
+              className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary bg-surface-bright"
+              id="directory_id"
+              name="directory_id"
+              value={form.directory_id}
+              onChange={handleChange}
+            >
+              <option value="">File Saya (Root)</option>
+              {directories.map((dir) => (
+                <option key={dir.id} value={dir.id}>
+                  {dir.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="category_id">
-              Kategori
+              Kategori <span className="text-error">*</span>
             </label>
             <select
               className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary bg-surface-bright"
@@ -181,6 +234,7 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
               name="category_id"
               value={form.category_id}
               onChange={handleChange}
+              required
             >
               <option value="">Pilih kategori...</option>
               {categories.map((cat) => (
@@ -192,7 +246,7 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="subject">
-              Subjek
+              Subjek <span className="text-error">*</span>
             </label>
             <input
               className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -205,7 +259,7 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="perihal">
-              Perihal
+              Perihal <span className="text-error">*</span>
             </label>
             <input
               className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -213,11 +267,12 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
               name="perihal"
               value={form.perihal}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="letter_number">
-              Nomor
+              Nomor <span className="text-error">*</span>
             </label>
             <input
               className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -230,7 +285,7 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="letter_date">
-              Tanggal
+              Tanggal <span className="text-error">*</span>
             </label>
             <input
               className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -239,6 +294,7 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
               type="date"
               value={form.letter_date}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="flex flex-col gap-xs">
@@ -264,6 +320,37 @@ export default function EditDocumentModal({ doc, categories, supabase, userId, o
               value={form.recipient}
               onChange={handleChange}
             />
+          </div>
+          <div className="flex flex-col gap-xs">
+            <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">
+              Unggah File Baru (Opsional)
+            </label>
+            <label className="flex flex-col items-center justify-center gap-sm border-2 border-dashed border-outline-variant rounded-xl p-md cursor-pointer hover:border-secondary hover:bg-surface-container-low transition-all">
+              {preview ? (
+                <img alt="Preview" className="max-h-32 rounded-lg object-contain" src={preview} />
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-secondary text-3xl">upload_file</span>
+                  <span className="text-body-sm text-on-surface-variant text-center">
+                    {doc.fileName ? `File saat ini: ${doc.fileName}` : 'Klik untuk memilih file baru'}
+                  </span>
+                </>
+              )}
+              <input
+                className="hidden"
+                type="file"
+                onChange={(e) => {
+                  const newFile = e.target.files?.[0];
+                  if (newFile) {
+                    setFile(newFile);
+                    if (newFile.type.startsWith('image/')) {
+                      setPreview(URL.createObjectURL(newFile));
+                    }
+                  }
+                }}
+              />
+            </label>
+            {file && <p className="text-body-sm text-on-surface-variant">File baru dipilih: {file.name}</p>}
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="status">
