@@ -526,8 +526,12 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                   <label className="text-label-caps text-on-surface-variant text-xs">Role</label>
                   <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                     <option value="">--- Pilih ---</option>
-                    <option value="super_admin">Super Admin</option>
-                    <option value="admin">Admin</option>
+                    {profile?.role === 'super_admin' && (
+                      <>
+                        <option value="super_admin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                      </>
+                    )}
                     <option value="editor">Editor</option>
                     <option value="viewer">Viewer</option>
                   </select>
@@ -578,8 +582,12 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    <label className="text-label-caps text-on-surface-variant text-xs">Role</label>
                    <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
                      <option value="">--- Pilih ---</option>
-                     <option value="super_admin">Super Admin</option>
-                     <option value="admin">Admin</option>
+                     {profile?.role === 'super_admin' && (
+                       <>
+                         <option value="super_admin">Super Admin</option>
+                         <option value="admin">Admin</option>
+                       </>
+                     )}
                      <option value="editor">Editor</option>
                      <option value="viewer">Viewer</option>
                    </select>
