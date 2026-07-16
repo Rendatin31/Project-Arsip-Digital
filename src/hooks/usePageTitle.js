@@ -15,6 +15,7 @@ export const usePageTitle = (page) => {
       history: 'Arsip Digital - Riwayat Aktivitas',
       access: 'Arsip Digital - Hak Akses',
       settings: 'Arsip Digital - Pengaturan Sistem',
+      profile: 'Arsip Digital - Profil',
     };
 
     const newTitle = titles[page] || 'Arsip Digital';

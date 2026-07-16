@@ -383,7 +383,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </button>
           <div className="h-8 w-[1px] bg-outline-variant mx-sm"></div>
           <div 
-            onClick={() => onNavigate?.('profile')} 
+            onClick={() => {
+              console.log('Profile clicked, navigating to profile page');
+              onNavigate?.('profile');
+            }} 
             className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[5px] lg:left-0"
           >
             {/* Avatar - dari database atau default */}
