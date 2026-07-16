@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import ModernAlert from '../components/ModernAlert';
 import { notifyAccessChange } from '../utils/notifications';
 
 export default function HakAksesPage({ supabase, userId, user, profile, onNavigate, renderHeader = true }) {
@@ -14,6 +15,32 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
   const [form, setForm] = useState({ full_name: '', email: '', role: '', status: '' });
   const [sendingPasswordLink, setSendingPasswordLink] = useState(null);
   const [submitting, setSubmitting] = useState(false); // Loading state untuk form submission
+
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -131,13 +158,13 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       console.log('Mapped role:', mappedRole);
       
       if (!mappedRole) {
-        alert('Silakan pilih peran yang valid.');
+        showAlert('warning', 'Validasi Gagal', 'Silakan pilih peran yang valid.');
         setSubmitting(false);
         return;
       }
       
       if (!form.status) {
-        alert('Silakan pilih status yang valid.');
+        showAlert('warning', 'Validasi Gagal', 'Silakan pilih status yang valid.');
         setSubmitting(false);
         return;
       }
@@ -190,7 +217,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
 
       console.log('Access change notification sent to user');
 
-      alert('Data pengguna berhasil diperbarui.');
+      showAlert('success', 'Berhasil', 'Data pengguna berhasil diperbarui.');
       setShowEditUserModal(false);
       setEditingUser(null);
       
@@ -198,7 +225,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       await refreshUserData();
     } catch (err) {
       console.error('Gagal memperbarui pengguna:', err);
-      alert('Gagal memperbarui pengguna: ' + (err.message || 'Unknown error'));
+      showAlert('error', 'Gagal Memperbarui', 'Gagal memperbarui pengguna: ' + (err.message || 'Unknown error'));
     } finally {
       setSubmitting(false); // Stop loading
     }
@@ -224,14 +251,14 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
         throw error;
       }
 
-      alert('Pengguna berhasil dihapus.');
+      showAlert('success', 'Berhasil', 'Pengguna berhasil dihapus.');
       setDeleteConfirmId(null);
       
       // Refresh data tanpa reload penuh
       await refreshUserData();
     } catch (err) {
       console.error('Gagal menghapus pengguna:', err);
-      alert('Gagal menghapus pengguna: ' + (err.message || 'Unknown error'));
+      showAlert('error', 'Gagal Menghapus', 'Gagal menghapus pengguna: ' + (err.message || 'Unknown error'));
     }
   };
 
@@ -244,16 +271,16 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
 
       if (error) {
         if (error.message.toLowerCase().includes('rate limit')) {
-          alert('⚠️ Rate Limit Email\n\nTerlalu banyak permintaan dari jaringan Anda.\n\n✅ Solusi Cepat:\n1. Buka Supabase Dashboard\n2. Authentication → Users\n3. Klik user → "Set Password"\n4. Input password sementara\n5. Beritahu user password tersebut\n\n⏰ Atau tunggu 60 menit untuk kirim email lagi.');
+          showAlert('warning', 'Rate Limit Email', 'Terlalu banyak permintaan dari jaringan Anda.\n\n✅ Solusi Cepat:\n1. Buka Supabase Dashboard\n2. Authentication → Users\n3. Klik user → "Set Password"\n4. Input password sementara\n5. Beritahu user password tersebut\n\n⏰ Atau tunggu 60 menit untuk kirim email lagi.');
         } else {
           throw error;
         }
       } else {
-        alert(`✅ Link set password berhasil dikirim ke ${userEmail}.\n\nSilakan cek inbox email (atau folder Spam).`);
+        showAlert('success', 'Link Terkirim', `Link set password berhasil dikirim ke ${userEmail}.\n\nSilakan cek inbox email (atau folder Spam).`);
       }
     } catch (err) {
       console.error('Gagal mengirim link password:', err);
-      alert('❌ Gagal mengirim link password:\n' + (err.message || 'Unknown error'));
+      showAlert('error', 'Gagal Mengirim', 'Gagal mengirim link password:\n' + (err.message || 'Unknown error'));
     } finally {
       setSendingPasswordLink(null);
     }
@@ -270,7 +297,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     
     try {
       if (form.email === userId) {
-        alert('Tidak dapat menambahkan pengguna dengan email yang sama dengan akun Anda saat ini.');
+        showAlert('warning', 'Validasi Gagal', 'Tidak dapat menambahkan pengguna dengan email yang sama dengan akun Anda saat ini.');
         setSubmitting(false);
         return;
       }
@@ -288,13 +315,13 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       console.log('Add user - Mapped role:', mappedRole);
       
       if (!mappedRole) {
-        alert('Silakan pilih peran yang valid.');
+        showAlert('warning', 'Validasi Gagal', 'Silakan pilih peran yang valid.');
         setSubmitting(false);
         return;
       }
       
       if (!form.status) {
-        alert('Silakan pilih status yang valid.');
+        showAlert('warning', 'Validasi Gagal', 'Silakan pilih status yang valid.');
         setSubmitting(false);
         return;
       }
@@ -302,7 +329,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       const { data: sessionData } = await supabase.auth.getSession();
       const accessToken = sessionData?.session?.access_token;
       if (!accessToken) {
-        alert('Sesi tidak valid. Silakan login kembali.');
+        showAlert('error', 'Sesi Tidak Valid', 'Sesi tidak valid. Silakan login kembali.');
         setSubmitting(false);
         return;
       }
@@ -328,7 +355,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
 
       if (!response.ok) {
         console.error('Gagal menambahkan pengguna:', result.error);
-        alert('Gagal menambahkan pengguna: ' + (result.error || 'Unknown error'));
+        showAlert('error', 'Gagal Menambahkan', 'Gagal menambahkan pengguna: ' + (result.error || 'Unknown error'));
         setSubmitting(false);
         return;
       }
@@ -339,9 +366,9 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
 
       if (resetError) {
         console.error('Gagal mengirim tautan reset password:', resetError.message);
-        alert('Pengguna berhasil dibuat, tetapi gagal mengirim tautan reset password: ' + resetError.message);
+        showAlert('warning', 'Peringatan', 'Pengguna berhasil dibuat, tetapi gagal mengirim tautan reset password: ' + resetError.message);
       } else {
-        alert('Pengguna berhasil ditambahkan. Tautan verifikasi dan pengaturan kata sandi telah dikirim ke email.');
+        showAlert('success', 'Berhasil', 'Pengguna berhasil ditambahkan. Tautan verifikasi dan pengaturan kata sandi telah dikirim ke email.');
       }
 
       setShowAddUserModal(false);
@@ -351,7 +378,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
       await refreshUserData();
     } catch (err) {
       console.error('Gagal menambahkan pengguna:', err);
-      alert('Terjadi kesalahan saat menambahkan pengguna.');
+      showAlert('error', 'Terjadi Kesalahan', 'Terjadi kesalahan saat menambahkan pengguna.');
     } finally {
       setSubmitting(false); // Stop loading
     }
@@ -671,6 +698,17 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
               </div>
             </div>
            )}
+      
+      {/* Modern Alert Component */}
+      <ModernAlert
+        show={alert.show}
+        onClose={closeAlert}
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        onConfirm={alert.onConfirm}
+        showCancel={alert.showCancel}
+      />
       </div>
     );
 }
