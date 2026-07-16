@@ -375,14 +375,14 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
     <div className={renderHeader ? "flex flex-col min-h-screen w-full min-w-0 ml-0 lg:ml-[230px]" : "flex flex-col min-h-screen w-full min-w-0"}>
       {renderHeader && <Header user={user} profile={profile} onLogout={() => {}} breadcrumbs={[{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'access', name: 'Hak Akses' }]} onNavigate={onNavigate} supabase={supabase} />}
 
-      {/* Access Guard - Only Admin */}
-      {profile?.role !== 'admin' ? (
+      {/* Access Guard - Only Super Admin and Admin */}
+      {profile?.role !== 'super_admin' && profile?.role !== 'admin' ? (
         <main className="px-lg pt-sm pb-lg space-y-lg w-full min-w-0 flex items-center justify-center flex-1">
           <div className="text-center max-w-md">
             <span className="material-symbols-outlined text-6xl text-outline mb-md block">lock</span>
             <h2 className="text-2xl font-bold text-primary mb-sm">Akses Terbatas</h2>
             <p className="text-on-surface-variant mb-lg">
-              Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Administrator</span>.
+              Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Super Admin</span> dan <span className="font-bold text-primary">Admin</span>.
             </p>
             <button 
               onClick={() => onNavigate?.('dashboard')} 

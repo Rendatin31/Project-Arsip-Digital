@@ -87,9 +87,8 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
     { id: 'notifikasi', icon: 'notifications', label: 'Notifikasi' },
   ];
 
-  // Access control: Only divrendatin31@gmail.com can access Konfigurasi Sistem
-  const SUPER_ADMIN_EMAIL = 'divrendatin31@gmail.com';
-  const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
+  // Access control: Only super_admin role can access Konfigurasi Sistem
+  const isSuperAdmin = profile?.role === 'super_admin';
   
   // Filter tabs based on user access
   const visibleTabs = tabs.filter(tab => {
