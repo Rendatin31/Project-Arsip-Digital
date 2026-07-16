@@ -185,7 +185,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
             </div>
             <div className="flex flex-col gap-xs">
               <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="category_id">
-                Kategori
+                Kategori <span className="text-error">*</span>
               </label>
               <select
                 className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary bg-surface-bright"
@@ -193,6 +193,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
                 name="category_id"
                 value={form.category_id}
                 onChange={handleChange}
+                required
               >
                 <option value="">Pilih kategori...</option>
                 {categories.map((cat) => (
@@ -205,7 +206,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
           </div>
            <div className="flex flex-col gap-xs">
              <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="subject">
-               Subjek
+               Subjek <span className="text-error">*</span>
              </label>
              <input
                className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -218,7 +219,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
            </div>
            <div className="flex flex-col gap-xs">
              <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="perihal">
-               Perihal
+               Perihal <span className="text-error">*</span>
              </label>
              <input
                className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -226,11 +227,12 @@ export default function AddDocumentModal({ categories, directories, userId, curr
                name="perihal"
                value={form.perihal}
                onChange={handleChange}
+               required
              />
            </div>
            <div className="flex flex-col gap-xs">
              <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="letter_number">
-               Nomor
+               Nomor <span className="text-error">*</span>
              </label>
              <input
                className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -243,7 +245,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
            </div>
            <div className="flex flex-col gap-xs">
              <label className="font-label-caps text-label-caps text-on-surface-variant uppercase" htmlFor="letter_date">
-               Tanggal
+               Tanggal <span className="text-error">*</span>
              </label>
              <input
                className="w-full border border-outline-variant rounded-lg px-md py-sm font-body-md text-body-md outline-none focus:border-secondary"
@@ -252,6 +254,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
                type="date"
                value={form.letter_date}
                onChange={handleChange}
+               required
              />
            </div>
            <div className="flex flex-col gap-xs">
@@ -296,7 +299,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
           </div>
           <div className="flex flex-col gap-xs">
             <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">
-              Unggah File
+              Unggah File <span className="text-error">*</span>
             </label>
             <label className="flex flex-col items-center justify-center gap-sm border-2 border-dashed border-outline-variant rounded-xl p-xl cursor-pointer hover:border-secondary hover:bg-surface-container-low transition-all">
               {preview ? (
@@ -311,6 +314,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
                 className="hidden"
                 type="file"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
+                required
               />
             </label>
             {file && <p className="text-body-sm text-on-surface-variant">File dipilih: {file.name}</p>}
