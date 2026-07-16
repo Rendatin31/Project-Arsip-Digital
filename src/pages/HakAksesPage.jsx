@@ -533,16 +533,16 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
               </div>
               <form onSubmit={handleSubmit} className="px-lg pt-sm pb-xl space-y-lg">
                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap</label>
+                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap <span className="text-error">*</span></label>
                   <input value={form.full_name} onChange={handleFormChange('full_name')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="Masukkan nama lengkap" type="text" required />
                 </div>
                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email</label>
+                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email <span className="text-error">*</span></label>
                   <input value={form.email} onChange={handleFormChange('email')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="contoh@earsip.go.id" type="email" required />
                 </div>
                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role</label>
-                  <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
+                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role <span className="text-error">*</span></label>
+                  <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" required>
                     <option value="">--- Pilih ---</option>
                     {profile?.role === 'super_admin' && (
                       <>
@@ -555,8 +555,9 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                   </select>
                 </div>
                 <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status</label>
-                  <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
+                  <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status <span className="text-error">*</span></label>
+                  <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" required>
+                    <option value="">--- Pilih ---</option>
                     <option value="Aktif">Aktif</option>
                     <option value="Non-aktif">Non-aktif</option>
                   </select>
@@ -602,16 +603,16 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                </div>
                <form onSubmit={handleEditUser} className="px-lg pt-sm pb-xl space-y-lg">
                  <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap</label>
+                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Nama Lengkap <span className="text-error">*</span></label>
                    <input value={form.full_name} onChange={handleFormChange('full_name')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="Masukkan nama lengkap" type="text" required />
                  </div>
                  <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email</label>
+                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Alamat Email <span className="text-error">*</span></label>
                    <input value={form.email} onChange={handleFormChange('email')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" placeholder="contoh@earsip.go.id" type="email" required />
                  </div>
                  <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role</label>
-                   <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
+                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Role <span className="text-error">*</span></label>
+                   <select value={form.role} onChange={handleFormChange('role')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" required>
                      <option value="">--- Pilih ---</option>
                      {profile?.role === 'super_admin' && (
                        <>
@@ -624,8 +625,9 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    </select>
                  </div>
                  <div className="flex flex-col gap-xs mb-md md:mb-lg">
-                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status</label>
-                   <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm">
+                   <label className="font-label-caps text-label-caps text-on-surface-variant uppercase">Status <span className="text-error">*</span></label>
+                   <select value={form.status} onChange={handleFormChange('status')} className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-2 focus:ring-2 focus:ring-secondary text-sm" required>
+                     <option value="">--- Pilih ---</option>
                      <option value="Aktif">Aktif</option>
                      <option value="Non-aktif">Non-aktif</option>
                    </select>
