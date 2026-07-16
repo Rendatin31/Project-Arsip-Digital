@@ -578,7 +578,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    >
                      {submitting ? (
                        <>
-                         <span className="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+                         <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
                          <span>Menyimpan...</span>
                        </>
                      ) : (
@@ -640,7 +640,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                    >
                      {submitting ? (
                        <>
-                         <span className="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+                         <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
                          <span>Menyimpan...</span>
                        </>
                      ) : (
