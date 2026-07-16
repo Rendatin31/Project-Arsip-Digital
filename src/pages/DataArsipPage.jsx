@@ -418,7 +418,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                                  <button onClick={() => handleDownload(doc)} className="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant transition-all" title="Unduh">
                                    <span className="material-symbols-outlined text-[20px]">download</span>
                                  </button>
-                                 {profile?.role === 'admin' && (
+                                 {profile?.role === 'super_admin' && (
                                    <button
                                      onClick={() => handleDelete(doc)}
                                      className="p-1.5 hover:bg-error-container/30 rounded-lg text-error transition-all"
