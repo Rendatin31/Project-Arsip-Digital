@@ -4,7 +4,11 @@ import CategoryModal from '../components/CategoryModal';
 import { setSessionTimeout as saveSessionTimeout, getSessionTimeout } from '../utils/sessionTimeout';
 
 export default function PengaturanSistemPage({ supabase, userId, user, profile, onNavigate, onCategoryChange, onProfileUpdate, renderHeader = true }) {
-  const [activeTab, setActiveTab] = useState('konfigurasi');
+  // Access control: Only super_admin role can access Konfigurasi Sistem
+  const isSuperAdmin = profile?.role === 'super_admin';
+  
+  // Set default tab based on user role
+  const [activeTab, setActiveTab] = useState(isSuperAdmin ? 'konfigurasi' : 'keamanan');
   
   // Categories state
   const [categories, setCategories] = useState([]);
@@ -78,21 +82,13 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
     { id: 'notifikasi', icon: 'notifications', label: 'Notifikasi' },
   ];
 
-  // Access control: Only super_admin role can access Konfigurasi Sistem
-  const isSuperAdmin = profile?.role === 'super_admin';
-  
-  // Filter tabs based on user access
-  const visibleTabs = tabs.filter(tab => {
-    if (tab.id === 'konfigurasi') {
-      return isSuperAdmin;
-    }
-    return true;
-  });
+  // Don't filter tabs - show all tabs to all users
+  const visibleTabs = tabs;
 
   // Redirect if trying to access restricted tab
   useEffect(() => {
     if (activeTab === 'konfigurasi' && !isSuperAdmin) {
-      setActiveTab('profil');
+      setActiveTab('keamanan');
     }
   }, [activeTab, isSuperAdmin]);
 
@@ -317,20 +313,27 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-lg overflow-hidden">
               <div className="border-b border-outline-variant">
                 <nav className="flex">
-                  {visibleTabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center gap-xs px-lg py-md text-body-md font-semibold transition-colors border-b-2 ${
-                        activeTab === tab.id
-                          ? 'border-secondary text-secondary'
-                          : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[20px]">{tab.icon}</span>
-                      {tab.label}
-                    </button>
-                  ))}
+                  {visibleTabs.map((tab) => {
+                    const isDisabled = tab.id === 'konfigurasi' && !isSuperAdmin;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => !isDisabled && setActiveTab(tab.id)}
+                        disabled={isDisabled}
+                        className={`flex items-center gap-xs px-lg py-md text-body-md font-semibold transition-colors border-b-2 ${
+                          activeTab === tab.id
+                            ? 'border-secondary text-secondary'
+                            : isDisabled
+                            ? 'border-transparent text-on-surface-variant/40 cursor-not-allowed opacity-50'
+                            : 'border-transparent text-on-surface-variant hover:text-on-surface cursor-pointer'
+                        }`}
+                        title={isDisabled ? 'Hanya dapat diakses oleh Super Admin' : ''}
+                      >
+                        <span className="material-symbols-outlined text-[20px]">{tab.icon}</span>
+                        {tab.label}
+                      </button>
+                    );
+                  })}
                 </nav>
               </div>
 
