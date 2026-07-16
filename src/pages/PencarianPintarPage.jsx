@@ -179,7 +179,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               {/* Header with Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className="w-full flex items-center justify-between p-md hover:bg-surface-container transition-colors lg:cursor-default"
+                className="w-full flex items-center justify-between p-md hover:bg-surface-container transition-colors"
               >
                 <div className="flex items-center gap-xs text-on-surface-variant">
                   <span className="material-symbols-outlined text-[20px]">filter_alt</span>
@@ -191,7 +191,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                     </span>
                   )}
                 </div>
-                <span className={`material-symbols-outlined text-on-surface-variant transition-transform duration-200 lg:hidden ${isFilterExpanded ? 'rotate-180' : ''}`}>
+                <span className={`material-symbols-outlined text-on-surface-variant transition-transform duration-200 ${isFilterExpanded ? 'rotate-180' : ''}`}>
                   expand_more
                 </span>
               </button>
@@ -199,7 +199,6 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               {/* Collapsible Filter Content */}
               <div className={`
                 border-t border-outline-variant p-md
-                lg:block
                 ${isFilterExpanded ? 'block' : 'hidden'}
               `}>
                 {/* Filter Fields - Stack on mobile, flex on desktop */}
@@ -228,7 +227,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                     />
                   </div>
                   
-                  {/* Date Range with Reset Button on the right */}
+                  {/* Date Range */}
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-xs flex-1 min-w-[200px]">
                     <input
                       value={dateStart}
@@ -243,8 +242,10 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                       className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
                       type="date"
                     />
-                    
-                    {/* Reset Button - Aligned with date fields */}
+                  </div>
+                  
+                  {/* Reset Button - Separate flex item aligned to the right */}
+                  <div className="flex items-center justify-end lg:justify-start lg:flex-shrink-0">
                     <button
                       onClick={() => { setQuery(''); setDateStart(''); setDateEnd(''); setCategory(''); setLetterNumber(''); }}
                       className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm whitespace-nowrap"
