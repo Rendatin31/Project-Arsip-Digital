@@ -415,7 +415,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div>
                     <div className="space-y-md max-w-2xl">
                       <div className="mb-md">
-                        <label className="text-label-lg text-on-surface block mb-xs font-semibold">PASSWORD SAAT INI</label>
+                        <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">Password Saat Ini</label>
                         <div className="relative">
                           <input
                             type={showCurrentPassword ? "text" : "password"}
@@ -437,7 +437,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-md">
-                        <label className="text-label-lg text-on-surface block mb-xs font-semibold">PASSWORD BARU</label>
+                        <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">Password Baru</label>
                         <div className="relative">
                           <input
                             type={showNewPassword ? "text" : "password"}
@@ -459,7 +459,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-md">
-                        <label className="text-label-lg text-on-surface block mb-xs font-semibold">KONFIRMASI PASSWORD BARU</label>
+                        <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">Konfirmasi Password Baru</label>
                         <div className="relative">
                           <input
                             type={showConfirmPassword ? "text" : "password"}
@@ -511,7 +511,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {/* Session Timeout */}
                   <div className="mt-md mb-md">
                     <div className="max-w-2xl">
-                      <label className="text-label-lg text-on-surface block mb-xs font-semibold">TIMEOUT OTOMATIS</label>
+                      <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">Timeout Otomatis</label>
                       <select
                         value={sessionTimeout}
                         onChange={(e) => setSessionTimeout(e.target.value)}
