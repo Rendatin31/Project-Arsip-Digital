@@ -253,7 +253,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
               {/* Form Section */}
               <div className="md:col-span-2 space-y-xs">
                 <div className="mb-md">
-                  <label className="text-xs text-on-surface block mb-xs font-semibold uppercase">Nama Lengkap</label>
+                  <label className="text-sm text-on-surface block mb-xs font-semibold uppercase">Nama Lengkap</label>
                   <input
                     type="text"
                     value={fullName}
@@ -264,7 +264,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                 </div>
 
                 <div className="mb-md">
-                  <label className="text-xs text-on-surface block mb-xs font-semibold uppercase">Alamat Email</label>
+                  <label className="text-sm text-on-surface block mb-xs font-semibold uppercase">Alamat Email</label>
                   <input
                     type="email"
                     value={email}
@@ -276,7 +276,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                 </div>
 
                 <div>
-                  <label className="text-xs text-on-surface block mb-xs font-semibold uppercase">Bio Singkat</label>
+                  <label className="text-sm text-on-surface block mb-xs font-semibold uppercase">Bio Singkat</label>
                   <textarea
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
@@ -308,7 +308,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                   <span>Menyimpan...</span>
                 </>
               ) : (
-                'Simpan Perubahan'
+                'Simpan'
               )}
             </button>
           </div>
