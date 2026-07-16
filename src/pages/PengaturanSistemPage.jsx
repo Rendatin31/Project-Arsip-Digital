@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import CategoryModal from '../components/CategoryModal';
+import ModernAlert from '../components/ModernAlert';
 import { setSessionTimeout as saveSessionTimeout, getSessionTimeout } from '../utils/sessionTimeout';
 
 export default function PengaturanSistemPage({ supabase, userId, user, profile, onNavigate, onCategoryChange, onProfileUpdate, renderHeader = true }) {
@@ -15,6 +16,32 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
 
   // Security state
   const [currentPassword, setCurrentPassword] = useState('');
@@ -122,12 +149,20 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
   };
 
   const handleDeleteCategory = async (id) => {
-    if (!window.confirm('Hapus kategori ini?')) return;
-    await supabase.from('categories').delete().eq('id', id);
-    fetchCategories();
-    if (onCategoryChange) {
-      onCategoryChange();
-    }
+    showAlert(
+      'confirm',
+      'Konfirmasi Hapus',
+      'Hapus kategori ini?',
+      async () => {
+        await supabase.from('categories').delete().eq('id', id);
+        fetchCategories();
+        if (onCategoryChange) {
+          onCategoryChange();
+        }
+        showAlert('success', 'Berhasil', 'Kategori berhasil dihapus');
+      },
+      true
+    );
   };
 
   const handleSaveCategory = () => {
@@ -144,11 +179,11 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
       if (activeTab === 'keamanan') {
         // Validasi password
         if (newPassword && newPassword !== confirmPassword) {
-          alert('Password baru tidak cocok!');
+          showAlert('warning', 'Validasi Gagal', 'Password baru tidak cocok!');
           return;
         }
         if (newPassword && newPassword.length < 6) {
-          alert('Password minimal 6 karakter!');
+          showAlert('warning', 'Validasi Gagal', 'Password minimal 6 karakter!');
           return;
         }
         
@@ -165,7 +200,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
           if (signInError) {
             setSavingPassword(false);
-            alert('Password saat ini salah!');
+            showAlert('error', 'Gagal Verifikasi', 'Password saat ini salah!');
             return;
           }
 
@@ -177,7 +212,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
           if (updateError) {
             console.error('Error updating password:', updateError);
             setSavingPassword(false);
-            alert('Gagal mengubah password: ' + updateError.message);
+            showAlert('error', 'Gagal Mengubah', 'Gagal mengubah password: ' + updateError.message);
             return;
           }
 
@@ -206,9 +241,9 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
           setConfirmPassword('');
           setSavingPassword(false);
           
-          alert('Password berhasil diubah! Notifikasi keamanan telah dikirim.');
+          showAlert('success', 'Berhasil', 'Password berhasil diubah! Notifikasi keamanan telah dikirim.');
         } else if (newPassword && !currentPassword) {
-          alert('Masukkan password saat ini untuk mengubah password!');
+          showAlert('warning', 'Validasi Gagal', 'Masukkan password saat ini untuk mengubah password!');
           return;
         } else {
           // Save other security settings (2FA, session timeout)
@@ -216,7 +251,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
           saveSessionTimeout(parseInt(sessionTimeout));
           console.log('Session timeout saved:', sessionTimeout, 'minutes');
           
-          alert('Pengaturan keamanan berhasil disimpan!');
+          showAlert('success', 'Berhasil', 'Pengaturan keamanan berhasil disimpan!');
         }
       } else if (activeTab === 'notifikasi') {
         // Save notification preferences to database
@@ -269,14 +304,14 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
         
         console.log('Saved preferences verified:', saved);
 
-        alert('Pengaturan notifikasi berhasil disimpan!');
+        showAlert('success', 'Berhasil', 'Pengaturan notifikasi berhasil disimpan!');
       } else {
         // Update profile logic here
-        alert('Perubahan berhasil disimpan!');
+        showAlert('success', 'Berhasil', 'Perubahan berhasil disimpan!');
       }
     } catch (err) {
       console.error('Error saving changes:', err);
-      alert('Gagal menyimpan perubahan: ' + (err.message || 'Unknown error'));
+      showAlert('error', 'Gagal Menyimpan', 'Gagal menyimpan perubahan: ' + (err.message || 'Unknown error'));
     }
   };
 
@@ -761,6 +796,17 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
           onSave={handleSaveCategory}
         />
       )}
+      
+      {/* Modern Alert Component */}
+      <ModernAlert
+        show={alert.show}
+        onClose={closeAlert}
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        onConfirm={alert.onConfirm}
+        showCancel={alert.showCancel}
+      />
     </div>
   );
 }

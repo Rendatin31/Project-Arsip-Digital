@@ -1,12 +1,39 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import CategoryModal from '../components/CategoryModal';
+import ModernAlert from '../components/ModernAlert';
 
 export default function CategoriesPage({ supabase, userId, user, profile, onBack, onNavigate, onCategoryChange, renderHeader = true }) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
 
   const fetchCategories = async () => {
     const { data } = await supabase
@@ -36,13 +63,21 @@ export default function CategoriesPage({ supabase, userId, user, profile, onBack
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Hapus kategori ini?')) return;
-    await supabase.from('categories').delete().eq('id', id);
-    fetchCategories();
-    // Notify parent component about category change
-    if (onCategoryChange) {
-      onCategoryChange();
-    }
+    showAlert(
+      'confirm',
+      'Konfirmasi Hapus',
+      'Hapus kategori ini?',
+      async () => {
+        await supabase.from('categories').delete().eq('id', id);
+        fetchCategories();
+        // Notify parent component about category change
+        if (onCategoryChange) {
+          onCategoryChange();
+        }
+        showAlert('success', 'Berhasil', 'Kategori berhasil dihapus');
+      },
+      true
+    );
   };
 
   const handleSave = () => {
@@ -154,6 +189,17 @@ export default function CategoriesPage({ supabase, userId, user, profile, onBack
           onSave={handleSave}
         />
       )}
+      
+      {/* Modern Alert Component */}
+      <ModernAlert
+        show={alert.show}
+        onClose={closeAlert}
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        onConfirm={alert.onConfirm}
+        showCancel={alert.showCancel}
+      />
     </div>
   );
 }
