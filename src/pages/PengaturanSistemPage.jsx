@@ -77,9 +77,9 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
   }, [activeTab]);
 
   const tabs = [
-    { id: 'konfigurasi', icon: 'tune', label: 'Konfigurasi Sistem' },
     { id: 'keamanan', icon: 'security', label: 'Keamanan' },
     { id: 'notifikasi', icon: 'notifications', label: 'Notifikasi' },
+    { id: 'konfigurasi', icon: 'tune', label: 'Konfigurasi Sistem' },
   ];
 
   // Don't filter tabs - show all tabs to all users
