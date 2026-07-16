@@ -410,11 +410,11 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
               {/* Tab Content - Keamanan */}
               {activeTab === 'keamanan' && (
-                <div className="p-xl space-y-xl">
+                <div className="p-lg space-y-md">
                   {/* Change Password Section */}
                   <div>
-                    <div className="space-y-md max-w-2xl">
-                      <div className="mb-md">
+                    <div className="space-y-sm max-w-2xl">
+                      <div className="mb-sm">
                         <label className="text-base font-semibold text-on-surface block mb-xs">Password Saat Ini</label>
                         <div className="relative">
                           <input
@@ -436,7 +436,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                           </button>
                         </div>
                       </div>
-                      <div className="mb-md">
+                      <div className="mb-sm">
                         <label className="text-base font-semibold text-on-surface block mb-xs">Password Baru</label>
                         <div className="relative">
                           <input
@@ -458,7 +458,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                           </button>
                         </div>
                       </div>
-                      <div className="mb-md">
+                      <div className="mb-sm">
                         <label className="text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
                         <div className="relative">
                           <input
@@ -483,10 +483,10 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                   </div>
 
-                  <div className="border-t border-outline-variant"></div>
+                  <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Two-Factor Authentication */}
-                  <div className="mt-md mb-md">
+                  <div className="mb-sm">
                     <div className="max-w-2xl">
                       <div className="flex items-center justify-between bg-surface-container rounded-lg p-lg border border-outline-variant">
                         <div className="flex-1">
@@ -506,10 +506,10 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                   </div>
 
-                  <div className="border-t border-outline-variant"></div>
+                  <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Session Timeout */}
-                  <div className="mt-md mb-md">
+                  <div className="mb-sm">
                     <div className="max-w-2xl">
                       <label className="text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
                       <select
@@ -553,11 +553,11 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
               {/* Tab Content - Notifikasi */}
               {activeTab === 'notifikasi' && (
-                <div className="p-xl space-y-xl">
+                <div className="p-lg space-y-md">
                   {/* Email Notifications */}
-                  <div className="mb-md">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-md">Notifikasi Email</h3>
-                    <div className="max-w-2xl space-y-md">
+                  <div className="mb-sm">
+                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Notifikasi Email</h3>
+                    <div className="max-w-2xl space-y-sm">
                       <div className="flex items-center justify-between bg-surface-container rounded-lg p-lg border border-outline-variant">
                         <div className="flex-1">
                           <p className="text-body-md font-semibold text-on-surface mb-xs">Aktifkan Notifikasi Email</p>
@@ -576,13 +576,13 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                   </div>
 
-                  <div className="border-t border-outline-variant"></div>
+                  <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Activity Notifications */}
-                  <div className="mt-md">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-md">Notifikasi Aktivitas</h3>
-                    <div className="max-w-2xl space-y-md">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-md">
+                  <div className="mb-sm">
+                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Notifikasi Aktivitas</h3>
+                    <div className="max-w-2xl space-y-sm">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-secondary text-[20px]">upload_file</span>
                           <div>
@@ -603,7 +603,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                       {/* Update Dokumen - Hanya untuk Admin & Editor */}
                       {(profile?.role === 'admin' || profile?.role === 'editor') && (
-                        <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-md">
+                        <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
                           <div className="flex items-center gap-md flex-1">
                             <span className="material-symbols-outlined text-tertiary text-[20px]">edit</span>
                             <div>
@@ -623,7 +623,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-md">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-error text-[20px]">warning</span>
                           <div>
@@ -642,7 +642,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </label>
                       </div>
 
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-md">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-tertiary text-[20px]">update</span>
                           <div>
@@ -663,13 +663,13 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                   </div>
 
-                  <div className="border-t border-outline-variant"></div>
+                  <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Report Notifications */}
-                  <div className="mt-md">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-md">Laporan Berkala</h3>
-                    <div className="max-w-2xl space-y-md">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-md">
+                  <div className="mb-sm">
+                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Laporan Berkala</h3>
+                    <div className="max-w-2xl space-y-sm">
+                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-primary text-[20px]">summarize</span>
                           <div>
@@ -690,11 +690,11 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                   </div>
 
-                  <div className="border-t border-outline-variant"></div>
+                  <div className="border-t border-outline-variant my-sm"></div>
 
                   {/* Notification Preferences */}
-                  <div className="mt-md">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-md">Preferensi Notifikasi</h3>
+                  <div className="mb-sm">
+                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Preferensi Notifikasi</h3>
                     <div className="max-w-2xl">
                       <div className="bg-secondary-container/20 border border-secondary/30 rounded-lg p-lg">
                         <div className="flex items-start gap-md">
