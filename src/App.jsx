@@ -16,6 +16,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import RiwayatAktivitasPage from './pages/RiwayatAktivitasPage';
 import PengaturanSistemPage from './pages/PengaturanSistemPage';
 import ProfilePage from './pages/ProfilePage';
+import ModernAlert from './components/ModernAlert';
 import { notifyAllUsersExcept } from './utils/notifications';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
@@ -96,6 +97,32 @@ export default function App({ supabase }) {
   const [searchQuery, setSearchQuery] = useState(''); // State untuk search di halaman Pencarian Pintar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State untuk mobile sidebar
   const isInitialLoginRef = useRef(true); // Track if this is initial login or just tab switch
+
+  // Modern Alert State
+  const [alert, setAlert] = useState({
+    show: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onConfirm: null,
+    showCancel: false
+  });
+
+  // Helper function to show alert
+  const showAlert = (type, title, message, onConfirm = null, showCancel = false) => {
+    setAlert({
+      show: true,
+      type,
+      title,
+      message,
+      onConfirm,
+      showCancel
+    });
+  };
+
+  const closeAlert = () => {
+    setAlert(prev => ({ ...prev, show: false }));
+  };
 
   // Update page title dynamically based on current page
   usePageTitle(currentPage);
@@ -253,17 +280,17 @@ export default function App({ supabase }) {
     
     const cleanup = initSessionTimeout(async () => {
       console.log('Session timeout triggered - logging out user');
-      alert('Sesi Anda telah berakhir karena tidak aktif. Silakan login kembali.');
-      
-      // Clear session data
-      clearSessionData();
-      
-      // Logout user
-      await supabase.auth.signOut();
-      
-      // Redirect to login
-      setUser(null);
-      setProfile(null);
+      showAlert('warning', 'Sesi Berakhir', 'Sesi Anda telah berakhir karena tidak aktif. Silakan login kembali.', async () => {
+        // Clear session data
+        clearSessionData();
+        
+        // Logout user
+        await supabase.auth.signOut();
+        
+        // Redirect to login
+        setUser(null);
+        setProfile(null);
+      });
     });
 
     return () => {
@@ -941,13 +968,13 @@ export default function App({ supabase }) {
                             }
                             // If DRAFT or PRIVATE, no notification (internal document)
                             
-                            alert('Dokumen berhasil dihapus');
+                            showAlert('success', 'Berhasil', 'Dokumen berhasil dihapus');
                             
                             // Hapus dari recent previews localStorage
                             removeFromRecentPreviews(file.id);
                           } catch (err) {
                             console.error('Gagal menghapus dokumen:', err);
-                            alert('Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
+                            showAlert('error', 'Gagal Menghapus', 'Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
                             throw err; // Re-throw untuk error handling di FileTable
                           }
                         }}
@@ -1000,7 +1027,7 @@ export default function App({ supabase }) {
               
               if (error) throw error;
               
-              alert('Dokumen berhasil dihapus');
+              showAlert('success', 'Berhasil', 'Dokumen berhasil dihapus');
               
               // Hapus dari recent previews localStorage
               removeFromRecentPreviews(file.id);
@@ -1008,11 +1035,22 @@ export default function App({ supabase }) {
               await refreshDocuments();
             } catch (err) {
               console.error('Gagal menghapus dokumen:', err);
-              alert('Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
+              showAlert('error', 'Gagal Menghapus', 'Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
             }
           }}
         />
       )}
+      
+      {/* Modern Alert Component */}
+      <ModernAlert
+        show={alert.show}
+        onClose={closeAlert}
+        type={alert.type}
+        title={alert.title}
+        message={alert.message}
+        onConfirm={alert.onConfirm}
+        showCancel={alert.showCancel}
+      />
     </div>
   );
 }
