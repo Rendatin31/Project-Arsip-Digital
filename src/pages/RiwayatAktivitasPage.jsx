@@ -130,7 +130,15 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
         query = query.lte('created_at', endDateTime.toISOString());
       }
 
-      const { data } = await query;
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching audit logs:', error);
+        return;
+      }
+
+      console.log('Fetched audit logs:', data?.length, 'records');
+      console.log('Unique users in logs:', [...new Set(data?.map(d => d.user_id))]);
 
       if (data) {
         const mapped = data.map((row) => {
