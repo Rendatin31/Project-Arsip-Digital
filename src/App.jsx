@@ -951,12 +951,29 @@ export default function App({ supabase }) {
                             // Get document subject before deleting
                             const { data: docData } = await supabase
                               .from('documents')
-                              .select('subject')
+                              .select('subject, file_path')
                               .eq('id', file.id)
                               .single();
 
                             const docSubject = docData?.subject || file.fileName || 'Dokumen';
+                            const filePath = docData?.file_path || file.filePath;
 
+                            // Delete file from storage FIRST before deleting database record
+                            if (filePath) {
+                              console.log('🗑️ Deleting file from storage:', filePath);
+                              const { error: storageError } = await supabase.storage
+                                .from('documents')
+                                .remove([filePath]);
+                              
+                              if (storageError) {
+                                console.error('❌ Failed to delete from storage:', storageError);
+                                showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                              } else {
+                                console.log('✅ File deleted from storage successfully');
+                              }
+                            }
+
+                            // Delete database record
                             const { error } = await supabase
                               .from('documents')
                               .delete()
@@ -979,7 +996,7 @@ export default function App({ supabase }) {
                             }
                             // If DRAFT or PRIVATE, no notification (internal document)
                             
-                            showAlert('success', 'Berhasil', 'Dokumen berhasil dihapus');
+                            showAlert('success', 'Berhasil', 'Dokumen dan file berhasil dihapus');
                             
                             // Hapus dari recent previews localStorage
                             removeFromRecentPreviews(file.id);
