@@ -17,6 +17,115 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
   const [loading, setLoading] = useState(true);
   const [emailNotif, setEmailNotif] = useState(true);
   const [waNotif, setWaNotif] = useState(false);
+  const [storageUsed, setStorageUsed] = useState(0); // Storage yang digunakan dalam bytes
+  const [storageLoading, setStorageLoading] = useState(true);
+  const [storageByType, setStorageByType] = useState({
+    documents: 0, // PDF, DOCX, XLSX, DOC, XLS, etc.
+    images: 0,    // JPG, JPEG, PNG, GIF, BMP, WEBP, etc.
+    others: 0     // RAR, ZIP, TXT, etc.
+  });
+
+  // Fetch storage usage from Supabase
+  useEffect(() => {
+    const fetchStorageUsage = async () => {
+      try {
+        setStorageLoading(true);
+        
+        console.log('🔍 Fetching storage from Supabase...');
+        
+        // Helper function to categorize file by extension
+        const categorizeFile = (fileName) => {
+          const ext = fileName.split('.').pop()?.toLowerCase();
+          
+          // Document extensions
+          const docExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv'];
+          // Image extensions
+          const imgExts = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'ico', 'tiff', 'tif'];
+          
+          if (docExts.includes(ext)) return 'documents';
+          if (imgExts.includes(ext)) return 'images';
+          return 'others';
+        };
+        
+        // List all files in documents bucket
+        const { data: files, error } = await supabase.storage
+          .from('documents')
+          .list('', {
+            limit: 1000,
+            offset: 0,
+          });
+
+        if (error) {
+          console.error('❌ Error fetching storage:', error);
+          setStorageLoading(false);
+          return;
+        }
+
+        console.log('📁 Files in root:', files);
+
+        // Calculate total size from all files
+        let totalSize = 0;
+        let fileCount = 0;
+        let sizeByType = { documents: 0, images: 0, others: 0 };
+        
+        // Recursive function to get all files including in subdirectories
+        const getAllFiles = async (path = '') => {
+          const { data: items, error: listError } = await supabase.storage
+            .from('documents')
+            .list(path, { limit: 1000 });
+
+          if (listError) {
+            console.error(`❌ Error listing path "${path}":`, listError);
+            return;
+          }
+
+          console.log(`📂 Path "${path}" contains ${items?.length || 0} items`);
+
+          if (items) {
+            for (const item of items) {
+              console.log('📄 Item:', item);
+              
+              if (item.id) { // It's a file
+                const size = item.metadata?.size || 0;
+                const category = categorizeFile(item.name);
+                
+                console.log(`  ✓ File: ${item.name}, Size: ${size} bytes, Category: ${category}`);
+                
+                totalSize += size;
+                sizeByType[category] += size;
+                fileCount++;
+              } else if (item.name && !item.id) { // It's a folder
+                console.log(`  📁 Folder: ${item.name}`);
+                await getAllFiles(path ? `${path}/${item.name}` : item.name);
+              }
+            }
+          }
+        };
+
+        await getAllFiles();
+        
+        console.log('✅ Total storage used:', totalSize, 'bytes');
+        console.log('✅ Total files:', fileCount);
+        console.log('✅ Storage in GB:', (totalSize / (1024 * 1024 * 1024)).toFixed(3));
+        console.log('📊 Storage by type:', {
+          documents: `${(sizeByType.documents / (1024 * 1024)).toFixed(2)} MB`,
+          images: `${(sizeByType.images / (1024 * 1024)).toFixed(2)} MB`,
+          others: `${(sizeByType.others / (1024 * 1024)).toFixed(2)} MB`
+        });
+        
+        setStorageUsed(totalSize);
+        setStorageByType(sizeByType);
+        setStorageLoading(false);
+      } catch (err) {
+        console.error('❌ Failed to fetch storage usage:', err);
+        setStorageLoading(false);
+      }
+    };
+
+    if (supabase) {
+      fetchStorageUsage();
+    }
+  }, [supabase]);
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -76,10 +185,21 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
     new Date(d.uploaded_at).getTime() >= fiveDaysAgo
   ).length;
 
-  const totalBytes = documents.reduce((sum, d) => sum + (Number(d.file_size) || 0), 0);
-  const usedGB = totalBytes / (1024 * 1024 * 1024);
-  const capacityGB = 100;
+  // Use real storage from Supabase Storage API
+  const capacityGB = 1; // Supabase Free tier = 1 GB
+  const usedGB = storageUsed / (1024 * 1024 * 1024);
+  const usedMB = storageUsed / (1024 * 1024);
   const usedPct = Math.min(100, Math.round((usedGB / capacityGB) * 100));
+  
+  // Format storage display: show MB if < 0.1 GB, otherwise show GB
+  const formatStorage = (bytes) => {
+    const gb = bytes / (1024 * 1024 * 1024);
+    const mb = bytes / (1024 * 1024);
+    if (gb < 0.1) {
+      return `${mb.toFixed(1)} MB`;
+    }
+    return `${gb.toFixed(2)} GB`;
+  };
 
   const recent = documents.slice(0, 5);
 
@@ -176,32 +296,136 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
               <div>
                 <div className="flex justify-between items-center mb-md">
                   <h3 className="font-title-sm text-title-sm">Kapasitas Penyimpanan</h3>
-                  <span className="material-symbols-outlined text-outline">storage</span>
+                  <div className="flex items-center gap-xs">
+                    <button
+                      onClick={async () => {
+                        setStorageLoading(true);
+                        console.log('🔄 Manual refresh storage...');
+                        
+                        // Helper function to categorize file by extension
+                        const categorizeFile = (fileName) => {
+                          const ext = fileName.split('.').pop()?.toLowerCase();
+                          const docExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv'];
+                          const imgExts = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'ico', 'tiff', 'tif'];
+                          
+                          if (docExts.includes(ext)) return 'documents';
+                          if (imgExts.includes(ext)) return 'images';
+                          return 'others';
+                        };
+                        
+                        try {
+                          const { data: files, error } = await supabase.storage
+                            .from('documents')
+                            .list('', { limit: 1000, offset: 0 });
+                          
+                          if (error) {
+                            console.error('❌ Error fetching storage:', error);
+                            setStorageLoading(false);
+                            return;
+                          }
+                          
+                          console.log('📁 Files in root:', files);
+                          
+                          let totalSize = 0;
+                          let fileCount = 0;
+                          let sizeByType = { documents: 0, images: 0, others: 0 };
+                          
+                          const getAllFiles = async (path = '') => {
+                            const { data: items, error: listError } = await supabase.storage
+                              .from('documents')
+                              .list(path, { limit: 1000 });
+                            
+                            if (listError) {
+                              console.error(`❌ Error listing path "${path}":`, listError);
+                              return;
+                            }
+                            
+                            console.log(`📂 Path "${path}" contains ${items?.length || 0} items`);
+                            
+                            if (items) {
+                              for (const item of items) {
+                                console.log('📄 Item:', item);
+                                
+                                if (item.id) {
+                                  const size = item.metadata?.size || 0;
+                                  const category = categorizeFile(item.name);
+                                  
+                                  console.log(`  ✓ File: ${item.name}, Size: ${size} bytes, Category: ${category}`);
+                                  
+                                  totalSize += size;
+                                  sizeByType[category] += size;
+                                  fileCount++;
+                                } else if (item.name && !item.id) {
+                                  console.log(`  📁 Folder: ${item.name}`);
+                                  await getAllFiles(path ? `${path}/${item.name}` : item.name);
+                                }
+                              }
+                            }
+                          };
+                          
+                          await getAllFiles();
+                          
+                          console.log('✅ Total storage used:', totalSize, 'bytes');
+                          console.log('✅ Total files:', fileCount);
+                          console.log('✅ Storage in GB:', (totalSize / (1024 * 1024 * 1024)).toFixed(3));
+                          console.log('📊 Storage by type:', {
+                            documents: `${(sizeByType.documents / (1024 * 1024)).toFixed(2)} MB`,
+                            images: `${(sizeByType.images / (1024 * 1024)).toFixed(2)} MB`,
+                            others: `${(sizeByType.others / (1024 * 1024)).toFixed(2)} MB`
+                          });
+                          
+                          setStorageUsed(totalSize);
+                          setStorageByType(sizeByType);
+                          setStorageLoading(false);
+                        } catch (err) {
+                          console.error('❌ Failed to fetch storage usage:', err);
+                          setStorageLoading(false);
+                        }
+                      }}
+                      className="text-outline hover:text-on-surface transition-colors p-1 rounded-full hover:bg-surface-container"
+                      disabled={storageLoading}
+                      title="Refresh storage"
+                    >
+                      <span className={`material-symbols-outlined text-xl ${storageLoading ? 'animate-spin' : ''}`}>
+                        refresh
+                      </span>
+                    </button>
+                    <span className="material-symbols-outlined text-outline">storage</span>
+                  </div>
                 </div>
                 <div className="relative pt-lg pb-md">
-                  <div className="flex items-baseline gap-xs">
-                    <span className="text-4xl font-bold text-on-surface">{usedGB.toFixed(1)}</span>
-                    <span className="text-xl text-outline">GB</span>
-                    <span className="mx-md text-outline">/</span>
-                    <span className="text-xl text-outline">{capacityGB} GB digunakan</span>
-                  </div>
-                  <div className="mt-lg w-full bg-surface-container rounded-full h-3">
-                    <div className="bg-secondary h-3 rounded-full transition-all duration-1000" style={{ width: `${usedPct}%` }}></div>
-                  </div>
+                  {storageLoading ? (
+                    <div className="flex items-center gap-md text-outline">
+                      <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                      <span className="text-body-md">Memuat storage...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-baseline gap-xs">
+                        <span className="text-4xl font-bold text-on-surface">{formatStorage(storageUsed).split(' ')[0]}</span>
+                        <span className="text-xl text-outline">{formatStorage(storageUsed).split(' ')[1]}</span>
+                        <span className="mx-md text-outline">/</span>
+                        <span className="text-xl text-outline">{capacityGB} GB digunakan</span>
+                      </div>
+                      <div className="mt-lg w-full bg-surface-container rounded-full h-3">
+                        <div className="bg-secondary h-3 rounded-full transition-all duration-1000" style={{ width: `${usedPct}%` }}></div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="mt-xl space-y-sm">
                 <div className="flex justify-between text-body-sm">
                   <span className="flex items-center gap-xs"><span className="w-2 h-2 rounded-full bg-secondary"></span> Dokumen</span>
-                  <span className="font-semibold">{usedGB.toFixed(1)} GB</span>
+                  <span className="font-semibold">{storageLoading ? '...' : formatStorage(storageByType.documents)}</span>
                 </div>
                 <div className="flex justify-between text-body-sm">
                   <span className="flex items-center gap-xs"><span className="w-2 h-2 rounded-full bg-on-secondary-container"></span> Gambar/Scan</span>
-                  <span className="font-semibold">0 GB</span>
+                  <span className="font-semibold">{storageLoading ? '...' : formatStorage(storageByType.images)}</span>
                 </div>
                 <div className="flex justify-between text-body-sm">
                   <span className="flex items-center gap-xs"><span className="w-2 h-2 rounded-full bg-outline-variant"></span> Lainnya</span>
-                  <span className="font-semibold">0 GB</span>
+                  <span className="font-semibold">{storageLoading ? '...' : formatStorage(storageByType.others)}</span>
                 </div>
               </div>
             </div>

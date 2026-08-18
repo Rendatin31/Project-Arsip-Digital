@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { notifyAllUsersExcept } from '../utils/notifications';
+import FileTypeIcon from './FileTypeIcon';
 
 export default function AddDocumentModal({ categories, directories, userId, currentDirectoryId, onClose, onSave }) {
   const [form, setForm] = useState({
@@ -17,6 +18,56 @@ export default function AddDocumentModal({ categories, directories, userId, curr
   const [preview, setPreview] = useState('');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+
+  // Validate file type
+  const isValidFileType = (file) => {
+    if (!file) return false;
+    
+    const allowedTypes = [
+      'application/pdf',
+      'image/jpeg',
+      'image/jpg', 
+      'image/png',
+      'image/gif',
+      'image/bmp',
+      'image/webp'
+    ];
+    
+    const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+    
+    // Check both MIME type and extension
+    return allowedTypes.includes(file.type) || allowedExtensions.includes(fileExtension);
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files?.[0];
+    
+    if (!selectedFile) {
+      setFile(null);
+      return;
+    }
+    
+    // Validate file type
+    if (!isValidFileType(selectedFile)) {
+      setError('Format file tidak didukung! Hanya file PDF dan gambar (JPG, PNG, GIF, BMP, WEBP) yang diperbolehkan.');
+      setFile(null);
+      e.target.value = ''; // Reset input
+      return;
+    }
+    
+    // Validate file size (max 10MB)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (selectedFile.size > maxSize) {
+      setError('Ukuran file terlalu besar! Maksimal 10MB.');
+      setFile(null);
+      e.target.value = ''; // Reset input
+      return;
+    }
+    
+    setError(''); // Clear error if validation passes
+    setFile(selectedFile);
+  };
 
   useEffect(() => {
     if (file) {
@@ -302,8 +353,17 @@ export default function AddDocumentModal({ categories, directories, userId, curr
               Unggah File <span className="text-error">*</span>
             </label>
             <label className="flex flex-col items-center justify-center gap-sm border-2 border-dashed border-outline-variant rounded-xl p-xl cursor-pointer hover:border-secondary hover:bg-surface-container-low transition-all">
-              {preview ? (
-                <img alt="Preview" className="max-h-40 rounded-lg object-contain" src={preview} />
+              {file ? (
+                file.type === 'application/pdf' ? (
+                  // PDF Preview with SVG icon
+                  <div className="flex flex-col items-center gap-sm">
+                    <FileTypeIcon type="pdf" size={96} />
+                    <span className="text-sm text-on-surface-variant font-medium">{file.name}</span>
+                  </div>
+                ) : (
+                  // Image Preview
+                  <img alt="Preview" className="max-h-40 rounded-lg object-contain" src={preview} />
+                )
               ) : (
                 <>
                   <span className="material-symbols-outlined text-secondary text-4xl">upload_file</span>
@@ -313,7 +373,8 @@ export default function AddDocumentModal({ categories, directories, userId, curr
               <input
                 className="hidden"
                 type="file"
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
+                accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,image/*,application/pdf"
+                onChange={handleFileChange}
                 required
               />
             </label>

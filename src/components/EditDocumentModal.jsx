@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { notifyAllUsersExcept } from '../utils/notifications';
+import FileTypeIcon from './FileTypeIcon';
 
 export default function EditDocumentModal({ doc, categories, directories = [], supabase, userId, onClose, onSaved }) {
   const [form, setForm] = useState({
@@ -17,6 +18,64 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+
+  // Validate file type
+  const isValidFileType = (file) => {
+    if (!file) return false;
+    
+    const allowedTypes = [
+      'application/pdf',
+      'image/jpeg',
+      'image/jpg', 
+      'image/png',
+      'image/gif',
+      'image/bmp',
+      'image/webp'
+    ];
+    
+    const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+    
+    // Check both MIME type and extension
+    return allowedTypes.includes(file.type) || allowedExtensions.includes(fileExtension);
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files?.[0];
+    
+    if (!selectedFile) {
+      setFile(null);
+      setPreview(null);
+      return;
+    }
+    
+    // Validate file type
+    if (!isValidFileType(selectedFile)) {
+      setError('Format file tidak didukung! Hanya file PDF dan gambar (JPG, PNG, GIF, BMP, WEBP) yang diperbolehkan.');
+      setFile(null);
+      setPreview(null);
+      e.target.value = ''; // Reset input
+      return;
+    }
+    
+    // Validate file size (max 10MB)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (selectedFile.size > maxSize) {
+      setError('Ukuran file terlalu besar! Maksimal 10MB.');
+      setFile(null);
+      setPreview(null);
+      e.target.value = ''; // Reset input
+      return;
+    }
+    
+    setError(''); // Clear error if validation passes
+    setFile(selectedFile);
+    
+    // Set preview for images
+    if (selectedFile.type.startsWith('image/')) {
+      setPreview(URL.createObjectURL(selectedFile));
+    }
+  };
 
   const FIELD_LABELS = {
     category_id: 'Kategori',
@@ -326,8 +385,17 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
               Unggah File Baru (Opsional)
             </label>
             <label className="flex flex-col items-center justify-center gap-sm border-2 border-dashed border-outline-variant rounded-xl p-md cursor-pointer hover:border-secondary hover:bg-surface-container-low transition-all">
-              {preview ? (
-                <img alt="Preview" className="max-h-32 rounded-lg object-contain" src={preview} />
+              {file ? (
+                file.type === 'application/pdf' ? (
+                  // PDF Preview with SVG icon
+                  <div className="flex flex-col items-center gap-sm">
+                    <FileTypeIcon type="pdf" size={80} />
+                    <span className="text-xs text-on-surface-variant font-medium text-center">{file.name}</span>
+                  </div>
+                ) : preview ? (
+                  // Image Preview
+                  <img alt="Preview" className="max-h-32 rounded-lg object-contain" src={preview} />
+                ) : null
               ) : (
                 <>
                   <span className="material-symbols-outlined text-secondary text-3xl">upload_file</span>
@@ -339,15 +407,8 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
               <input
                 className="hidden"
                 type="file"
-                onChange={(e) => {
-                  const newFile = e.target.files?.[0];
-                  if (newFile) {
-                    setFile(newFile);
-                    if (newFile.type.startsWith('image/')) {
-                      setPreview(URL.createObjectURL(newFile));
-                    }
-                  }
-                }}
+                accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,image/*,application/pdf"
+                onChange={handleFileChange}
               />
             </label>
             {file && <p className="text-body-sm text-on-surface-variant">File baru dipilih: {file.name}</p>}
