@@ -236,10 +236,16 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                           onChange={(e) => setDateStart(e.target.value)}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
                           type="date"
+                          placeholder="mm/dd/yyyy"
                         />
                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                           calendar_today
                         </span>
+                        {!dateStart && (
+                          <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm lg:hidden">
+                            mm/dd/yyyy
+                          </span>
+                        )}
                       </div>
                       <span className="text-on-surface-variant text-body-sm">s/d</span>
                       <div className="relative flex-1">
@@ -248,10 +254,16 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                           onChange={(e) => setDateEnd(e.target.value)}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
                           type="date"
+                          placeholder="mm/dd/yyyy"
                         />
                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                           calendar_today
                         </span>
+                        {!dateEnd && (
+                          <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm lg:hidden">
+                            mm/dd/yyyy
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

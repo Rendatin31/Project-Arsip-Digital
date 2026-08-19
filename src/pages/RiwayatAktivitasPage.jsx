@@ -499,17 +499,27 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                     <label className="text-label-caps block mb-xs text-on-surface-variant">Rentang Waktu</label>
                     <div className="flex flex-col gap-xs">
                       <div className="relative">
-                        <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                        <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" placeholder="mm/dd/yyyy" />
                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                           calendar_today
                         </span>
+                        {!dateStart && (
+                          <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm">
+                            mm/dd/yyyy
+                          </span>
+                        )}
                       </div>
                       <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
                       <div className="relative">
-                        <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                        <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" placeholder="mm/dd/yyyy" />
                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                           calendar_today
                         </span>
+                        {!dateEnd && (
+                          <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm">
+                            mm/dd/yyyy
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

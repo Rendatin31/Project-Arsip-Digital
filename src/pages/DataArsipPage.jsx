@@ -403,12 +403,17 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                            type="date"
                            value={filterDateStart}
                            onChange={(e) => setFilterDateStart(e.target.value)}
-                           placeholder="Tanggal mulai"
+                           placeholder="mm/dd/yyyy"
                            title="Tanggal mulai"
                          />
                          <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                            calendar_today
                          </span>
+                         {!filterDateStart && (
+                           <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm">
+                             mm/dd/yyyy
+                           </span>
+                         )}
                        </div>
                        <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
                        <div className="relative">
@@ -417,12 +422,17 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                            type="date"
                            value={filterDateEnd}
                            onChange={(e) => setFilterDateEnd(e.target.value)}
-                           placeholder="Tanggal akhir"
+                           placeholder="mm/dd/yyyy"
                            title="Tanggal akhir"
                          />
                          <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
                            calendar_today
                          </span>
+                         {!filterDateEnd && (
+                           <span className="absolute left-9 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-body-sm">
+                             mm/dd/yyyy
+                           </span>
+                         )}
                        </div>
                      </div>
                    </div>
