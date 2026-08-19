@@ -634,7 +634,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
             </div>
 
             {/* Mobile Card View - Visible on Mobile only */}
-            <div className="md:hidden px-sm space-y-sm">
+            <div className="md:hidden px-md space-y-lg">
               {paginatedData.length === 0 ? (
                 <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg text-center">
                   <p className="text-body-sm text-on-surface-variant">Tidak ada aktivitas.</p>
