@@ -35,25 +35,41 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
         const isPdfFile = preview.type === 'pdf' || /\.pdf$/i.test(lower);
         const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
+        console.log('📱 Preview Debug:', {
+          name: preview.name,
+          type: preview.type,
+          isPdfFile,
+          isMobileDevice,
+          userAgent: navigator.userAgent
+        });
+
         // For PDF on mobile, download and create blob URL for better compatibility
         if (isPdfFile && isMobileDevice) {
+          console.log('🔄 Loading PDF for mobile...');
           try {
             const response = await fetch(signedUrl);
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
+            console.log('✅ PDF Blob URL created:', blobUrl);
             if (active) {
               setPdfBlobUrl(blobUrl);
-              setLoading(false); // Set loading false immediately after blob is ready
+              setLoading(false);
             }
+            return; // Early return to prevent other logic from running
           } catch (err) {
-            console.error('Failed to create PDF blob:', err);
+            console.error('❌ Failed to create PDF blob:', err);
             if (active) setLoading(false);
+            return;
           }
-        } else {
-          // For non-PDF or desktop, continue with normal flow
-          if (active) setLoading(false);
         }
 
+        // For non-mobile PDF, just set loading false
+        if (isPdfFile && !isMobileDevice) {
+          if (active) setLoading(false);
+          return;
+        }
+
+        // Handle DOC/XLS files
         if (isDoc || isXls) {
           const res = await fetch(signedUrl);
           const buf = await res.arrayBuffer();
@@ -77,8 +93,8 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               setLoading(false);
             }
           }
-        } else if (!isPdfFile || !isMobileDevice) {
-          // Only set loading false here if it's not a mobile PDF (which already set it above)
+        } else {
+          // For images and other files
           if (active) setLoading(false);
         }
       } catch {
@@ -102,6 +118,18 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const isImage = preview?.type === 'img' || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name || '');
   const isPdf = preview?.type === 'pdf' || /\.pdf$/i.test(name || '');
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+  console.log('🖼️ Render State:', {
+    loading,
+    error,
+    isImage,
+    isPdf,
+    isMobile,
+    pdfBlobUrl,
+    url,
+    shouldShowPdfMobile: isPdf && isMobile,
+    hasPdfBlobUrl: !!pdfBlobUrl
+  });
 
   return (
     <div
