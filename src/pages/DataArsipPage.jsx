@@ -368,20 +368,24 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                    </select>
                    <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
                  </div>
-                 <div className="flex items-center gap-xs">
+                 
+                 {/* Date Range - Responsive */}
+                 <div className="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-xs">
                    <input
-                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
                      type="date"
                      value={filterDateStart}
                      onChange={(e) => setFilterDateStart(e.target.value)}
+                     placeholder="Tanggal mulai"
                      title="Tanggal mulai"
                    />
-                   <span className="text-on-surface-variant text-body-sm">s/d</span>
+                   <span className="text-on-surface-variant text-body-sm text-center md:text-left">s/d</span>
                    <input
-                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
                      type="date"
                      value={filterDateEnd}
                      onChange={(e) => setFilterDateEnd(e.target.value)}
+                     placeholder="Tanggal akhir"
                      title="Tanggal akhir"
                    />
                  </div>
@@ -394,7 +398,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                    setFilterDateEnd('');
                    setSearchQuery('');
                  }}
-                 className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm"
+                 className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm w-full md:w-auto"
                >
                  Reset Filter
                </button>
