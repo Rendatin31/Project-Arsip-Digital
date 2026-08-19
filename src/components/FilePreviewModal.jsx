@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import FileTypeIcon from './FileTypeIcon';
 
-export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete }) {
+export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete, hideDelete = false }) {
   const [url, setUrl] = useState(null);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -203,7 +203,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             )}
             
             {/* Button Hapus */}
-            {onDelete && (
+            {onDelete && !hideDelete && (
               <button
                 onClick={async () => {
                   // Use modern confirm dialog if available

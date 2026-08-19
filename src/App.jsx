@@ -76,6 +76,7 @@ export default function App({ supabase }) {
   const [files, setFiles] = useState([]);
   const [recentPreviews, setRecentPreviews] = useState([]);
   const [previewFile, setPreviewFile] = useState(null);
+  const [isPreviewFromRecent, setIsPreviewFromRecent] = useState(false);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [directories, setDirectories] = useState([]);
@@ -494,6 +495,43 @@ export default function App({ supabase }) {
 
   const handleOpenFile = (preview) => {
     setPreviewFile(preview);
+    setIsPreviewFromRecent(true); // Set flag bahwa preview dibuka dari recent
+    
+    // Track dokumen yang dibuka untuk "Preview Terakhir Dibuka"
+    if (user && preview) {
+      // Ambil recent previews dari localStorage
+      const savedPreviews = localStorage.getItem(`recentPreviews_${user.id}`);
+      let recentList = [];
+      
+      if (savedPreviews) {
+        try {
+          recentList = JSON.parse(savedPreviews);
+        } catch (err) {
+          console.error('Gagal parse recent previews:', err);
+        }
+      }
+      
+      // Hapus dokumen yang sama jika sudah ada (untuk move to top)
+      recentList = recentList.filter(p => p.id !== preview.id);
+      
+      // Tambahkan dokumen baru di posisi pertama
+      recentList.unshift(preview);
+      
+      // Batasi maksimal 10 dokumen untuk localStorage
+      recentList = recentList.slice(0, 10);
+      
+      // Simpan ke localStorage
+      localStorage.setItem(`recentPreviews_${user.id}`, JSON.stringify(recentList));
+      
+      // Update state untuk display (max 3)
+      setRecentPreviews(recentList.slice(0, 3));
+    }
+  };
+
+  // Function untuk membuka file dari tabel (bukan dari recent preview)
+  const handleOpenFileFromTable = (preview) => {
+    setPreviewFile(preview);
+    setIsPreviewFromRecent(false); // Set flag bahwa preview TIDAK dari recent
     
     // Track dokumen yang dibuka untuk "Preview Terakhir Dibuka"
     if (user && preview) {
@@ -927,7 +965,7 @@ export default function App({ supabase }) {
                         supabase={supabase}
                         onEdit={(file) => setEditDoc(file)}
                         onRefresh={refreshDocuments}
-                        onPreview={handleOpenFile}
+                        onPreview={handleOpenFileFromTable}
                         onConfirmDelete={(file, onConfirm) => {
                           showAlert(
                             'confirm',
@@ -1045,6 +1083,7 @@ export default function App({ supabase }) {
           preview={previewFile} 
           supabase={supabase} 
           onClose={() => setPreviewFile(null)}
+          hideDelete={isPreviewFromRecent}
           onEdit={(file) => {
             // Cari file lengkap dari list files untuk edit
             const fullFile = files.find(f => f.id === file.id);
