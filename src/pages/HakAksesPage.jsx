@@ -439,17 +439,36 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
         </main>
       ) : (
       <main className="px-lg pt-sm pb-lg space-y-lg w-full min-w-0">
-        <div className="flex justify-between items-end mb-md">
+        {/* Header Section - Responsive */}
+        <div className="mb-md">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-md">
+            {/* Title & Description */}
             <div>
               <h5 className="text-xl font-semibold text-primary">Manajemen Hak Akses</h5>
               <p className="text-xs text-on-surface-variant">Kelola izin pengguna dan tingkatan akses keamanan dokumen.</p>
             </div>
-            <button className="flex items-center gap-xs bg-secondary text-on-secondary px-md py-xs rounded-lg text-xs font-semibold hover:opacity-90 transition-all shadow-md" onClick={() => { setForm({ full_name: '', email: '', role: '', status: 'Aktif' }); setShowAddUserModal(true); }}>
+            
+            {/* Add Button - Desktop only */}
+            <button 
+              className="hidden md:flex items-center gap-xs bg-secondary text-on-secondary px-md py-xs rounded-lg text-xs font-semibold hover:opacity-90 transition-all shadow-md" 
+              onClick={() => { setForm({ full_name: '', email: '', role: '', status: 'Aktif' }); setShowAddUserModal(true); }}
+            >
               <span className="material-symbols-outlined text-[18px]" data-icon="person_add">person_add</span>
-              <span className="hidden sm:inline">Tambah Pengguna Baru</span>
-              <span className="sm:hidden">Tambah</span>
+              <span>Tambah Pengguna Baru</span>
             </button>
           </div>
+          
+          {/* Add Button - Mobile only (below description, above table) */}
+          <div className="md:hidden mt-md flex justify-end">
+            <button 
+              className="flex items-center gap-xs bg-secondary text-on-secondary px-md py-sm rounded-lg text-sm font-semibold hover:opacity-90 transition-all shadow-md" 
+              onClick={() => { setForm({ full_name: '', email: '', role: '', status: 'Aktif' }); setShowAddUserModal(true); }}
+            >
+              <span className="material-symbols-outlined text-[20px]" data-icon="person_add">person_add</span>
+              <span>Tambah</span>
+            </button>
+          </div>
+        </div>
 
           <div className="grid grid-cols-1 gap-lg w-full min-w-0">
             <div className="col-span-12 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col">
