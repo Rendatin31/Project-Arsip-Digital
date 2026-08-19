@@ -69,6 +69,19 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
   const [editingFileName, setEditingFileName] = React.useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
   
+  // Force grid view on mobile
+  React.useEffect(() => {
+    const checkMobile = () => {
+      if (window.innerWidth < 768 && viewMode === 'list') {
+        setViewMode('grid');
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [viewMode]);
+  
   // Items per page berbeda untuk list dan grid view
   const itemsPerPage = viewMode === 'grid' ? 20 : 5;
 
@@ -295,7 +308,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
           </button>
           <button 
             onClick={() => setViewMode('list')}
-            className={`p-xs hover:bg-surface-container-low rounded ${viewMode === 'list' ? 'bg-surface-container-high' : ''}`}
+            className={`hidden md:block p-xs hover:bg-surface-container-low rounded ${viewMode === 'list' ? 'bg-surface-container-high' : ''}`}
             title="List View"
           >
             <span className={`material-symbols-outlined text-[20px] ${viewMode === 'list' ? 'text-primary' : 'text-outline'}`}>view_list</span>
