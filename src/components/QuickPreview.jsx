@@ -290,7 +290,7 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
         onPointerDown={() => { draggingRef.current = true; }}
         onPointerUp={() => { draggingRef.current = false; scheduleNormalize(); }}
         onPointerCancel={() => { draggingRef.current = false; scheduleNormalize(); }}
-        className="flex gap-lg overflow-x-auto pb-sm scrollbar-hide scroll-smooth snap-x snap-proximity"
+        className="flex gap-md md:gap-lg overflow-x-auto pb-sm scrollbar-hide scroll-smooth snap-x snap-proximity"
       >
         {previews.length === 0 ? (
           <p className="text-body-sm text-on-surface-variant py-md">Belum ada dokumen yang dibuka.</p>
