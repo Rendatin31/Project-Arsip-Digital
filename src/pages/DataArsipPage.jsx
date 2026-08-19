@@ -418,7 +418,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                    </div>
                    
                    {/* Reset Button - Bottom Right (Mobile Only) */}
-                   <div className="flex justify-end">
+                   <div className="flex justify-end mt-md">
                      <button
                        onClick={() => {
                          setFilterCategory('');
