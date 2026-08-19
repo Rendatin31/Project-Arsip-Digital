@@ -372,6 +372,10 @@ export default function App({ supabase }) {
               sizeText = `${(sizeBytes / (1024 * 1024)).toFixed(1)} MB`;
             }
 
+            // Find category name from category_id
+            const categoryObj = categories.find(cat => cat.id === doc.category_id);
+            const categoryName = categoryObj ? categoryObj.name : null;
+
             return {
               id: doc.id,
               directoryId: doc.directory_id,
@@ -383,6 +387,7 @@ export default function App({ supabase }) {
               size: sizeText,
               // Fields untuk EditDocumentModal (semua fields dari database)
               category_id: doc.category_id,
+              category: categoryName, // Add category name for filter
               subject: doc.subject,
               perihal: doc.perihal,
               letter_number: doc.letter_number,
@@ -629,6 +634,10 @@ export default function App({ supabase }) {
           sizeText = `${(sizeBytes / (1024 * 1024)).toFixed(1)} MB`;
         }
 
+        // Find category name from category_id
+        const categoryObj = categories.find(cat => cat.id === doc.category_id);
+        const categoryName = categoryObj ? categoryObj.name : null;
+
         return {
           id: doc.id,
           directoryId: doc.directory_id,
@@ -640,6 +649,7 @@ export default function App({ supabase }) {
           size: sizeText,
           // Fields untuk EditDocumentModal (semua fields dari database)
           category_id: doc.category_id,
+          category: categoryName, // Add category name for filter
           subject: doc.subject,
           perihal: doc.perihal,
           letter_number: doc.letter_number,
