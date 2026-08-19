@@ -1045,7 +1045,7 @@ export default function App({ supabase }) {
                           }
                         }}
                       />
-                      <QuickPreview previews={recentPreviews} title="Preview Terakhir Dibuka" onOpenFile={handleOpenFile} supabase={supabase} />
+                      <QuickPreview previews={recentPreviews} title="Preview Terakhir Dibuka" mobileLimit={2} onOpenFile={handleOpenFile} supabase={supabase} />
                     </div>
                   </div>
                 </section>
