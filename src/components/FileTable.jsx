@@ -504,7 +504,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
       {/* Grid View */}
       {viewMode === 'grid' && (
         <div className="p-sm md:p-md overflow-hidden">
-          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2 md:gap-xs">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2 md:gap-xs">
             {paginatedFiles.map((file) => {
               // Fungsi untuk menentukan icon dan warna berdasarkan tipe file
               const getFileIconAndColor = (type) => {
