@@ -41,10 +41,17 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             const response = await fetch(signedUrl);
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
-            if (active) setPdfBlobUrl(blobUrl);
+            if (active) {
+              setPdfBlobUrl(blobUrl);
+              setLoading(false); // Set loading false immediately after blob is ready
+            }
           } catch (err) {
             console.error('Failed to create PDF blob:', err);
+            if (active) setLoading(false);
           }
+        } else {
+          // For non-PDF or desktop, continue with normal flow
+          if (active) setLoading(false);
         }
 
         if (isDoc || isXls) {
@@ -54,7 +61,10 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
           if (isDoc) {
             const mammoth = (await import('mammoth')).default;
             const { value } = await mammoth.convertToHtml({ arrayBuffer: buf });
-            if (active) setContent({ kind: 'html', html: value });
+            if (active) {
+              setContent({ kind: 'html', html: value });
+              setLoading(false);
+            }
           } else {
             const XLSX = await import('xlsx');
             const wb = XLSX.read(buf, { type: 'array' });
@@ -62,10 +72,15 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               name: sheetName,
               rows: XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: '' }),
             }));
-            if (active) setContent({ kind: 'table', sheets });
+            if (active) {
+              setContent({ kind: 'table', sheets });
+              setLoading(false);
+            }
           }
+        } else if (!isPdfFile || !isMobileDevice) {
+          // Only set loading false here if it's not a mobile PDF (which already set it above)
+          if (active) setLoading(false);
         }
-        if (active) setLoading(false);
       } catch {
         if (active) {
           setError('Terjadi kesalahan saat memuat preview.');
@@ -201,7 +216,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             </div>
           ) : isPdf && isMobile ? (
             pdfBlobUrl ? (
-              <div className="w-full h-[70vh] bg-gray-900">
+              <div className="w-full h-[70vh] bg-gray-100 rounded-lg overflow-hidden">
                 <iframe 
                   src={pdfBlobUrl}
                   title={name} 
@@ -211,9 +226,10 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               </div>
             ) : (
               <div className="h-full flex items-center justify-center">
-                <div className="text-center space-y-sm">
-                  <div className="animate-spin inline-block w-8 h-8 border-4 border-secondary border-t-transparent rounded-full"></div>
-                  <p className="text-body-sm text-on-surface-variant">Memuat PDF...</p>
+                <div className="text-center space-y-md p-lg">
+                  <div className="animate-spin inline-block w-12 h-12 border-4 border-secondary border-t-transparent rounded-full"></div>
+                  <p className="text-body-md text-on-surface font-semibold">Memuat PDF...</p>
+                  <p className="text-body-sm text-on-surface-variant">Harap tunggu sebentar</p>
                 </div>
               </div>
             )
