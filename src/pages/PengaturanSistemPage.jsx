@@ -374,15 +374,15 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
               {/* Tab Content - Konfigurasi Sistem (Categories) */}
               {activeTab === 'konfigurasi' && isSuperAdmin && (
-                <div className="p-lg">
-                  <div className="flex justify-between items-center mb-lg">
+                <div className="p-md md:p-lg">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-md md:mb-lg">
                     <div>
-                      <h3 className="text-title-lg font-title-lg font-bold text-on-surface">Kelola Kategori Dokumen</h3>
+                      <h3 className="text-title-md md:text-title-lg font-bold text-on-surface">Kelola Kategori Dokumen</h3>
                       <p className="text-body-sm text-on-surface-variant">Atur kategori untuk mengorganisir dokumen Anda.</p>
                     </div>
                     <button
                       onClick={handleAddCategory}
-                      className="flex items-center gap-sm px-md py-sm bg-secondary text-on-secondary rounded-lg font-semibold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm"
+                      className="flex items-center gap-xs md:gap-sm px-md py-sm bg-secondary text-on-secondary rounded-lg font-semibold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm w-full sm:w-auto justify-center"
                     >
                       <span className="material-symbols-outlined text-[20px]">add</span>
                       Tambah
@@ -392,72 +392,123 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {loadingCategories ? (
                     <div className="text-center py-xl text-on-surface-variant">Memuat kategori...</div>
                   ) : (
-                    <div className="border border-outline-variant rounded-lg overflow-hidden">
-                      <table className="w-full text-left">
-                        <thead className="bg-surface-container border-b border-outline-variant">
-                          <tr>
-                            <th className="p-md text-label-caps text-on-surface-variant font-semibold w-12 text-center">No</th>
-                            <th className="p-md text-label-caps text-on-surface-variant font-semibold">Nama Kategori</th>
-                            <th className="p-md text-label-caps text-on-surface-variant font-semibold">Keterangan</th>
-                            <th className="p-md text-label-caps text-on-surface-variant font-semibold w-32 text-center">Aksi</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-outline-variant">
-                          {categories.length === 0 ? (
+                    <>
+                      {/* Desktop Table View */}
+                      <div className="hidden md:block border border-outline-variant rounded-lg overflow-hidden">
+                        <table className="w-full text-left">
+                          <thead className="bg-surface-container border-b border-outline-variant">
                             <tr>
-                              <td colSpan="4" className="px-md py-xl text-center text-body-sm text-on-surface-variant">
-                                Belum ada kategori. Klik "Tambah Kategori" untuk membuat kategori baru.
-                              </td>
+                              <th className="p-md text-label-caps text-on-surface-variant font-semibold w-12 text-center">No</th>
+                              <th className="p-md text-label-caps text-on-surface-variant font-semibold">Nama Kategori</th>
+                              <th className="p-md text-label-caps text-on-surface-variant font-semibold">Keterangan</th>
+                              <th className="p-md text-label-caps text-on-surface-variant font-semibold w-32 text-center">Aksi</th>
                             </tr>
-                          ) : (
-                            categories.map((category, index) => (
-                              <tr key={category.id} className="hover:bg-surface-container transition-colors">
-                                <td className="px-md py-sm text-center text-table-data text-on-surface-variant">{index + 1}</td>
-                                <td className="px-md py-sm text-table-data font-semibold text-on-surface">{category.name}</td>
-                                <td className="px-md py-sm text-table-data text-on-surface-variant">{category.description || '-'}</td>
-                                <td className="px-md py-sm">
-                                  <div className="flex gap-sm justify-center">
-                                    <button 
-                                      onClick={() => handleEditCategory(category)} 
-                                      title="Edit" 
-                                      className="p-sm hover:bg-secondary-container hover:text-secondary rounded transition-colors"
-                                    >
-                                      <span className="material-symbols-outlined text-[20px]">edit</span>
-                                    </button>
-                                    <button 
-                                      onClick={() => handleDeleteCategory(category.id)} 
-                                      title="Hapus" 
-                                      className="p-sm hover:bg-error-container hover:text-error rounded transition-colors"
-                                    >
-                                      <span className="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                  </div>
+                          </thead>
+                          <tbody className="divide-y divide-outline-variant">
+                            {categories.length === 0 ? (
+                              <tr>
+                                <td colSpan="4" className="px-md py-xl text-center text-body-sm text-on-surface-variant">
+                                  Belum ada kategori. Klik "Tambah Kategori" untuk membuat kategori baru.
                                 </td>
                               </tr>
-                            ))
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                            ) : (
+                              categories.map((category, index) => (
+                                <tr key={category.id} className="hover:bg-surface-container transition-colors">
+                                  <td className="px-md py-sm text-center text-table-data text-on-surface-variant">{index + 1}</td>
+                                  <td className="px-md py-sm text-table-data font-semibold text-on-surface">{category.name}</td>
+                                  <td className="px-md py-sm text-table-data text-on-surface-variant">{category.description || '-'}</td>
+                                  <td className="px-md py-sm">
+                                    <div className="flex gap-sm justify-center">
+                                      <button 
+                                        onClick={() => handleEditCategory(category)} 
+                                        title="Edit" 
+                                        className="p-sm hover:bg-secondary-container hover:text-secondary rounded transition-colors"
+                                      >
+                                        <span className="material-symbols-outlined text-[20px]">edit</span>
+                                      </button>
+                                      <button 
+                                        onClick={() => handleDeleteCategory(category.id)} 
+                                        title="Hapus" 
+                                        className="p-sm hover:bg-error-container hover:text-error rounded transition-colors"
+                                      >
+                                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Mobile Card View */}
+                      <div className="md:hidden space-y-sm">
+                        {categories.length === 0 ? (
+                          <div className="text-center py-xl text-body-sm text-on-surface-variant bg-surface-container rounded-lg border border-outline-variant">
+                            Belum ada kategori. Klik "Tambah" untuk membuat kategori baru.
+                          </div>
+                        ) : (
+                          categories.map((category, index) => (
+                            <div key={category.id} className="bg-surface-container rounded-lg border border-outline-variant p-md">
+                              {/* Header with Number */}
+                              <div className="flex items-start justify-between mb-sm">
+                                <div className="flex items-start gap-sm flex-1">
+                                  <span className="text-body-sm font-semibold text-on-surface-variant bg-surface-container-high px-sm py-xs rounded">
+                                    #{index + 1}
+                                  </span>
+                                  <div className="flex-1">
+                                    <h4 className="text-body-md font-semibold text-on-surface mb-xs">
+                                      {category.name}
+                                    </h4>
+                                    <p className="text-body-sm text-on-surface-variant">
+                                      {category.description || 'Tidak ada keterangan'}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Action Buttons */}
+                              <div className="flex gap-xs mt-md pt-md border-t border-outline-variant">
+                                <button
+                                  onClick={() => handleEditCategory(category)}
+                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-secondary-container text-secondary rounded-lg font-semibold text-sm hover:brightness-95 active:scale-[0.98] transition-all"
+                                >
+                                  <span className="material-symbols-outlined text-[18px]">edit</span>
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteCategory(category.id)}
+                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-error-container text-error rounded-lg font-semibold text-sm hover:brightness-95 active:scale-[0.98] transition-all"
+                                >
+                                  <span className="material-symbols-outlined text-[18px]">delete</span>
+                                  Hapus
+                                </button>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
               )}
 
               {/* Tab Content - Keamanan */}
               {activeTab === 'keamanan' && (
-                <div className="p-lg space-y-md">
+                <div className="p-md md:p-lg space-y-md">
                   {/* Change Password Section */}
                   <div>
                     <div className="space-y-sm max-w-2xl">
                       <div className="mb-sm">
-                        <label className="text-base font-semibold text-on-surface block mb-xs">Password Saat Ini</label>
+                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Password Saat Ini</label>
                         <div className="relative">
                           <input
                             type={showCurrentPassword ? "text" : "password"}
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             placeholder="Masukkan password saat ini"
-                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                           />
                           <button
                             type="button"
@@ -472,14 +523,14 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-sm">
-                        <label className="text-base font-semibold text-on-surface block mb-xs">Password Baru</label>
+                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Password Baru</label>
                         <div className="relative">
                           <input
                             type={showNewPassword ? "text" : "password"}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             placeholder="Minimal 6 karakter"
-                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                           />
                           <button
                             type="button"
@@ -494,14 +545,14 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-md">
-                        <label className="text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
+                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
                         <div className="relative">
                           <input
                             type={showConfirmPassword ? "text" : "password"}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Ketik ulang password baru"
-                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm pr-[40px] text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                           />
                           <button
                             type="button"
@@ -523,12 +574,12 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {/* Two-Factor Authentication */}
                   <div className="mb-md mt-md">
                     <div className="max-w-2xl">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-lg border border-outline-variant">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md md:p-lg border border-outline-variant gap-md">
                         <div className="flex-1">
-                          <p className="text-body-md font-semibold text-on-surface mb-xs">Aktifkan 2FA</p>
+                          <p className="text-body-sm md:text-body-md font-semibold text-on-surface mb-xs">Aktifkan 2FA</p>
                           <p className="text-body-sm text-on-surface-variant">Tambahkan lapisan keamanan ekstra dengan verifikasi dua langkah</p>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={twoFactorEnabled}
@@ -546,11 +597,11 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {/* Session Timeout */}
                   <div className="mb-md mt-md">
                     <div className="max-w-2xl">
-                      <label className="text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
+                      <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
                       <select
                         value={sessionTimeout}
                         onChange={(e) => setSessionTimeout(e.target.value)}
-                        className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                        className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                       >
                         <option value="15">15 menit</option>
                         <option value="30">30 menit</option>
@@ -570,14 +621,14 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                       <div className="flex items-start gap-md bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
                         <span className="material-symbols-outlined text-secondary text-[20px] mt-xs">verified_user</span>
                         <div className="flex-1">
-                          <p className="text-body-md font-semibold text-on-surface">Login Terakhir</p>
+                          <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Login Terakhir</p>
                           <p className="text-body-sm text-on-surface-variant">{new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-md bg-surface-container rounded-lg p-md border border-outline-variant">
                         <span className="material-symbols-outlined text-tertiary text-[20px] mt-xs">devices</span>
                         <div className="flex-1">
-                          <p className="text-body-md font-semibold text-on-surface">Perangkat Aktif</p>
+                          <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Perangkat Aktif</p>
                           <p className="text-body-sm text-on-surface-variant">Windows 10 - Chrome Browser</p>
                         </div>
                       </div>
@@ -588,17 +639,17 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
               {/* Tab Content - Notifikasi */}
               {activeTab === 'notifikasi' && (
-                <div className="p-lg space-y-md">
+                <div className="p-md md:p-lg space-y-md">
                   {/* Email Notifications */}
                   <div className="mb-sm">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Notifikasi Email</h3>
+                    <h3 className="text-title-md md:text-title-lg text-on-surface mb-sm">Notifikasi Email</h3>
                     <div className="max-w-2xl space-y-sm">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-lg border border-outline-variant">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md md:p-lg border border-outline-variant gap-md">
                         <div className="flex-1">
-                          <p className="text-body-md font-semibold text-on-surface mb-xs">Aktifkan Notifikasi Email</p>
+                          <p className="text-body-sm md:text-body-md font-semibold text-on-surface mb-xs">Aktifkan Notifikasi Email</p>
                           <p className="text-body-sm text-on-surface-variant">Terima pemberitahuan melalui email</p>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={emailNotifications}
@@ -615,17 +666,17 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                   {/* Activity Notifications */}
                   <div className="mb-sm">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Notifikasi Aktivitas</h3>
+                    <h3 className="text-title-md md:text-title-lg text-on-surface mb-sm">Notifikasi Aktivitas</h3>
                     <div className="max-w-2xl space-y-sm">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm gap-md">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-secondary text-[20px]">upload_file</span>
                           <div>
-                            <p className="text-body-md font-semibold text-on-surface">Upload Dokumen</p>
+                            <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Upload Dokumen</p>
                             <p className="text-body-sm text-on-surface-variant">Notifikasi saat dokumen baru diunggah</p>
                           </div>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={documentUploadNotif}
@@ -638,15 +689,15 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                       {/* Update Dokumen - Hanya untuk Admin & Editor */}
                       {(profile?.role === 'admin' || profile?.role === 'editor') && (
-                        <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm gap-md">
                           <div className="flex items-center gap-md flex-1">
                             <span className="material-symbols-outlined text-tertiary text-[20px]">edit</span>
                             <div>
-                              <p className="text-body-md font-semibold text-on-surface">Update Dokumen</p>
+                              <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Update Dokumen</p>
                               <p className="text-body-sm text-on-surface-variant">Notifikasi saat dokumen diperbarui</p>
                             </div>
                           </div>
-                          <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                          <label className="relative inline-flex items-center cursor-pointer">
                             <input
                               type="checkbox"
                               checked={documentUpdateNotif}
@@ -658,15 +709,15 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm gap-md">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-error text-[20px]">warning</span>
                           <div>
-                            <p className="text-body-md font-semibold text-on-surface">Peringatan Keamanan</p>
+                            <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Peringatan Keamanan</p>
                             <p className="text-body-sm text-on-surface-variant">Alert untuk aktivitas mencurigakan</p>
                           </div>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={securityAlertNotif}
@@ -677,15 +728,15 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </label>
                       </div>
 
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant gap-md">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-tertiary text-[20px]">update</span>
                           <div>
-                            <p className="text-body-md font-semibold text-on-surface">Update Sistem</p>
+                            <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Update Sistem</p>
                             <p className="text-body-sm text-on-surface-variant">Informasi pembaruan aplikasi</p>
                           </div>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={systemUpdateNotif}
@@ -702,17 +753,17 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                   {/* Report Notifications */}
                   <div className="mb-sm">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Laporan Berkala</h3>
+                    <h3 className="text-title-md md:text-title-lg text-on-surface mb-sm">Laporan Berkala</h3>
                     <div className="max-w-2xl space-y-sm">
-                      <div className="flex items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant gap-md">
                         <div className="flex items-center gap-md flex-1">
                           <span className="material-symbols-outlined text-primary text-[20px]">summarize</span>
                           <div>
-                            <p className="text-body-md font-semibold text-on-surface">Laporan Mingguan</p>
+                            <p className="text-body-sm md:text-body-md font-semibold text-on-surface">Laporan Mingguan</p>
                             <p className="text-body-sm text-on-surface-variant">Ringkasan aktivitas setiap minggu</p>
                           </div>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer ml-lg">
+                        <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={weeklyReportNotif}
@@ -729,15 +780,15 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                   {/* Notification Preferences */}
                   <div className="mb-sm">
-                    <h3 className="text-title-lg font-title-lg text-on-surface mb-sm">Preferensi Notifikasi</h3>
+                    <h3 className="text-title-md md:text-title-lg text-on-surface mb-sm">Preferensi Notifikasi</h3>
                     <div className="max-w-2xl">
-                      <div className="bg-secondary-container/20 border border-secondary/30 rounded-lg p-lg">
+                      <div className="bg-secondary-container/20 border border-secondary/30 rounded-lg p-md md:p-lg">
                         <div className="flex items-start gap-md">
-                          <span className="material-symbols-outlined text-secondary text-[24px]">info</span>
+                          <span className="material-symbols-outlined text-secondary text-[20px] md:text-[24px]">info</span>
                           <div>
-                            <p className="text-body-md font-semibold text-on-surface mb-xs">Kelola Preferensi Email</p>
+                            <p className="text-body-sm md:text-body-md font-semibold text-on-surface mb-xs">Kelola Preferensi Email</p>
                             <p className="text-body-sm text-on-surface-variant mb-md">
-                              Notifikasi akan dikirim ke alamat email: <span className="font-semibold text-on-surface">{user?.email}</span>
+                              Notifikasi akan dikirim ke alamat email: <span className="font-semibold text-on-surface break-all">{user?.email}</span>
                             </p>
                             <p className="text-body-sm text-on-surface-variant">
                               Email tidak dapat diubah. Hubungi administrator jika perlu mengubah email.
@@ -761,21 +812,21 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
             </div>
 
             {/* Action Buttons */}
-            <div className="bg-surface-container-low border-t border-outline-variant px-xl py-lg flex justify-end gap-md rounded-xl">
+            <div className="bg-surface-container-low border-t border-outline-variant px-md md:px-xl py-md md:py-lg flex flex-col-reverse sm:flex-row justify-end gap-sm md:gap-md rounded-xl">
               <button
                 onClick={handleCancel}
                 disabled={savingPassword}
-                className="px-md py-sm border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-md py-sm border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Batal
               </button>
               <button
                 onClick={handleSave}
                 disabled={savingPassword}
-                className="px-md py-sm bg-secondary text-on-secondary rounded-lg hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
+                className="w-full sm:w-auto px-md py-sm bg-secondary text-on-secondary rounded-lg hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-xs"
               >
                 {savingPassword && (
-                  <span className="animate-spin">⏳</span>
+                  <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
                 )}
                 {savingPassword ? 'Menyimpan...' : 'Simpan'}
               </button>
