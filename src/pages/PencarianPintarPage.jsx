@@ -230,19 +230,29 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                   {/* Date Range */}
                   <div className="w-full lg:flex-1 lg:min-w-[200px]">
                     <div className="flex items-center gap-xs">
-                      <input
-                        value={dateStart}
-                        onChange={(e) => setDateStart(e.target.value)}
-                        className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
-                        type="date"
-                      />
+                      <div className="relative flex-1">
+                        <input
+                          value={dateStart}
+                          onChange={(e) => setDateStart(e.target.value)}
+                          className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
+                          type="date"
+                        />
+                        <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                          calendar_today
+                        </span>
+                      </div>
                       <span className="text-on-surface-variant text-body-sm">s/d</span>
-                      <input
-                        value={dateEnd}
-                        onChange={(e) => setDateEnd(e.target.value)}
-                        className="flex-1 bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
-                        type="date"
-                      />
+                      <div className="relative flex-1">
+                        <input
+                          value={dateEnd}
+                          onChange={(e) => setDateEnd(e.target.value)}
+                          className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface outline-none focus:border-primary cursor-pointer"
+                          type="date"
+                        />
+                        <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                          calendar_today
+                        </span>
+                      </div>
                     </div>
                   </div>
                   
