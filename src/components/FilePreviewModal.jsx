@@ -33,19 +33,27 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
         const isDoc = preview.type === 'doc' || /\.(docx?|rtf|odt)$/i.test(lower);
         const isXls = preview.type === 'xls' || /\.(xlsx?|csv)$/i.test(lower);
         const isPdfFile = preview.type === 'pdf' || /\.pdf$/i.test(lower);
-        const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        // Enhanced mobile detection
+        const isMobileDevice = (
+          /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+          (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
+          window.innerWidth <= 768
+        );
 
         console.log('📱 Preview Debug:', {
           name: preview.name,
           type: preview.type,
           isPdfFile,
           isMobileDevice,
-          userAgent: navigator.userAgent
+          userAgent: navigator.userAgent,
+          innerWidth: window.innerWidth,
+          maxTouchPoints: navigator.maxTouchPoints
         });
 
-        // For PDF on mobile, download and create blob URL for better compatibility
-        if (isPdfFile && isMobileDevice) {
-          console.log('🔄 Loading PDF for mobile...');
+        // For ALL PDF files (mobile or desktop), create blob URL for better inline preview
+        if (isPdfFile) {
+          console.log('🔄 Loading PDF blob for inline preview...');
           try {
             const response = await fetch(signedUrl);
             const blob = await response.blob();
@@ -58,15 +66,10 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             return; // Early return to prevent other logic from running
           } catch (err) {
             console.error('❌ Failed to create PDF blob:', err);
+            // Fallback to signed URL if blob creation fails
             if (active) setLoading(false);
             return;
           }
-        }
-
-        // For non-mobile PDF, just set loading false
-        if (isPdfFile && !isMobileDevice) {
-          if (active) setLoading(false);
-          return;
         }
 
         // Handle DOC/XLS files
@@ -117,7 +120,13 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
   const name = preview?.name || '-';
   const isImage = preview?.type === 'img' || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name || '');
   const isPdf = preview?.type === 'pdf' || /\.pdf$/i.test(name || '');
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  
+  // Enhanced mobile detection (same as in useEffect)
+  const isMobile = (
+    /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
+    window.innerWidth <= 768
+  );
 
   console.log('🖼️ Render State:', {
     loading,
@@ -242,11 +251,20 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
             <div className="h-full flex items-center justify-center">
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
-          ) : isPdf && isMobile ? (
+          ) : isPdf ? (
             pdfBlobUrl ? (
               <div className="w-full h-[70vh] bg-gray-100 rounded-lg overflow-hidden">
                 <iframe 
                   src={pdfBlobUrl}
+                  title={name} 
+                  className="w-full h-full border-0"
+                  allow="fullscreen"
+                />
+              </div>
+            ) : url ? (
+              <div className="w-full h-[70vh] bg-gray-100 rounded-lg overflow-hidden">
+                <iframe 
+                  src={url}
                   title={name} 
                   className="w-full h-full border-0"
                   allow="fullscreen"
@@ -261,8 +279,6 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
                 </div>
               </div>
             )
-          ) : isPdf ? (
-            <iframe src={url} title={name} className="w-full h-[70vh] border-0 rounded-lg bg-white" />
           ) : content?.kind === 'html' ? (
             <div
               className="preview-doc mx-auto max-w-2xl bg-white rounded-lg p-xl shadow-sm"
