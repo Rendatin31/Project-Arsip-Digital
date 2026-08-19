@@ -497,10 +497,11 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
               </div>
             </section>
 
-            <div className="w-full overflow-x-auto px-sm sm:px-md lg:px-[25px]">
-              <section className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden min-w-fit">
+            {/* Desktop Table View - Hidden on Mobile */}
+            <div className="hidden md:block w-full overflow-x-auto px-sm sm:px-md lg:px-[25px]">
+              <section className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse min-w-[800px]">
+                  <table className="w-full text-left border-collapse">
                   <thead className="bg-surface-container text-label-caps text-on-surface-variant border-b border-outline-variant">
                     <tr>
                       <th className="px-lg py-md font-semibold w-[180px]">Waktu</th>
@@ -631,6 +632,115 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
               </div>
               </section>
             </div>
+
+            {/* Mobile Card View - Visible on Mobile only */}
+            <div className="md:hidden px-sm space-y-sm">
+              {paginatedData.length === 0 ? (
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg text-center">
+                  <p className="text-body-sm text-on-surface-variant">Tidak ada aktivitas.</p>
+                </div>
+              ) : (
+                paginatedData.map((row) => {
+                  const profile = profiles[row.user_id] || {};
+                  const displayName = profile.name || row.user_id;
+                  const initials = displayName.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+                  return (
+                    <div key={row.id} className="bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-sm">
+                      {/* Header: Time & Activity Badge */}
+                      <div className="flex items-start justify-between mb-sm gap-sm">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[11px] text-on-surface-variant font-medium">{row.time}</p>
+                        </div>
+                        <span className={`px-sm py-xs ${row.typeColor} rounded text-[11px] font-bold inline-flex items-center gap-xs flex-shrink-0`}>
+                          <span className="material-symbols-outlined text-[12px]">{row.icon}</span>
+                          {row.type}
+                        </span>
+                      </div>
+                      
+                      {/* User Info */}
+                      <div className="flex items-center gap-sm mb-sm">
+                        {row.avatar || profile.avatar ? (
+                          <img className="w-10 h-10 rounded-full border border-outline-variant object-cover" src={row.avatar || profile.avatar} alt={displayName} />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant text-sm font-bold">
+                            {initials}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-on-surface truncate">{displayName}</p>
+                          <p className="text-[11px] text-on-surface-variant font-mono">{row.ip}</p>
+                        </div>
+                      </div>
+                      
+                      {/* Detail */}
+                      <div className="mb-md">
+                        <div className="flex items-start gap-xs">
+                          <p className="text-[13px] text-on-surface break-words flex-1">{row.detail}</p>
+                          {reviewedIds.has(row.id) && (
+                            <span className="material-symbols-outlined text-[16px] text-[#4CAF50] drop-shadow-md flex-shrink-0">check</span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Action Button */}
+                      <div className="pt-sm border-t border-outline-variant">
+                        {reviewedIds.has(row.id) ? (
+                          <div className="py-sm text-[13px] font-bold text-[#4CAF50] text-center">
+                            ✓ Telah ditinjau
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleReview(row.id)}
+                            className="w-full py-sm px-md bg-secondary text-white rounded-lg text-[13px] font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-xs"
+                          >
+                            {reviewingId === row.id ? (
+                              <>
+                                <span className="material-symbols-outlined text-[16px] animate-pulse">check</span>
+                                Menyimpan...
+                              </>
+                            ) : (
+                              <>
+                                <span className="material-symbols-outlined text-[16px]">task_alt</span>
+                                Tinjau Aktivitas
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+              
+              {/* Mobile Pagination */}
+              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+                <p className="text-[12px] text-on-surface-variant text-center mb-sm">
+                  Menampilkan {filtered.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filtered.length)} dari {filtered.length} aktivitas
+                </p>
+                <div className="flex items-center justify-center gap-xs">
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="w-9 h-9 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+                  </button>
+                  
+                  <span className="px-md py-xs text-[13px] font-semibold text-on-surface">
+                    {currentPage} / {totalPages || 1}
+                  </span>
+                  
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    className="w-9 h-9 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         )}
