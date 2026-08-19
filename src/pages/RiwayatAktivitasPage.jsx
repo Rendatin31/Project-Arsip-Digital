@@ -406,7 +406,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
         ) : (
         <div className="flex-1 overflow-auto">
           <div className="space-y-sm mt-3">
-            <section className="space-y-md px-md sm:px-md lg:px-[25px] max-w-full">
+            <section className="space-y-md px-lg sm:px-md lg:px-[25px] max-w-full">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
                   <h2 className="font-headline-md text-xl text-on-surface">Riwayat Aktivitas</h2>
