@@ -941,7 +941,7 @@ export default function App({ supabase }) {
                   </div>
                 </section>
               ) : (
-              <section className="px-lg md:p-lg flex-1 flex flex-col min-h-screen">
+              <section className="p-sm md:p-lg flex-1 flex flex-col min-h-screen">
                   <div className="flex flex-col lg:grid lg:grid-cols-12 gap-lg flex-1">
                     {/* Directory Tree - Hidden on mobile, sidebar on desktop */}
                     <DirectoryTree
@@ -1168,7 +1168,7 @@ function DirectoryTree({ categories, selectedCategoryId, onSelect, onAdd, onUpda
       {/* Header with Toggle Button - Only visible on mobile */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="lg:hidden w-full flex items-center justify-between px-lg py-md hover:bg-surface-container transition-colors"
+        className="lg:hidden w-full flex items-center justify-between px-md py-md hover:bg-surface-container transition-colors"
       >
         <div className="flex items-center gap-sm">
           <span className="material-symbols-outlined text-on-surface-variant">
@@ -1188,7 +1188,7 @@ function DirectoryTree({ categories, selectedCategoryId, onSelect, onAdd, onUpda
 
       {/* Collapsible Content */}
       <div className={`
-        flex flex-col gap-sm px-lg lg:px-sm py-md overflow-y-auto scrollbar-hide
+        flex flex-col gap-sm px-sm py-md overflow-y-auto scrollbar-hide
         lg:flex
         ${isExpanded ? 'flex' : 'hidden'}
       `}>
