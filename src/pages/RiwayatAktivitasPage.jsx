@@ -425,7 +425,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 */}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md mb-md">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md mb-md mx-sm md:mx-0">
                 <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center justify-between min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1">
                     <div>
