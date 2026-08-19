@@ -266,8 +266,8 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
   const lead = useInfinite ? previews : [];
   const trail = useInfinite ? previews : [];
   
-  // Filter previews for mobile - only show 1 item (the most recent)
-  const displayPreviews = isMobile ? previews.slice(0, 1) : previews;
+  // Filter previews for mobile - show 2 items on mobile, all on desktop
+  const displayPreviews = isMobile ? previews.slice(0, 2) : previews;
 
   return (
     <div className="bg-surface border border-outline-variant rounded-xl p-lg flex flex-col gap-md">
