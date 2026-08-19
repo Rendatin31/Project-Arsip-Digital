@@ -498,9 +498,19 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   <div className="flex-1">
                     <label className="text-label-caps block mb-xs text-on-surface-variant">Rentang Waktu</label>
                     <div className="flex flex-col gap-xs">
-                      <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                      <div className="relative">
+                        <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                        <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                          calendar_today
+                        </span>
+                      </div>
                       <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
-                      <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                      <div className="relative">
+                        <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                        <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                          calendar_today
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="w-full">
@@ -527,9 +537,19 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 <div className="flex-1 min-w-[200px]">
                   <label className="text-label-caps block mb-xs text-on-surface-variant">Rentang Waktu</label>
                   <div className="flex items-center gap-sm">
-                    <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                    <div className="relative flex-1">
+                      <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                      <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                        calendar_today
+                      </span>
+                    </div>
                     <span className="text-on-surface-variant text-body-sm">s/d</span>
-                    <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                    <div className="relative flex-1">
+                      <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-9 pr-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                      <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                        calendar_today
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className="w-[200px]">

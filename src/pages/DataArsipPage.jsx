@@ -397,23 +397,33 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                      
                      {/* Date Range */}
                      <div className="w-full flex flex-col items-stretch gap-xs">
-                       <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
-                         type="date"
-                         value={filterDateStart}
-                         onChange={(e) => setFilterDateStart(e.target.value)}
-                         placeholder="Tanggal mulai"
-                         title="Tanggal mulai"
-                       />
+                       <div className="relative">
+                         <input
+                           className="bg-surface-container-low border-none rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
+                           type="date"
+                           value={filterDateStart}
+                           onChange={(e) => setFilterDateStart(e.target.value)}
+                           placeholder="Tanggal mulai"
+                           title="Tanggal mulai"
+                         />
+                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                           calendar_today
+                         </span>
+                       </div>
                        <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
-                       <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
-                         type="date"
-                         value={filterDateEnd}
-                         onChange={(e) => setFilterDateEnd(e.target.value)}
-                         placeholder="Tanggal akhir"
-                         title="Tanggal akhir"
-                       />
+                       <div className="relative">
+                         <input
+                           className="bg-surface-container-low border-none rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
+                           type="date"
+                           value={filterDateEnd}
+                           onChange={(e) => setFilterDateEnd(e.target.value)}
+                           placeholder="Tanggal akhir"
+                           title="Tanggal akhir"
+                         />
+                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                           calendar_today
+                         </span>
+                       </div>
                      </div>
                    </div>
                    
@@ -465,21 +475,31 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                      
                      {/* Date Range - Horizontal */}
                      <div className="flex items-center gap-xs">
-                       <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
-                         type="date"
-                         value={filterDateStart}
-                         onChange={(e) => setFilterDateStart(e.target.value)}
-                         title="Tanggal mulai"
-                       />
+                       <div className="relative">
+                         <input
+                           className="bg-surface-container-low border-none rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                           type="date"
+                           value={filterDateStart}
+                           onChange={(e) => setFilterDateStart(e.target.value)}
+                           title="Tanggal mulai"
+                         />
+                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                           calendar_today
+                         </span>
+                       </div>
                        <span className="text-on-surface-variant text-body-sm">s/d</span>
-                       <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
-                         type="date"
-                         value={filterDateEnd}
-                         onChange={(e) => setFilterDateEnd(e.target.value)}
-                         title="Tanggal akhir"
-                       />
+                       <div className="relative">
+                         <input
+                           className="bg-surface-container-low border-none rounded-lg py-2 pl-9 pr-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                           type="date"
+                           value={filterDateEnd}
+                           onChange={(e) => setFilterDateEnd(e.target.value)}
+                           title="Tanggal akhir"
+                         />
+                         <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">
+                           calendar_today
+                         </span>
+                       </div>
                      </div>
                    </div>
                    
