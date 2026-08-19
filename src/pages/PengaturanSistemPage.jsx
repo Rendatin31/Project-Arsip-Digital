@@ -342,12 +342,12 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
       <div className={renderHeader ? "ml-0 lg:ml-[230px] flex flex-col min-h-screen" : "flex flex-col min-h-screen"} style={renderHeader ? { width: '100%', maxWidth: 'calc(100% - 0px)', minWidth: 0 } : { width: '100%', minWidth: 0 }} className={renderHeader ? "ml-0 lg:ml-[230px] flex flex-col min-h-screen lg:w-[calc(100%-230px)]" : "flex flex-col min-h-screen"}>
         {renderHeader && <Header user={user} profile={profile} onLogout={() => {}} breadcrumbs={[{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'settings', name: 'Pengaturan Sistem' }]} onNavigate={onNavigate} supabase={supabase} />}
 
-        <main className="flex-1 px-lg py-lg">
+        <main className="flex-1 px-md md:px-lg py-md md:py-lg">
           <div className="max-w-5xl">
             {/* Tabs */}
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-lg overflow-hidden">
-              <div className="border-b border-outline-variant">
-                <nav className="flex">
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-md md:mb-lg overflow-hidden">
+              <div className="border-b border-outline-variant overflow-x-auto">
+                <nav className="flex min-w-max md:min-w-0">
                   {visibleTabs.map((tab) => {
                     const isDisabled = tab.id === 'konfigurasi' && !isSuperAdmin;
                     return (
@@ -355,7 +355,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         key={tab.id}
                         onClick={() => !isDisabled && setActiveTab(tab.id)}
                         disabled={isDisabled}
-                        className={`flex items-center gap-xs px-lg py-md text-body-md font-semibold transition-colors border-b-2 ${
+                        className={`flex items-center gap-xs px-md md:px-lg py-sm md:py-md text-body-sm md:text-body-md font-semibold transition-colors border-b-2 whitespace-nowrap ${
                           activeTab === tab.id
                             ? 'border-secondary text-secondary'
                             : isDisabled
@@ -364,8 +364,8 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         }`}
                         title={isDisabled ? 'Hanya dapat diakses oleh Super Admin' : ''}
                       >
-                        <span className="material-symbols-outlined text-[20px]">{tab.icon}</span>
-                        {tab.label}
+                        <span className="material-symbols-outlined text-[18px] md:text-[20px]">{tab.icon}</span>
+                        <span className="hidden sm:inline">{tab.label}</span>
                       </button>
                     );
                   })}
