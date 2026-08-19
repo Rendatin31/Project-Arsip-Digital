@@ -406,7 +406,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
         ) : (
         <div className="flex-1 overflow-auto">
           <div className="space-y-sm mt-3">
-            <section className="space-y-md px-sm sm:px-md lg:px-[25px] max-w-full">
+            <section className="space-y-md px-md sm:px-md lg:px-[25px] max-w-full">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
                   <h2 className="font-headline-md text-xl text-on-surface">Riwayat Aktivitas</h2>
@@ -688,7 +688,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
             </div>
 
             {/* Mobile Card View - Visible on Mobile only */}
-            <div className="md:hidden px-md space-y-lg">
+            <div className="md:hidden px-lg space-y-lg">
               {paginatedData.length === 0 ? (
                 <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg text-center">
                   <p className="text-body-sm text-on-surface-variant">Tidak ada aktivitas.</p>
