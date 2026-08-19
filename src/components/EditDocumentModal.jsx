@@ -12,7 +12,7 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
     letter_date: doc.letter_date || '',
     sender: doc.sender || '',
     recipient: doc.recipient || '',
-    status: doc.status || 'DRAFT',
+    status: doc.status === 'DRAFT' ? 'PRIVATE' : (doc.status || 'PRIVATE'),
   });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -88,7 +88,7 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
     status: 'Status',
   };
 
-  const STATUS_LABELS = { DRAFT: 'Draft', PRIVATE: 'Private', PUBLISHED: 'Publish' };
+  const STATUS_LABELS = { PRIVATE: 'Private', PUBLISHED: 'Publish' };
 
   const getCategoryName = (id) => {
     if (!id || !Array.isArray(categories)) return id || '-';
@@ -424,7 +424,6 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
               value={form.status}
               onChange={handleChange}
             >
-              <option value="DRAFT">Draft</option>
               <option value="PRIVATE">Private</option>
               <option value="PUBLISHED">Publish</option>
             </select>

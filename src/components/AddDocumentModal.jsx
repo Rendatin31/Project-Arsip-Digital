@@ -12,7 +12,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
     letter_date: '',
     sender: '',
     recipient: '',
-    status: 'DRAFT',
+    status: 'PRIVATE',
   });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState('');
@@ -343,7 +343,6 @@ export default function AddDocumentModal({ categories, directories, userId, curr
               value={form.status}
               onChange={handleChange}
             >
-              <option value="DRAFT">Draft</option>
               <option value="PRIVATE">Private</option>
               <option value="PUBLISHED">Publish</option>
             </select>
