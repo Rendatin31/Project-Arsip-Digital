@@ -460,7 +460,7 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
               </div>
 
               <div className="sm:col-span-3">
-                <QuickPreview previews={previews} title="Preview Update Terkini" slider onOpenFile={handleOpenFile} supabase={supabase} />
+                <QuickPreview previews={previews} title="Preview Update Terkini" slider showViewAll={false} onOpenFile={handleOpenFile} supabase={supabase} />
               </div>
             </div>
           </div>

@@ -167,7 +167,7 @@ function PreviewCard({ preview, cardRef, onOpenFile, supabase }) {
   );
 }
 
-export default function QuickPreview({ previews, title = 'Preview Update Terkini', slider = false, onOpenFile, supabase, mobileLimit }) {
+export default function QuickPreview({ previews, title = 'Preview Update Terkini', slider = false, onOpenFile, supabase, mobileLimit, showViewAll = true }) {
   const scrollRef = useRef(null);
   const firstOriginalRef = useRef(null);
   const firstTrailingRef = useRef(null);
@@ -297,7 +297,9 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
               </button>
             </>
           )}
-          <button className="text-secondary font-semibold text-body-sm">Lihat Semua Riwayat</button>
+          {showViewAll && (
+            <button className="text-secondary font-semibold text-body-sm">Lihat Semua Riwayat</button>
+          )}
         </div>
       </div>
       <div
