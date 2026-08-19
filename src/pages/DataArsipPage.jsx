@@ -400,8 +400,8 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                </button>
              </div>
 
-            {/* Main Data Table */}
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col mb-3">
+            {/* Main Data Table - Desktop View (Hidden on Mobile) */}
+            <div className="hidden md:block bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex-col mb-3">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
@@ -470,9 +470,75 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Mobile Card View (Visible on Mobile only) */}
+            <div className="md:hidden space-y-sm mb-3">
+              {paginatedDocuments.length === 0 ? (
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg text-center">
+                  <p className="text-body-sm text-on-surface-variant">Belum ada data arsip.</p>
+                </div>
+              ) : (
+                paginatedDocuments.map((doc) => (
+                  <div
+                    key={doc.id}
+                    className="bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-sm"
+                  >
+                    {/* Category & Status */}
+                    <div className="flex items-center justify-between mb-sm">
+                      <span className="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[11px] font-semibold rounded">{doc.category}</span>
+                      <div className={`inline-flex items-center gap-xs px-2 py-0.5 rounded-full text-[10px] font-bold border ${doc.statusColor}`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                        <span>{doc.status}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Subject */}
+                    <div className="mb-sm">
+                      <p className="font-semibold text-primary text-sm">{doc.subject}</p>
+                      {doc.perihal && (
+                        <p className="text-[12px] text-on-surface-variant mt-1">{doc.perihal}</p>
+                      )}
+                    </div>
+                    
+                    {/* Date */}
+                    <div className="flex items-center gap-xs text-[12px] text-on-surface-variant mb-md">
+                      <span className="material-symbols-outlined text-[16px]">calendar_today</span>
+                      <span>{doc.dateModified}</span>
+                    </div>
+                    
+                    {/* Actions */}
+                    <div className="flex items-center gap-xs pt-sm border-t border-outline-variant">
+                      <button 
+                        onClick={() => handleView(doc)} 
+                        className="flex-1 flex items-center justify-center gap-xs py-sm px-md bg-secondary text-white rounded-lg text-[13px] font-semibold hover:brightness-110 transition-all"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">visibility</span>
+                        Lihat
+                      </button>
+                      <button 
+                        onClick={() => handleDownload(doc)} 
+                        className="flex items-center justify-center gap-xs py-sm px-md bg-surface-container rounded-lg text-[13px] font-semibold hover:bg-surface-container-high transition-all"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">download</span>
+                      </button>
+                      {profile?.role === 'super_admin' && (
+                        <button 
+                          onClick={() => handleDelete(doc)} 
+                          className="flex items-center justify-center gap-xs py-sm px-md bg-error-container/30 text-error rounded-lg text-[13px] font-semibold hover:bg-error-container/50 transition-all"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
 
               {/* Pagination Footer */}
-              <div className="bg-surface-container-lowest px-lg py-md border-t border-outline-variant flex items-center justify-between">
+              <div className="bg-surface-container-lowest px-lg py-md border-t md:border-t-0 border-outline-variant rounded-xl md:rounded-none flex items-center justify-between mb-3"
+>
                 <p className="text-body-sm text-on-surface-variant">
                   Menampilkan <span className="font-bold text-on-surface">{startIndex + 1}-{Math.min(endIndex, filteredDocuments.length)}</span> dari <span className="font-bold text-on-surface">{filteredDocuments.length}</span> data
                 </p>
@@ -533,7 +599,6 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                   </button>
                 </div>
               </div>
-            </div>
 
             {/* Contextual Information Card */}
             <div className="bg-secondary/5 rounded-xl p-md border border-secondary/20 flex flex-col md:flex-row items-center gap-md">
