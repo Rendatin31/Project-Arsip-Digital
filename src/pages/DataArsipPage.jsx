@@ -365,8 +365,9 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
 
                {/* Filter Content - Collapsible on Mobile, Always Visible on Desktop */}
                <div className={`${isFilterExpanded ? 'block' : 'hidden'} md:block border-t border-outline-variant`}>
-                 <div className="p-md flex flex-wrap items-center gap-md">
-                   <div className="flex-1 min-w-[200px] flex flex-wrap gap-sm">
+                 <div className="p-md space-y-md">
+                   {/* Filter Inputs */}
+                   <div className="flex flex-wrap gap-sm">
                      <div className="relative group flex-1 min-w-[160px]">
                        <select
                          className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
@@ -414,18 +415,22 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                        />
                      </div>
                    </div>
-                   <button
-                     onClick={() => {
-                       setFilterCategory('');
-                       setFilterStatus('');
-                       setFilterDateStart('');
-                       setFilterDateEnd('');
-                       setSearchQuery('');
-                     }}
-                     className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm w-full md:w-auto"
-                   >
-                     Reset Filter
-                   </button>
+                   
+                   {/* Reset Button - Bottom Right */}
+                   <div className="flex justify-end">
+                     <button
+                       onClick={() => {
+                         setFilterCategory('');
+                         setFilterStatus('');
+                         setFilterDateStart('');
+                         setFilterDateEnd('');
+                         setSearchQuery('');
+                       }}
+                       className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm"
+                     >
+                       Reset Filter
+                     </button>
+                   </div>
                  </div>
                </div>
              </div>
