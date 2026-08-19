@@ -120,7 +120,7 @@ function PreviewCard({ preview, cardRef, onOpenFile, supabase }) {
     <div
       ref={cardRef}
       onClick={() => onOpenFile?.(preview)}
-      className="flex-shrink-0 w-48 snap-start bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden group cursor-pointer hover:shadow-md transition-all"
+      className="flex-shrink-0 w-full md:w-48 snap-start bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden group cursor-pointer hover:shadow-md transition-all"
     >
       <div className="h-28 bg-surface-container-high relative flex items-center justify-center overflow-hidden">
         {isImage && preview.filePath && supabase ? (
