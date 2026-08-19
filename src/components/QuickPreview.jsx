@@ -120,7 +120,7 @@ function PreviewCard({ preview, cardRef, onOpenFile, supabase }) {
     <div
       ref={cardRef}
       onClick={() => onOpenFile?.(preview)}
-      className="flex-shrink-0 w-[calc(100vw-5rem)] md:w-48 snap-start bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden group cursor-pointer hover:shadow-md transition-all"
+      className="flex-shrink-0 w-48 snap-start bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden group cursor-pointer hover:shadow-md transition-all"
     >
       <div className="h-28 bg-surface-container-high relative flex items-center justify-center overflow-hidden">
         {isImage && preview.filePath && supabase ? (
@@ -254,8 +254,8 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
   const trail = useInfinite ? previews : [];
 
   return (
-    <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden flex flex-col">
-      <div className="px-lg pt-lg pb-md flex justify-between items-center">
+    <div className="bg-surface border border-outline-variant rounded-xl p-lg flex flex-col gap-md">
+      <div className="flex justify-between items-center">
         <h3 className="font-title-sm text-on-surface flex items-center gap-sm">
           <span className="material-symbols-outlined text-secondary">preview</span>
           {title}
@@ -290,7 +290,7 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
         onPointerDown={() => { draggingRef.current = true; }}
         onPointerUp={() => { draggingRef.current = false; scheduleNormalize(); }}
         onPointerCancel={() => { draggingRef.current = false; scheduleNormalize(); }}
-        className="flex gap-md md:gap-lg overflow-x-auto px-lg pb-lg scrollbar-hide scroll-smooth snap-x snap-proximity"
+        className="flex gap-lg overflow-x-auto pb-sm scrollbar-hide scroll-smooth snap-x snap-proximity"
       >
         {previews.length === 0 ? (
           <p className="text-body-sm text-on-surface-variant py-md">Belum ada dokumen yang dibuka.</p>
