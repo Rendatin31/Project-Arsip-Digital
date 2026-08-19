@@ -174,6 +174,19 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
   const intervalRef = useRef(null);
   const normTimerRef = useRef(null);
   const draggingRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const useInfinite = slider && previews.length > 3;
 
@@ -252,6 +265,9 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
 
   const lead = useInfinite ? previews : [];
   const trail = useInfinite ? previews : [];
+  
+  // Filter previews for mobile - only show 1 item (the most recent)
+  const displayPreviews = isMobile ? previews.slice(0, 1) : previews;
 
   return (
     <div className="bg-surface border border-outline-variant rounded-xl p-lg flex flex-col gap-md">
@@ -299,7 +315,7 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
             {lead.map((preview, i) => (
               <PreviewCard key={`lead-${preview.id}-${i}`} preview={preview} onOpenFile={onOpenFile} supabase={supabase} />
             ))}
-            {previews.map((preview, i) => (
+            {displayPreviews.map((preview, i) => (
               <PreviewCard
                 key={`orig-${preview.id}-${i}`}
                 preview={preview}
