@@ -15,6 +15,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
   const [filterStatus, setFilterStatus] = useState('');
   const [filterDateStart, setFilterDateStart] = useState('');
   const [filterDateEnd, setFilterDateEnd] = useState('');
+  const [isFilterExpanded, setIsFilterExpanded] = useState(false); // Collapse state for mobile
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -337,71 +338,96 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
               </div>
 
               {/* Filter System */}
-             <div className="bg-surface-container-lowest p-md rounded-xl border border-outline-variant flex flex-wrap items-center gap-md mb-3">
-               <div className="flex items-center gap-sm text-on-surface-variant px-sm border-r border-outline-variant pr-md">
-                 <span className="material-symbols-outlined">filter_alt</span>
-                 <span className="text-label-caps">FILTERS</span>
-               </div>
-               <div className="flex-1 min-w-[200px] flex flex-wrap gap-sm">
-                 <div className="relative group flex-1 min-w-[160px]">
-                   <select
-                     className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
-                     value={filterCategory}
-                     onChange={(e) => setFilterCategory(e.target.value)}
-                   >
-                     <option value="">Semua Kategori</option>
-                     {categories.map((cat) => (
-                       <option key={cat.id} value={cat.id}>{cat.name}</option>
-                     ))}
-                   </select>
-                   <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
-                 </div>
-                 <div className="relative group flex-1 min-w-[160px]">
-                   <select
-                     className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
-                     value={filterStatus}
-                     onChange={(e) => setFilterStatus(e.target.value)}
-                   >
-                     <option value="">Semua Status</option>
-                     <option value="PRIVATE">Private</option>
-                     <option value="PUBLISHED">Diterbitkan</option>
-                   </select>
-                   <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
-                 </div>
-                 
-                 {/* Date Range - Responsive */}
-                 <div className="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-xs">
-                   <input
-                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
-                     type="date"
-                     value={filterDateStart}
-                     onChange={(e) => setFilterDateStart(e.target.value)}
-                     placeholder="Tanggal mulai"
-                     title="Tanggal mulai"
-                   />
-                   <span className="text-on-surface-variant text-body-sm text-center md:text-left">s/d</span>
-                   <input
-                     className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
-                     type="date"
-                     value={filterDateEnd}
-                     onChange={(e) => setFilterDateEnd(e.target.value)}
-                     placeholder="Tanggal akhir"
-                     title="Tanggal akhir"
-                   />
-                 </div>
-               </div>
-               <button
-                 onClick={() => {
-                   setFilterCategory('');
-                   setFilterStatus('');
-                   setFilterDateStart('');
-                   setFilterDateEnd('');
-                   setSearchQuery('');
-                 }}
-                 className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm w-full md:w-auto"
+             {/* Filter Card - Collapsible on Mobile */}
+             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-3 overflow-hidden">
+               {/* Filter Header - Always Visible, Clickable on Mobile */}
+               <div 
+                 className="p-md flex items-center justify-between cursor-pointer md:cursor-default"
+                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
                >
-                 Reset Filter
-               </button>
+                 <div className="flex items-center gap-sm text-on-surface-variant">
+                   <span className="material-symbols-outlined">filter_alt</span>
+                   <span className="text-label-caps font-semibold">FILTERS</span>
+                   {/* Active filter count badge */}
+                   {(filterCategory || filterStatus || filterDateStart || filterDateEnd) && (
+                     <span className="ml-xs px-2 py-0.5 bg-secondary text-white text-[11px] font-bold rounded-full">
+                       {[filterCategory, filterStatus, filterDateStart, filterDateEnd].filter(Boolean).length}
+                     </span>
+                   )}
+                 </div>
+                 {/* Expand/Collapse Icon - Mobile Only */}
+                 <button className="md:hidden p-1 hover:bg-surface-container rounded-full transition-colors">
+                   <span className={`material-symbols-outlined transition-transform duration-300 ${isFilterExpanded ? 'rotate-180' : ''}`}>
+                     expand_more
+                   </span>
+                 </button>
+               </div>
+
+               {/* Filter Content - Collapsible on Mobile, Always Visible on Desktop */}
+               <div className={`${isFilterExpanded ? 'block' : 'hidden'} md:block border-t border-outline-variant`}>
+                 <div className="p-md flex flex-wrap items-center gap-md">
+                   <div className="flex-1 min-w-[200px] flex flex-wrap gap-sm">
+                     <div className="relative group flex-1 min-w-[160px]">
+                       <select
+                         className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
+                         value={filterCategory}
+                         onChange={(e) => setFilterCategory(e.target.value)}
+                       >
+                         <option value="">Semua Kategori</option>
+                         {categories.map((cat) => (
+                           <option key={cat.id} value={cat.id}>{cat.name}</option>
+                         ))}
+                       </select>
+                       <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                     </div>
+                     <div className="relative group flex-1 min-w-[160px]">
+                       <select
+                         className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
+                         value={filterStatus}
+                         onChange={(e) => setFilterStatus(e.target.value)}
+                       >
+                         <option value="">Semua Status</option>
+                         <option value="PRIVATE">Private</option>
+                         <option value="PUBLISHED">Diterbitkan</option>
+                       </select>
+                       <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                     </div>
+                     
+                     {/* Date Range - Responsive */}
+                     <div className="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-xs">
+                       <input
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
+                         type="date"
+                         value={filterDateStart}
+                         onChange={(e) => setFilterDateStart(e.target.value)}
+                         placeholder="Tanggal mulai"
+                         title="Tanggal mulai"
+                       />
+                       <span className="text-on-surface-variant text-body-sm text-center md:text-left">s/d</span>
+                       <input
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
+                         type="date"
+                         value={filterDateEnd}
+                         onChange={(e) => setFilterDateEnd(e.target.value)}
+                         placeholder="Tanggal akhir"
+                         title="Tanggal akhir"
+                       />
+                     </div>
+                   </div>
+                   <button
+                     onClick={() => {
+                       setFilterCategory('');
+                       setFilterStatus('');
+                       setFilterDateStart('');
+                       setFilterDateEnd('');
+                       setSearchQuery('');
+                     }}
+                     className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm w-full md:w-auto"
+                   >
+                     Reset Filter
+                   </button>
+                 </div>
+               </div>
              </div>
 
             {/* Main Data Table - Desktop View (Hidden on Mobile) */}
