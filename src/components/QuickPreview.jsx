@@ -254,7 +254,7 @@ export default function QuickPreview({ previews, title = 'Preview Update Terkini
   const trail = useInfinite ? previews : [];
 
   return (
-    <div className="bg-surface border border-outline-variant rounded-xl p-lg flex flex-col gap-md">
+    <div className="bg-surface border border-outline-variant rounded-xl px-lg lg:px-lg py-lg flex flex-col gap-md">
       <div className="flex justify-between items-center">
         <h3 className="font-title-sm text-on-surface flex items-center gap-sm">
           <span className="material-symbols-outlined text-secondary">preview</span>
