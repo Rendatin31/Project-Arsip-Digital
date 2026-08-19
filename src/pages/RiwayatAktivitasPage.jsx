@@ -470,12 +470,14 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 </div>
               </div>
 
-              {/* Filter Card - Collapsible on Mobile */}
-              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-md overflow-hidden">
-                {/* Filter Header - Clickable on Mobile */}
+              {/* Filter Section - Mobile: Collapsible Card, Desktop: Inline */}
+              
+              {/* Mobile: Collapsible Filter Card */}
+              <div className="md:hidden bg-surface-container-lowest rounded-xl border border-outline-variant mb-md overflow-hidden">
+                {/* Filter Header - Clickable */}
                 <button
                   onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                  className="w-full flex items-center justify-between p-sm sm:p-md md:hidden bg-surface-container-low/30"
+                  className="w-full flex items-center justify-between p-sm bg-surface-container-low/30"
                 >
                   <div className="flex items-center gap-xs">
                     <span className="material-symbols-outlined text-secondary text-[20px]">filter_list</span>
@@ -491,33 +493,61 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   </span>
                 </button>
 
-                {/* Filter Content */}
-                <div className={`${isFilterExpanded ? 'block' : 'hidden'} md:block p-sm sm:p-md flex flex-col sm:flex-row flex-wrap gap-sm sm:gap-md items-stretch sm:items-end`}>
-                  <div className="flex-1 min-w-full sm:min-w-[200px]">
+                {/* Filter Content - Collapsible */}
+                <div className={`${isFilterExpanded ? 'block' : 'hidden'} p-sm flex flex-col gap-sm`}>
+                  <div className="flex-1">
                     <label className="text-label-caps block mb-xs text-on-surface-variant">Rentang Waktu</label>
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-xs sm:gap-sm">
-                      <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm sm:px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
-                      <span className="text-on-surface-variant text-body-sm text-center sm:text-left">s/d</span>
-                      <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm sm:px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                    <div className="flex flex-col gap-xs">
+                      <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                      <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
+                      <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
                     </div>
                   </div>
-                  <div className="w-full sm:w-[200px]">
+                  <div className="w-full">
                     <label className="text-label-caps block mb-xs text-on-surface-variant">Jenis Aktivitas</label>
-                    <select value={activityTypeRaw} onChange={(e) => { setActivityTypeRaw(e.target.value); setActivityType(ACTION_LABEL_MAP[e.target.value] || e.target.value || 'Semua Aktivitas'); }} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm sm:px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary">
+                    <select value={activityTypeRaw} onChange={(e) => { setActivityTypeRaw(e.target.value); setActivityType(ACTION_LABEL_MAP[e.target.value] || e.target.value || 'Semua Aktivitas'); }} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary">
                       <option value="">Semua Aktivitas</option>
                       {activityOptions.map((t) => (<option key={t} value={t}>{ACTION_LABEL_MAP[t] || t}</option>))}
                     </select>
                   </div>
-                  <div className="w-full sm:w-[200px]">
+                  <div className="w-full">
                     <label className="text-label-caps block mb-xs text-on-surface-variant">Pengguna</label>
-                    <select value={userFilter} onChange={(e) => setUserFilter(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm sm:px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary">
+                    <select value={userFilter} onChange={(e) => setUserFilter(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-sm py-xs text-body-sm focus:ring-secondary focus:border-secondary">
                       {userOptions.map((u) => (<option key={u}>{u}</option>))}
                     </select>
                   </div>
-                  <button onClick={handleReset} className="w-full sm:w-auto px-md py-2 text-on-surface-variant border border-outline-variant rounded-lg text-body-sm hover:bg-surface-container transition-colors">
+                  <button onClick={handleReset} className="w-full px-md py-2 text-on-surface-variant border border-outline-variant rounded-lg text-body-sm hover:bg-surface-container transition-colors">
                     Reset
                   </button>
                 </div>
+              </div>
+
+              {/* Desktop: Inline Filter (Original) */}
+              <div className="hidden md:flex bg-surface-container-lowest p-md rounded-xl border border-outline-variant flex-wrap gap-md items-end mb-md">
+                <div className="flex-1 min-w-[200px]">
+                  <label className="text-label-caps block mb-xs text-on-surface-variant">Rentang Waktu</label>
+                  <div className="flex items-center gap-sm">
+                    <input value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                    <span className="text-on-surface-variant text-body-sm">s/d</span>
+                    <input value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary" type="date" />
+                  </div>
+                </div>
+                <div className="w-[200px]">
+                  <label className="text-label-caps block mb-xs text-on-surface-variant">Jenis Aktivitas</label>
+                  <select value={activityTypeRaw} onChange={(e) => { setActivityTypeRaw(e.target.value); setActivityType(ACTION_LABEL_MAP[e.target.value] || e.target.value || 'Semua Aktivitas'); }} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary">
+                    <option value="">Semua Aktivitas</option>
+                    {activityOptions.map((t) => (<option key={t} value={t}>{ACTION_LABEL_MAP[t] || t}</option>))}
+                  </select>
+                </div>
+                <div className="w-[200px]">
+                  <label className="text-label-caps block mb-xs text-on-surface-variant">Pengguna</label>
+                  <select value={userFilter} onChange={(e) => setUserFilter(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-xs text-body-sm focus:ring-secondary focus:border-secondary">
+                    {userOptions.map((u) => (<option key={u}>{u}</option>))}
+                  </select>
+                </div>
+                <button onClick={handleReset} className="px-md py-2 text-on-surface-variant border border-outline-variant rounded-lg text-body-sm hover:bg-surface-container transition-colors">
+                  Reset
+                </button>
               </div>
             </section>
 
