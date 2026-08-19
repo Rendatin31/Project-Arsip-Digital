@@ -365,7 +365,8 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
 
                {/* Filter Content - Collapsible on Mobile, Always Visible on Desktop */}
                <div className={`${isFilterExpanded ? 'block' : 'hidden'} md:block border-t border-outline-variant`}>
-                 <div className="p-md space-y-md">
+                 {/* Mobile Layout - Stacked */}
+                 <div className="md:hidden p-md space-y-md">
                    {/* Filter Inputs */}
                    <div className="flex flex-wrap gap-sm">
                      <div className="relative group flex-1 min-w-[160px]">
@@ -394,19 +395,19 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                        <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
                      </div>
                      
-                     {/* Date Range - Responsive */}
-                     <div className="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-xs">
+                     {/* Date Range */}
+                     <div className="w-full flex flex-col items-stretch gap-xs">
                        <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
                          type="date"
                          value={filterDateStart}
                          onChange={(e) => setFilterDateStart(e.target.value)}
                          placeholder="Tanggal mulai"
                          title="Tanggal mulai"
                        />
-                       <span className="text-on-surface-variant text-body-sm text-center md:text-left">s/d</span>
+                       <span className="text-on-surface-variant text-body-sm text-center">s/d</span>
                        <input
-                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full md:w-auto"
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer w-full"
                          type="date"
                          value={filterDateEnd}
                          onChange={(e) => setFilterDateEnd(e.target.value)}
@@ -416,7 +417,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                      </div>
                    </div>
                    
-                   {/* Reset Button - Bottom Right */}
+                   {/* Reset Button - Bottom Right (Mobile Only) */}
                    <div className="flex justify-end">
                      <button
                        onClick={() => {
@@ -431,6 +432,70 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                        Reset Filter
                      </button>
                    </div>
+                 </div>
+
+                 {/* Desktop Layout - Inline (Original) */}
+                 <div className="hidden md:flex p-md flex-wrap items-center gap-md">
+                   <div className="flex-1 min-w-[200px] flex flex-wrap gap-sm">
+                     <div className="relative group flex-1 min-w-[160px]">
+                       <select
+                         className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
+                         value={filterCategory}
+                         onChange={(e) => setFilterCategory(e.target.value)}
+                       >
+                         <option value="">Semua Kategori</option>
+                         {categories.map((cat) => (
+                           <option key={cat.id} value={cat.id}>{cat.name}</option>
+                         ))}
+                       </select>
+                       <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                     </div>
+                     <div className="relative group flex-1 min-w-[160px]">
+                       <select
+                         className="w-full bg-surface-container-low border-none rounded-lg py-2 pl-3 pr-8 text-body-sm text-on-surface appearance-none focus:ring-1 focus:ring-secondary cursor-pointer"
+                         value={filterStatus}
+                         onChange={(e) => setFilterStatus(e.target.value)}
+                       >
+                         <option value="">Semua Status</option>
+                         <option value="PRIVATE">Private</option>
+                         <option value="PUBLISHED">Diterbitkan</option>
+                       </select>
+                       <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                     </div>
+                     
+                     {/* Date Range - Horizontal */}
+                     <div className="flex items-center gap-xs">
+                       <input
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                         type="date"
+                         value={filterDateStart}
+                         onChange={(e) => setFilterDateStart(e.target.value)}
+                         title="Tanggal mulai"
+                       />
+                       <span className="text-on-surface-variant text-body-sm">s/d</span>
+                       <input
+                         className="bg-surface-container-low border-none rounded-lg py-2 px-3 text-body-sm text-on-surface focus:ring-1 focus:ring-secondary cursor-pointer"
+                         type="date"
+                         value={filterDateEnd}
+                         onChange={(e) => setFilterDateEnd(e.target.value)}
+                         title="Tanggal akhir"
+                       />
+                     </div>
+                   </div>
+                   
+                   {/* Reset Button - Inline (Desktop) */}
+                   <button
+                     onClick={() => {
+                       setFilterCategory('');
+                       setFilterStatus('');
+                       setFilterDateStart('');
+                       setFilterDateEnd('');
+                       setSearchQuery('');
+                     }}
+                     className="px-md py-2 text-secondary font-semibold hover:bg-secondary/5 rounded-lg transition-colors text-body-sm"
+                   >
+                     Reset Filter
+                   </button>
                  </div>
                </div>
              </div>
