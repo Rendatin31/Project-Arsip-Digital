@@ -490,8 +490,8 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
       )}
       {/* Grid View */}
       {viewMode === 'grid' && (
-        <div className="p-md overflow-hidden">
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-xs">
+        <div className="p-sm md:p-md overflow-hidden">
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2">
             {paginatedFiles.map((file) => {
               // Fungsi untuk menentukan icon dan warna berdasarkan tipe file
               const getFileIconAndColor = (type) => {
@@ -513,7 +513,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
               return (
                 <div
                   key={file.id}
-                  className="flex flex-col items-center p-2 rounded cursor-pointer group transition-colors"
+                  className="flex flex-col items-center p-1 md:p-2 rounded cursor-pointer group transition-colors"
                 >
                   {/* Icon Container - Smaller */}
                   <div 
