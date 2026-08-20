@@ -191,20 +191,17 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </span>
         </button>
 
-        {/* Mobile: Logo + Arsip Digital + Divisi Rendatin */}
+        {/* Mobile: Logo + Arsip Digital */}
         <div className="lg:hidden flex items-center gap-2">
           <img 
             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
             alt="Logo KPU"
             className="h-10 w-auto object-contain"
           />
-          <div className="flex flex-col">
-            <h1 className="text-lg font-bold tracking-wide leading-tight">
-              <span className="text-green-700">Arsip</span>
-              <span className="text-gray-800"> Digital</span>
-            </h1>
-            <p className="text-[10px] text-gray-600 leading-tight tracking-wide">Divisi Rendatin</p>
-          </div>
+          <h1 className="text-lg font-bold tracking-wide">
+            <span className="text-green-700">Arsip</span>
+            <span className="text-gray-800"> Digital</span>
+          </h1>
         </div>
 
         {/* Desktop: Full Breadcrumb */}
