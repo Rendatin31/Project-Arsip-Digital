@@ -1031,6 +1031,23 @@ export default function App({ supabase }) {
                             
                             if (error) throw error;
 
+                            // Create audit log for DELETE action
+                            const { error: auditError } = await supabase
+                              .from('audit_logs')
+                              .insert({
+                                user_id: user.id,
+                                action: 'DELETE',
+                                metadata: {
+                                  file_name: docSubject,
+                                  detail: `Menghapus dokumen "${docSubject}"`,
+                                  ip: '127.0.0.1'
+                                }
+                              });
+                            
+                            if (auditError) {
+                              console.error('Failed to create audit log:', auditError);
+                            }
+
                             // Send notification based on document status
                             if (file.status === 'PUBLISHED') {
                               // If PUBLISHED document, notify only SUPER_ADMIN & ADMIN (NOT editor or viewer)
@@ -1121,6 +1138,23 @@ export default function App({ supabase }) {
                 .eq('id', file.id);
               
               if (error) throw error;
+
+              // Create audit log for DELETE action
+              const { error: auditError } = await supabase
+                .from('audit_logs')
+                .insert({
+                  user_id: user.id,
+                  action: 'DELETE',
+                  metadata: {
+                    file_name: file.name || file.fileName || 'Dokumen',
+                    detail: `Menghapus dokumen "${file.name || file.fileName}"`,
+                    ip: '127.0.0.1'
+                  }
+                });
+              
+              if (auditError) {
+                console.error('Failed to create audit log:', auditError);
+              }
               
               showAlert('success', 'Berhasil', 'Dokumen berhasil dihapus');
               
