@@ -441,8 +441,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   }}
                   className="w-full flex items-center gap-2 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap"
                 >
-                  <span className="text-sm font-medium text-error">Log Out</span>
-                  <span className="material-symbols-outlined text-error text-xl">
+                  <span className="text-sm font-medium text-error">Logout</span>
+                  <span className="material-symbols-outlined text-error text-lg">
                     logout
                   </span>
                 </button>
