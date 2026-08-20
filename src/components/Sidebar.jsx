@@ -79,8 +79,8 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
                   isDisabled
                     ? 'text-on-surface-variant/60 cursor-not-allowed'
                     : currentPage === item.id
-                    ? 'bg-secondary-container text-on-secondary-container font-semibold'
-                    : 'text-on-surface-variant hover:bg-surface-container'
+                    ? 'bg-blue-100 text-blue-600 font-semibold'
+                    : 'text-on-surface-variant hover:bg-blue-50'
                 }`}
                 title={tooltipMessage}
               >
@@ -103,7 +103,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
         <div className="pt-2xl border-t border-outline-variant">
           <button
             onClick={onLogout}
-            className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
+            className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-blue-50 transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
           >
             <span 
               className="material-symbols-outlined block shrink-0" 
