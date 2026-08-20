@@ -203,7 +203,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               <span className="text-green-700">Arsip</span>
               <span className="text-gray-800"> Digital</span>
             </h1>
-            <p className="text-[10px] text-gray-600 leading-tight tracking-wide">Divisi Rendatin - KPU Halmahera Utara</p>
+            <p className="text-[10px] text-gray-600 leading-tight tracking-wide">Divisi Rendatin - KPU Halut</p>
           </div>
         </div>
 
