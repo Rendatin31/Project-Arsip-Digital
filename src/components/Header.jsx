@@ -4,7 +4,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const notifRef = useRef(null);
+  const profileMenuRef = useRef(null);
 
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
@@ -81,16 +83,19 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       if (notifRef.current && !notifRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
     };
 
-    if (showNotifications) {
+    if (showNotifications || showProfileMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showNotifications]);
+  }, [showNotifications, showProfileMenu]);
 
   // Mark notification as read
   const markAsRead = async (notificationId) => {
@@ -380,41 +385,69 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             </span>
           </button>
           <div className="h-8 w-[1px] bg-outline-variant mx-sm"></div>
-          <div 
-            onClick={() => {
-              console.log('Profile clicked, navigating to profile page');
-              onNavigate?.('profile');
-            }} 
-            className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[5px] lg:left-0"
-          >
-            {/* Avatar - dari database atau default */}
-            {profile?.avatar_url ? (
-              <img
-                className="w-8 h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
-                src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
-                alt={profile?.full_name || 'User'}
-                onError={(e) => {
-                  // Fallback to default icon if image fails to load
-                  console.error('Failed to load avatar image');
-                  e.target.style.display = 'none';
-                  const fallback = e.target.parentElement.querySelector('.avatar-fallback');
-                  if (fallback) fallback.style.display = 'flex';
-                }}
-              />
-            ) : null}
-            {/* Default avatar icon - Simple person icon with gray background */}
-            <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
-              <span className="material-symbols-outlined text-green-600 text-2xl">
-                person
-              </span>
+          
+          {/* Profile Menu with Dropdown */}
+          <div className="relative" ref={profileMenuRef}>
+            <div 
+              onClick={() => {
+                // Desktop: navigate to profile
+                // Mobile: toggle dropdown menu
+                if (window.innerWidth >= 1024) {
+                  console.log('Profile clicked, navigating to profile page');
+                  onNavigate?.('profile');
+                } else {
+                  setShowProfileMenu(!showProfileMenu);
+                }
+              }} 
+              className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[5px] lg:left-0"
+            >
+              {/* Avatar - dari database atau default */}
+              {profile?.avatar_url ? (
+                <img
+                  className="w-8 h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
+                  src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                  alt={profile?.full_name || 'User'}
+                  onError={(e) => {
+                    // Fallback to default icon if image fails to load
+                    console.error('Failed to load avatar image');
+                    e.target.style.display = 'none';
+                    const fallback = e.target.parentElement.querySelector('.avatar-fallback');
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              {/* Default avatar icon - Simple person icon with gray background */}
+              <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
+                <span className="material-symbols-outlined text-green-600 text-2xl">
+                  person
+                </span>
+              </div>
+              
+              <div className="hidden sm:block">
+                <p className="text-label-caps leading-none font-bold">{profile?.full_name || user?.email || 'User'}</p>
+                <p className="text-[10px] text-on-surface-variant">
+                  {getRoleDisplayName(profile?.role)}
+                </p>
+              </div>
             </div>
-            
-            <div className="hidden sm:block">
-              <p className="text-label-caps leading-none font-bold">{profile?.full_name || user?.email || 'User'}</p>
-              <p className="text-[10px] text-on-surface-variant">
-                {getRoleDisplayName(profile?.role)}
-              </p>
-            </div>
+
+            {/* Profile Dropdown Menu - Mobile Only */}
+            {showProfileMenu && (
+              <div className="lg:hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    onLogout?.();
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                >
+                  <span className="material-symbols-outlined text-error text-xl">
+                    logout
+                  </span>
+                  <span className="text-sm font-medium text-error">Log Out</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
