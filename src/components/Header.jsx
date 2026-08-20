@@ -406,7 +406,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             ) : null}
             {/* Default avatar icon - Simple person icon with gray background */}
             <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
-              <span className="material-symbols-outlined text-gray-600 text-2xl">
+              <span className="material-symbols-outlined text-green-600 text-2xl">
                 person
               </span>
             </div>
