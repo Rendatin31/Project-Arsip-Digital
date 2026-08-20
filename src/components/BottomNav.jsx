@@ -70,29 +70,28 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
           {/* Center Profile Button - Elevated */}
           <button
             onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full shadow-lg transition-all hover:scale-105 ${
-              currentPage === 'profile' ? 'ring-4 ring-blue-500 ring-offset-4 ring-offset-surface-container-lowest' : 'ring-4 ring-surface-container-lowest'
+            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-gray-100 shadow-lg flex items-center justify-center border-4 border-surface-container-lowest transition-all hover:scale-105 overflow-hidden ${
+              currentPage === 'profile' ? 'ring-4 ring-blue-500' : ''
             }`}
             style={{ borderRadius: '50%' }}
           >
-            <div className="w-full h-full rounded-full overflow-hidden bg-secondary flex items-center justify-center">
-              {profile?.avatar_url && supabase ? (
-                <img
-                  src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback to icon if image fails to load
-                    e.target.style.display = 'none';
-                    const fallback = e.target.parentElement.querySelector('.avatar-fallback');
-                    if (fallback) fallback.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              <span className={`material-symbols-outlined text-white text-[36px] filled-icon avatar-fallback ${profile?.avatar_url ? 'hidden' : 'flex'}`}>
-                person
-              </span>
-            </div>
+            {profile?.avatar_url && supabase ? (
+              <img
+                src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                alt="Profile"
+                className="w-full h-full object-cover scale-[1.4]"
+                style={{ objectPosition: 'center 25%' }}
+                onError={(e) => {
+                  // Fallback to icon if image fails to load
+                  e.target.style.display = 'none';
+                  const fallback = e.target.parentElement.querySelector('.avatar-fallback');
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <span className={`material-symbols-outlined text-secondary text-[36px] filled-icon avatar-fallback ${profile?.avatar_url ? 'hidden' : 'flex'}`}>
+              person
+            </span>
           </button>
           
           {/* Right side - Pencarian & Lainnya */}
