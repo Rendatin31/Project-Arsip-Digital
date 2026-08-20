@@ -40,26 +40,27 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
               
-              if (!isAllowed) return null;
-              
               return (
                 <button
                   key={item.id}
-                  onClick={() => onNavigate?.(item.id)}
+                  onClick={() => isAllowed && onNavigate?.(item.id)}
+                  disabled={!isAllowed}
                   className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
-                    isActive
+                    !isAllowed
+                      ? 'text-on-surface-variant/40 cursor-not-allowed'
+                      : isActive
                       ? 'text-secondary bg-secondary-container/30'
                       : 'text-on-surface-variant'
                   }`}
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive ? 'filled-icon text-[28px]' : 'text-[24px]'
+                      isActive && isAllowed ? 'filled-icon text-[28px]' : 'text-[24px]'
                     }`}
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[12px] font-medium ${isActive ? 'font-bold' : ''}`}>
+                  <span className={`text-[12px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
                     {item.label}
                   </span>
                 </button>
@@ -103,26 +104,27 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
               
-              if (!isAllowed) return null;
-              
               return (
                 <button
                   key={item.id}
-                  onClick={() => onNavigate?.(item.id)}
+                  onClick={() => isAllowed && onNavigate?.(item.id)}
+                  disabled={!isAllowed}
                   className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
-                    isActive
+                    !isAllowed
+                      ? 'text-on-surface-variant/40 cursor-not-allowed'
+                      : isActive
                       ? 'text-secondary bg-secondary-container/30'
                       : 'text-on-surface-variant'
                   }`}
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive ? 'filled-icon text-[28px]' : 'text-[24px]'
+                      isActive && isAllowed ? 'filled-icon text-[28px]' : 'text-[24px]'
                     }`}
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[12px] font-medium ${isActive ? 'font-bold' : ''}`}>
+                  <span className={`text-[12px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
                     {item.label}
                   </span>
                 </button>
@@ -172,14 +174,15 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   const isAllowed = item.allowedRoles.includes(userRole);
                   const isActive = currentPage === item.id;
                   
-                  if (!isAllowed) return null;
-                  
                   return (
                     <button
                       key={item.id}
-                      onClick={() => handleMenuItemClick(item.id)}
+                      onClick={() => isAllowed && handleMenuItemClick(item.id)}
+                      disabled={!isAllowed}
                       className={`w-full flex items-center gap-md px-md py-sm rounded-lg transition-colors duration-200 ${
-                        isActive
+                        !isAllowed
+                          ? 'text-on-surface-variant/40 cursor-not-allowed'
+                          : isActive
                           ? 'bg-secondary-container text-on-secondary-container font-semibold'
                           : 'text-on-surface-variant hover:bg-surface-container'
                       }`}
