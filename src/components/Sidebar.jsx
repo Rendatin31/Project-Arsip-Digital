@@ -45,7 +45,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
               <h1 className="text-xl font-bold text-primary leading-tight">
                 Arsip Digital
               </h1>
-              <p className="text-[10px] text-on-surface-variant leading-tight">
+              <p className="text-[12px] text-on-surface-variant leading-tight">
                 Rendatin - KPU Halut
               </p>
             </div>
