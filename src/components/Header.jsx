@@ -168,10 +168,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   return (
     <header className="flex justify-between items-center px-lg w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm h-16">
       <div className="flex items-center gap-lg flex-1">
-        {/* Hamburger Menu Button - Mobile Only */}
+        {/* Hamburger Menu Button - Hidden */}
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-surface-container transition-colors relative"
+          className="hidden p-2 -ml-2 rounded-lg hover:bg-surface-container transition-colors relative"
           style={{ top: '2px' }}
         >
           <span 
@@ -186,18 +186,16 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </span>
         </button>
 
-        {/* Mobile: Home Icon + Page Name */}
-        <div className="lg:hidden flex items-center gap-sm -ml-5">
-          <button onClick={() => onNavigate?.(null)} className="flex items-center hover:text-primary transition-colors">
-            <span 
-              className="material-symbols-outlined text-on-surface-variant block"
-              style={{ fontSize: '24px', width: '24px', height: '24px' }}
-            >
-              home
-            </span>
-          </button>
-          <h1 className="text-sm font-semibold text-on-surface relative" style={{ top: '2px' }}>
-            {breadcrumbs[breadcrumbs.length - 1]?.name || 'Page'}
+        {/* Mobile: Logo + Arsip Digital */}
+        <div className="lg:hidden flex items-center gap-2">
+          <img 
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
+            alt="Logo KPU"
+            className="h-10 w-auto object-contain"
+          />
+          <h1 className="text-lg font-bold tracking-wide">
+            <span className="text-green-700">Arsip</span>
+            <span className="text-gray-800"> Digital</span>
           </h1>
         </div>
 

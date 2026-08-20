@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import LoginPage from './components/LoginPage';
 import Sidebar from './components/Sidebar';
+import BottomNav from './components/BottomNav';
 import Header from './components/Header';
 import FileTable from './components/FileTable';
 import QuickPreview from './components/QuickPreview';
@@ -903,7 +904,7 @@ export default function App({ supabase }) {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="ml-0 lg:ml-[230px] min-h-screen flex-1 flex flex-col">
+      <div className="ml-0 lg:ml-[230px] min-h-screen flex-1 flex flex-col pb-16 lg:pb-0">
         <Header 
           user={user} 
           profile={profile} 
@@ -1229,6 +1230,14 @@ export default function App({ supabase }) {
         message={alert.message}
         onConfirm={alert.onConfirm}
         showCancel={alert.showCancel}
+      />
+      
+      {/* Bottom Navigation for Mobile */}
+      <BottomNav 
+        profile={profile}
+        currentPage={currentPage}
+        onNavigate={setCurrentPage}
+        supabase={supabase}
       />
     </div>
   );
