@@ -1011,13 +1011,25 @@ export default function App({ supabase }) {
                             // Delete file from storage FIRST before deleting database record
                             if (filePath) {
                               console.log('🗑️ Deleting file from storage:', filePath);
+                              console.log('Current user:', user.id, deleterName);
+                              console.log('File path:', filePath);
+                              
                               const { error: storageError } = await supabase.storage
                                 .from('documents')
                                 .remove([filePath]);
                               
                               if (storageError) {
                                 console.error('❌ Failed to delete from storage:', storageError);
-                                showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                                console.error('Storage error details:', JSON.stringify(storageError, null, 2));
+                                
+                                // Show detailed error for debugging
+                                if (storageError.message?.includes('permission') || storageError.message?.includes('policy')) {
+                                  console.error('⚠️ PERMISSION ISSUE: Super admin cannot delete files uploaded by other users due to RLS policy');
+                                  showAlert('warning', 'Peringatan Storage', 
+                                    'File fisik di storage tidak dapat dihapus karena keterbatasan policy. Database record akan tetap dihapus. Silakan hubungi administrator untuk membersihkan storage secara manual atau konfigurasi RLS policy di Supabase.');
+                                } else {
+                                  showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                                }
                               } else {
                                 console.log('✅ File deleted from storage successfully');
                               }
@@ -1145,13 +1157,25 @@ export default function App({ supabase }) {
               // Delete file from storage FIRST
               if (filePath) {
                 console.log('🗑️ Deleting file from storage:', filePath);
+                console.log('Current user:', user.id);
+                console.log('File path:', filePath);
+                
                 const { error: storageError } = await supabase.storage
                   .from('documents')
                   .remove([filePath]);
                 
                 if (storageError) {
                   console.error('❌ Failed to delete from storage:', storageError);
-                  showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                  console.error('Storage error details:', JSON.stringify(storageError, null, 2));
+                  
+                  // Show detailed error for debugging
+                  if (storageError.message?.includes('permission') || storageError.message?.includes('policy')) {
+                    console.error('⚠️ PERMISSION ISSUE: User cannot delete files uploaded by other users due to RLS policy');
+                    showAlert('warning', 'Peringatan Storage', 
+                      'File fisik di storage tidak dapat dihapus karena keterbatasan policy. Database record akan tetap dihapus. Silakan hubungi administrator untuk membersihkan storage secara manual atau konfigurasi RLS policy di Supabase.');
+                  } else {
+                    showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                  }
                 } else {
                   console.log('✅ File deleted from storage successfully');
                 }
