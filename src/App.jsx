@@ -1132,6 +1132,32 @@ export default function App({ supabase }) {
           }}
           onDelete={async (file) => {
             try {
+              // Get document data including file_path before deleting
+              const { data: docData } = await supabase
+                .from('documents')
+                .select('file_path, subject')
+                .eq('id', file.id)
+                .single();
+
+              const filePath = docData?.file_path || file.filePath;
+              const docSubject = docData?.subject || file.name || file.fileName || 'Dokumen';
+
+              // Delete file from storage FIRST
+              if (filePath) {
+                console.log('🗑️ Deleting file from storage:', filePath);
+                const { error: storageError } = await supabase.storage
+                  .from('documents')
+                  .remove([filePath]);
+                
+                if (storageError) {
+                  console.error('❌ Failed to delete from storage:', storageError);
+                  showAlert('warning', 'Peringatan', 'File di storage gagal dihapus, tapi record database akan tetap dihapus.');
+                } else {
+                  console.log('✅ File deleted from storage successfully');
+                }
+              }
+
+              // Delete database record
               const { error } = await supabase
                 .from('documents')
                 .delete()
@@ -1146,8 +1172,8 @@ export default function App({ supabase }) {
                   user_id: user.id,
                   action: 'DELETE',
                   metadata: {
-                    file_name: file.name || file.fileName || 'Dokumen',
-                    detail: `Menghapus dokumen "${file.name || file.fileName}"`,
+                    file_name: docSubject,
+                    detail: `Menghapus dokumen "${docSubject}"`,
                     ip: '127.0.0.1'
                   }
                 });
@@ -1156,7 +1182,7 @@ export default function App({ supabase }) {
                 console.error('Failed to create audit log:', auditError);
               }
               
-              showAlert('success', 'Berhasil', 'Dokumen berhasil dihapus');
+              showAlert('success', 'Berhasil', 'Dokumen dan file berhasil dihapus');
               
               // Hapus dari recent previews localStorage
               removeFromRecentPreviews(file.id);
