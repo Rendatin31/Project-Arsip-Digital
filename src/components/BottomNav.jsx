@@ -81,7 +81,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               <img
                 src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
                 alt="Profile"
-                className="w-full h-full object-cover scale-[1.2] absolute inset-0 z-10"
+                className="w-full h-full object-cover scale-[1.1] absolute inset-0 z-10"
                 style={{ objectPosition: '60% 25%' }}
                 onError={(e) => {
                   // Fallback to icon if image fails to load
