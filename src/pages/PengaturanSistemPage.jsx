@@ -687,8 +687,8 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </label>
                       </div>
 
-                      {/* Update Dokumen - Hanya untuk Admin & Editor */}
-                      {(profile?.role === 'admin' || profile?.role === 'editor') && (
+                      {/* Update Dokumen - Untuk Super Admin, Admin & Editor */}
+                      {(profile?.role === 'super_admin' || profile?.role === 'admin' || profile?.role === 'editor') && (
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-surface-container rounded-lg p-md border border-outline-variant mb-sm gap-md">
                           <div className="flex items-center gap-md flex-1">
                             <span className="material-symbols-outlined text-tertiary text-[20px]">edit</span>
