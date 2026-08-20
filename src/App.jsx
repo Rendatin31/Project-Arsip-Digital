@@ -379,6 +379,7 @@ export default function App({ supabase }) {
             return {
               id: doc.id,
               directoryId: doc.directory_id,
+              directory_id: doc.directory_id, // Add for EditDocumentModal
               filePath: doc.file_path,
               fileName: doc.file_name || '-',
               dateModified: doc.updated_at ? new Date(doc.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-',
@@ -641,6 +642,7 @@ export default function App({ supabase }) {
         return {
           id: doc.id,
           directoryId: doc.directory_id,
+          directory_id: doc.directory_id, // Add for EditDocumentModal
           filePath: doc.file_path, // ← PENTING: Include filePath!
           fileName: doc.file_name || '-',
           dateModified: doc.updated_at ? new Date(doc.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-',
