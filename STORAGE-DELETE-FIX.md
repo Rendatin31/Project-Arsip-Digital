@@ -1,189 +1,146 @@
-# Fix: Super Admin Tidak Bisa Menghapus File Storage User Lain
+# Fix: Error Delete Dokumen - storage.delete_object does not exist
 
-## Masalah
-User B (super_admin) tidak bisa menghapus file di Supabase Storage yang diupload oleh User A karena **RLS (Row Level Security) Policy** di storage.
-
-Error message: 
+## 🚨 ERROR MESSAGE
 ```
+Gagal Menghapus
 Gagal menghapus arsip: function storage.delete_object(unknown, text) does not exist
 ```
 
-## Penyebab
-Storage RLS policy default hanya mengizinkan user menghapus file mereka sendiri, tidak termasuk super_admin atau admin.
+**Data di aplikasi tetap ada tapi dokumen sudah terhapus di Supabase.**
 
-## ✅ SOLUSI: Update RLS Policy
+---
+
+## 🔍 PENYEBAB
+
+Ada **broken database trigger** yang mencoba memanggil function yang tidak tersedia di Supabase.
+
+---
+
+## ✅ SOLUSI (2 LANGKAH)
+
+### STEP 1: Remove Broken Trigger ⚠️ **WAJIB DIJALANKAN DULU!**
+
+**File:** `remove-broken-trigger.sql`
 
 **Cara:**
-1. Buka **Supabase Dashboard** → **SQL Editor**
-2. Copy semua isi file `fix-storage-delete-policy.sql`
-3. Paste dan **Run** SQL tersebut
-4. Policy akan diupdate agar super_admin & admin bisa delete file siapa saja
+1. Buka **Supabase Dashboard → SQL Editor**
+2. Copy & paste SQL ini:
 
-**File SQL:** `fix-storage-delete-policy.sql`
-
-### Apa yang dilakukan SQL ini?
-
-1. **Drop** policy lama yang membatasi delete
-2. **Create** policy baru yang membolehkan:
-   - ✅ User menghapus file sendiri (owner)
-   - ✅ Super Admin menghapus file siapa saja
-   - ✅ Admin menghapus file siapa saja
-   - ❌ Editor/Viewer tidak bisa hapus file user lain
-
-### Policy Logic:
 ```sql
-bucket_id = 'documents' AND (
-  owner = auth.uid()  -- User bisa hapus file sendiri
-  OR
-  EXISTS (
-    SELECT 1 FROM profiles
-    WHERE id = auth.uid()
-    AND role IN ('super_admin', 'admin')
-    AND status = 'Aktif'
-  )  -- Super Admin & Admin bisa hapus file siapa saja
-)
+-- Remove broken trigger
+DROP TRIGGER IF EXISTS trigger_auto_delete_document_file ON public.documents;
+DROP FUNCTION IF EXISTS auto_delete_document_file();
 ```
 
----
-
-## Verifikasi
-
-Setelah menjalankan SQL:
-
-1. **Test Delete:**
-   - Login sebagai User A
-   - Upload dokumen
-   - Logout
-   - Login sebagai Super Admin (User B)
-   - Hapus dokumen User A
-   - ✅ File harus terhapus dari storage dan database
-
-2. **Check Logs:**
-   - Buka Browser Console (F12)
-   - Lihat log "✅ File deleted from storage successfully"
-   - Jika sukses, tidak ada error di console
-
-3. **Verify di Supabase:**
-   - Go to **Storage → documents bucket**
-   - Check file sudah tidak ada
+3. Klik **Run**
+4. Trigger yang error akan dihapus ✅
 
 ---
 
-## ⚠️ Catatan Penting
+### STEP 2: Update RLS Policy Storage
 
-### Database Trigger TIDAK Bisa Digunakan
-Function `storage.delete_object()` tidak tersedia di Supabase, jadi kita **HARUS gunakan RLS Policy** approach.
+**File:** `fix-storage-delete-policy.sql`
 
-File `create-auto-delete-storage-trigger.sql` **JANGAN DIGUNAKAN** karena akan error.
+**Cara:**
+1. Buka **Supabase Dashboard → SQL Editor**
+2. Copy & paste SQL ini:
 
----
-
-## ⚠️ Catatan Penting
-
-### Database Trigger TIDAK Bisa Digunakan
-Function `storage.delete_object()` tidak tersedia di Supabase, jadi kita **HARUS gunakan RLS Policy** approach.
-
-File `create-auto-delete-storage-trigger.sql` **JANGAN DIGUNAKAN** karena akan error.
-
----
-
-## Troubleshooting
-
-### Jika file masih tidak terhapus setelah run SQL:
-
-1. **Check apakah policy sudah aktif:**
-   ```sql
-   SELECT policyname, cmd, qual
-   FROM pg_policies
-   WHERE schemaname = 'storage' 
-     AND tablename = 'objects'
-     AND cmd = 'DELETE';
-   ```
-   Harus ada policy "Allow users to delete own files or admins to delete any files"
-
-2. **Check role user di profiles table:**
-   ```sql
-   SELECT id, full_name, email, role, status
-   FROM public.profiles
-   WHERE role IN ('super_admin', 'admin');
-   ```
-   Pastikan role adalah `super_admin` atau `admin` dan status `Aktif`
-
-3. **Test delete manual di Storage:**
-   - Login sebagai super_admin
-   - Go to Supabase Dashboard → Storage → documents
-   - Try delete file manually
-   - Jika bisa delete manual tapi tidak bisa dari app, berarti ada issue di frontend code
-
-4. **Check Browser Console untuk detail error:**
-   - Tekan F12
-   - Go to Console tab
-   - Delete file dari app
-   - Lihat error message detail
-
-### Jika tetap error "permission denied":
-
-Run SQL ini untuk grant lebih banyak permission:
 ```sql
--- Give broader delete permission
+-- Drop existing delete policy
+DROP POLICY IF EXISTS "Allow authenticated users to delete own files" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete own files" ON storage.objects;
 DROP POLICY IF EXISTS "Allow users to delete own files or admins to delete any files" ON storage.objects;
 
-CREATE POLICY "Admins can delete any file in documents bucket"
+-- Create new policy: Allow super_admin & admin to delete any files
+CREATE POLICY "Allow users to delete own files or admins to delete any files"
 ON storage.objects FOR DELETE
 TO authenticated
 USING (
-  bucket_id = 'documents' AND
-  (
-    auth.uid()::text = owner::text
+  bucket_id = 'documents' 
+  AND (
+    auth.uid()::text = owner::text  -- User bisa delete file sendiri
     OR
-    auth.uid() IN (
-      SELECT id FROM public.profiles 
-      WHERE role IN ('super_admin', 'admin')
-    )
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role IN ('super_admin', 'admin')
+      AND profiles.status = 'Aktif'
+    )  -- Super Admin & Admin bisa delete file siapa saja
   )
 );
 ```
 
----
-
-## Manual Cleanup Orphaned Files
-
-Jika ada file yang tertinggal di storage (database record sudah dihapus tapi file masih ada):
-
-1. Go to **Supabase Dashboard → Storage → documents bucket**
-2. List semua files
-3. Check di database apakah ada record dengan file_path tersebut:
-   ```sql
-   SELECT * FROM documents WHERE file_path = 'path/to/file.pdf';
-   ```
-4. Jika tidak ada record, delete file manual dari storage
+3. Klik **Run**
+4. Policy akan diupdate ✅
 
 ---
 
-## Testing Script
+## 📋 CHECKLIST
 
-Untuk test apakah policy sudah bekerja, run test ini:
+- [ ] **Step 1:** Run `remove-broken-trigger.sql` ✅
+- [ ] **Step 2:** Run `fix-storage-delete-policy.sql` ✅
+- [ ] **Step 3:** Refresh halaman aplikasi (Ctrl + F5)
+- [ ] **Step 4:** Test delete dokumen sebagai super_admin
+- [ ] **Step 5:** Verify file terhapus dari storage & database
 
+---
+
+## 🧪 TESTING
+
+**Scenario:**
+1. Login sebagai **User A** (editor/viewer)
+2. Upload dokumen baru
+3. Logout
+4. Login sebagai **Super Admin** (User B)
+5. Delete dokumen User A
+6. ✅ **Result:** File harus terhapus dari storage & database, tidak ada error
+
+---
+
+## 🐛 TROUBLESHOOTING
+
+### Masalah: Masih ada error setelah run SQL
+
+**Cek apakah trigger sudah dihapus:**
 ```sql
--- As Super Admin, check if you can see all storage objects
-SELECT * FROM storage.objects 
-WHERE bucket_id = 'documents' 
-LIMIT 10;
-
--- Check your own user info
-SELECT 
-  auth.uid() as my_user_id,
-  p.role as my_role,
-  p.status as my_status
-FROM public.profiles p
-WHERE p.id = auth.uid();
+SELECT trigger_name, event_object_table
+FROM information_schema.triggers
+WHERE event_object_table = 'documents';
 ```
+Pastikan tidak ada `trigger_auto_delete_document_file` di hasil query.
+
+### Masalah: File tetap tidak bisa dihapus dari storage
+
+**Cek policy storage:**
+```sql
+SELECT policyname, cmd, qual
+FROM pg_policies
+WHERE schemaname = 'storage' 
+  AND tablename = 'objects'
+  AND cmd = 'DELETE';
+```
+Harus ada policy: `"Allow users to delete own files or admins to delete any files"`
+
+### Masalah: Data di frontend tidak refresh
+
+1. Hard refresh browser: **Ctrl + Shift + R** (Windows) atau **Cmd + Shift + R** (Mac)
+2. Clear cache browser
+3. Logout dan login kembali
 
 ---
 
-## Notes
+## 📝 NOTES
 
-- Frontend code sudah handle error dengan baik
-- Jika storage delete gagal, database record tetap dihapus dan user diberi warning
-- Super admin dan admin akan bisa delete file setelah RLS policy diupdate
-- Editor dan Viewer tetap hanya bisa delete file mereka sendiri
+- ✅ Frontend code sudah handle delete storage dengan benar
+- ✅ Error handling sudah ada di code
+- ✅ Setelah fix trigger & policy, delete akan bekerja normal
+- ⚠️ JANGAN gunakan `create-auto-delete-storage-trigger.sql` lagi (akan error)
+
+---
+
+## 📞 SUPPORT
+
+Jika masih ada masalah setelah mengikuti semua langkah:
+1. Check browser console (F12) untuk error detail
+2. Check Supabase logs di Dashboard
+3. Verify user role di database: `SELECT role FROM profiles WHERE id = auth.uid();`
