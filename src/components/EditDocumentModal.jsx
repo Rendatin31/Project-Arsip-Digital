@@ -215,27 +215,27 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
       // Send notification based on document status
       if (isPublished) {
         if (!wasPublished) {
-          // Status changed to PUBLISHED - notify all users except editor (admin, editor, viewer)
+          // Status changed to PUBLISHED - notify all users except editor (super_admin, admin, editor, viewer)
           await notifyAllUsersExcept(
             supabase,
             userId,
             'approval',
             'Dokumen Dipublikasikan',
             `${editorName} mempublikasikan dokumen "${form.subject}"`,
-            ['admin', 'editor', 'viewer']
+            ['super_admin', 'admin', 'editor', 'viewer']
           );
           console.log('Publish notification sent to all users except editor');
         } else {
-          // Already PUBLISHED, just an update - notify only admin & editor (NOT viewer)
+          // Already PUBLISHED, just an update - notify only super_admin, admin & editor (NOT viewer)
           await notifyAllUsersExcept(
             supabase,
             userId,
             'edit',
             'Dokumen Publik Diperbarui',
             `${editorName} memperbarui dokumen "${form.subject}"`,
-            ['admin', 'editor']
+            ['super_admin', 'admin', 'editor']
           );
-          console.log('Edit notification sent to admin & editor only (PUBLISHED document)');
+          console.log('Edit notification sent to super_admin, admin & editor only (PUBLISHED document)');
         }
       }
       // If DRAFT or PRIVATE, no notification (internal document)

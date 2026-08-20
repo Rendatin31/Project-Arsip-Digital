@@ -1033,16 +1033,16 @@ export default function App({ supabase }) {
 
                             // Send notification based on document status
                             if (file.status === 'PUBLISHED') {
-                              // If PUBLISHED document, notify only ADMIN (NOT editor or viewer)
+                              // If PUBLISHED document, notify only SUPER_ADMIN & ADMIN (NOT editor or viewer)
                               await notifyAllUsersExcept(
                                 supabase,
                                 user.id,
                                 'delete',
                                 'Dokumen Publik Dihapus',
                                 `${deleterName} menghapus dokumen publik "${docSubject}"`,
-                                ['admin']
+                                ['super_admin', 'admin']
                               );
-                              console.log('Delete notification sent to admin only (PUBLISHED document)');
+                              console.log('Delete notification sent to super_admin & admin only (PUBLISHED document)');
                             }
                             // If DRAFT or PRIVATE, no notification (internal document)
                             

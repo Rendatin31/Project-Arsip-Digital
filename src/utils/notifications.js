@@ -191,7 +191,7 @@ export async function notifyAccessChange(supabase, userId, message) {
  * @param {array} roles - Array of roles to notify (e.g., ['admin', 'editor', 'viewer'])
  * @returns {Promise<object>} Created notifications or error
  */
-export async function notifyAllUsersExcept(supabase, currentUserId, type, title, message, roles = ['admin', 'editor', 'viewer']) {
+export async function notifyAllUsersExcept(supabase, currentUserId, type, title, message, roles = ['super_admin', 'admin', 'editor', 'viewer']) {
   try {
     // Get all users with specified roles and status Aktif, except current user
     const { data: profiles, error: profileError } = await supabase

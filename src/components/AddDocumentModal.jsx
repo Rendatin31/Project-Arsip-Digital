@@ -174,16 +174,16 @@ export default function AddDocumentModal({ categories, directories, userId, curr
         console.log('=== SENDING UPLOAD NOTIFICATION ===');
         console.log('Uploader:', userId, uploaderName);
         console.log('Document:', form.subject);
-        console.log('Target roles: admin, editor, viewer');
+        console.log('Target roles: super_admin, admin, editor, viewer');
         
-        // If PUBLISHED, notify all users EXCEPT the uploader (admin, editor, viewer)
+        // If PUBLISHED, notify all users EXCEPT the uploader (super_admin, admin, editor, viewer)
         const result = await notifyAllUsersExcept(
           supabase,
           userId,
           'upload',
           'Dokumen Baru Dipublikasikan',
           `${uploaderName} mempublikasikan dokumen "${form.subject}"`,
-          ['admin', 'editor', 'viewer']
+          ['super_admin', 'admin', 'editor', 'viewer']
         );
         
         console.log('Upload notification result:', result);
