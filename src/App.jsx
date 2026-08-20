@@ -1436,7 +1436,11 @@ function FolderNode({ node, selectedCategoryId, onSelect, onAdd, onUpdate, onDel
         ) : (
           <>
             <span className="text-[13px] flex-1 truncate">{node.name}</span>
-            <div className="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+            <div className={`flex items-center gap-xs transition-opacity pointer-events-auto ${
+              isSelected 
+                ? 'opacity-100' // Always visible on mobile when selected
+                : 'opacity-0 lg:group-hover:opacity-100 lg:pointer-events-none lg:group-hover:pointer-events-auto' // Desktop: show on hover
+            }`} onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setAdding(true)}
                 title="Tambah subfolder"
