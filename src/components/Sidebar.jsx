@@ -41,14 +41,9 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
               alt="Logo KPU"
               className="h-9 w-auto object-contain"
             />
-            <div className="flex flex-col">
-              <h1 className="text-xl font-bold text-primary leading-tight">
-                Arsip Digital
-              </h1>
-              <p className="text-[12px] text-on-surface-variant leading-tight">
-                Rendatin - KPU Halut
-              </p>
-            </div>
+            <h1 className="text-xl font-bold text-primary">
+              Arsip Digital
+            </h1>
           </div>
         </div>
         <div className="px-sm border-b border-outline-variant mb-md">
