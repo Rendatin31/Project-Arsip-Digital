@@ -198,7 +198,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             alt="Logo KPU"
             className="h-10 w-auto object-contain"
           />
-          <h1 className="text-lg font-bold tracking-wide">
+          <h1 className="text-xl font-bold tracking-wide">
             <span className="text-cyan-500">Arsip</span>
             <span className="text-gray-800"> Digital</span>
           </h1>
