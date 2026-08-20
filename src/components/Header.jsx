@@ -433,18 +433,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
 
             {/* Profile Dropdown Menu - Mobile Only */}
             {showProfileMenu && (
-              <div className="lg:hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
+              <div className="lg:hidden absolute right-0 top-full mt-2 w-auto bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
                 <button
                   onClick={() => {
                     setShowProfileMenu(false);
                     onLogout?.();
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                  className="w-full flex items-center gap-2 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap"
                 >
+                  <span className="text-sm font-medium text-error">Log Out</span>
                   <span className="material-symbols-outlined text-error text-xl">
                     logout
                   </span>
-                  <span className="text-sm font-medium text-error">Log Out</span>
                 </button>
               </div>
             )}
