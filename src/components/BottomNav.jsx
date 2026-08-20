@@ -70,8 +70,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
           {/* Center Profile Button - Elevated */}
           <button
             onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-surface-container-lowest transition-all hover:scale-105 overflow-hidden ${
-              currentPage === 'profile' ? 'ring-4 ring-blue-500' : ''
+            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+              currentPage === 'profile' 
+                ? 'ring-4 ring-blue-500' 
+                : 'ring-4 ring-gray-300'
             }`}
             style={{ borderRadius: '50%' }}
           >
