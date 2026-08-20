@@ -41,7 +41,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
               alt="Logo KPU"
               className="h-9 w-auto object-contain"
             />
-            <h1 className="text-xl font-bold text-primary">
+            <h1 className="text-xl font-bold text-primary tracking-wide">
               Arsip Digital
             </h1>
           </div>
