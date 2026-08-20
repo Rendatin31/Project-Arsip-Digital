@@ -37,12 +37,13 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
         <div className="mb-sm px-sm pb-md">
           <div className="flex items-center gap-3">
             <img 
-              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgu_EbB69kzEOFcCHDgvQZObh43Q6Q6kpt_aUOoHI_L5y9I8elULeWuKl89zDQKuJFTcY3M_SHWYevzonb06bnNBDIEYWbAZSS3mBNsUTwMxRW2HCpM7fryALmjZLSlJpFk9sQ1POTpYRBd3IE_T3Pd5QjwAhzSv-SZz1a_JK5IwZLpoPhHMa_vw6r939JY/s320/Untitled_design__2_-removebg-preview%20(1).png"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
               alt="Logo KPU"
-              className="h-9 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
-            <h1 className="text-xl font-bold text-primary tracking-wide">
-              Arsip Digital
+            <h1 className="text-xl font-bold tracking-wide">
+              <span className="text-green-700">Arsip</span>
+              <span className="text-gray-800"> Digital</span>
             </h1>
           </div>
         </div>

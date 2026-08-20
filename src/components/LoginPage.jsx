@@ -70,12 +70,15 @@ export default function LoginPage({ onLogin, supabase }) {
             <div className="text-center mb-6">
               <div className="flex justify-center mb-3">
                 <img 
-                  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgu_EbB69kzEOFcCHDgvQZObh43Q6Q6kpt_aUOoHI_L5y9I8elULeWuKl89zDQKuJFTcY3M_SHWYevzonb06bnNBDIEYWbAZSS3mBNsUTwMxRW2HCpM7fryALmjZLSlJpFk9sQ1POTpYRBd3IE_T3Pd5QjwAhzSv-SZz1a_JK5IwZLpoPhHMa_vw6r939JY/s320/Untitled_design__2_-removebg-preview%20(1).png"
+                  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
                   alt="Logo KPU"
-                  className="h-18 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                 />
               </div>
-              <h1 className="text-2xl uppercase text-gray-800 mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '0.08em' }}>ARSIP DIGITAL</h1>
+              <h1 className="text-2xl uppercase mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '0.08em' }}>
+                <span className="text-[#004d33]">ARSIP</span>
+                <span className="text-gray-700"> DIGITAL</span>
+              </h1>
               <p className="text-xs font-medium text-gray-600 mb-10">Divisi Rendatin - KPU Halmahera Utara</p>
             </div>
 
