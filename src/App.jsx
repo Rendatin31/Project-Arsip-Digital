@@ -1438,7 +1438,7 @@ function FolderNode({ node, selectedCategoryId, onSelect, onAdd, onUpdate, onDel
             <span className="text-[13px] flex-1 truncate">{node.name}</span>
             <div className={`flex items-center transition-opacity pointer-events-auto ${
               isSelected 
-                ? 'opacity-100 gap-sm lg:gap-xs' // Mobile: larger gap when selected, Desktop: normal gap
+                ? 'opacity-100 gap-md lg:gap-xs' // Mobile: larger gap when selected, Desktop: normal gap
                 : 'opacity-0 gap-xs lg:group-hover:opacity-100 lg:pointer-events-none lg:group-hover:pointer-events-auto' // Desktop: show on hover
             }`} onClick={(e) => e.stopPropagation()}>
               <button
