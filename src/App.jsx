@@ -735,12 +735,21 @@ export default function App({ supabase }) {
   };
 
   const handleSelectDirectory = (directoryId, directoryName) => {
-    setSelectedDirectoryId(directoryId);
-    setSelectedDirectoryName(directoryName);
-    
-    // Build hierarki path
-    const path = buildDirectoryPath(directoryId);
-    setSelectedDirectoryPath(path);
+    // Toggle functionality: jika folder yang sama diklik lagi, unselect folder
+    if (selectedDirectoryId === directoryId) {
+      // Unselect - kembali ke view semua file
+      setSelectedDirectoryId(null);
+      setSelectedDirectoryName('File Saya');
+      setSelectedDirectoryPath([]);
+    } else {
+      // Select folder baru
+      setSelectedDirectoryId(directoryId);
+      setSelectedDirectoryName(directoryName);
+      
+      // Build hierarki path
+      const path = buildDirectoryPath(directoryId);
+      setSelectedDirectoryPath(path);
+    }
   };
 
   const handleBreadcrumbClick = (id) => {
