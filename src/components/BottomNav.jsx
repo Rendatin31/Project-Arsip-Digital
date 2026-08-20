@@ -49,7 +49,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
-                      ? 'text-secondary bg-secondary-container/30'
+                      ? 'text-blue-600 bg-blue-100'
                       : 'text-on-surface-variant'
                   }`}
                 >
