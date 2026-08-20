@@ -42,7 +42,7 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
               className="h-12 w-auto object-contain"
             />
             <h1 className="text-xl font-bold tracking-wide">
-              <span className="text-blue-600">Arsip</span>
+              <span className="text-green-700">Arsip</span>
               <span className="text-gray-800"> Digital</span>
             </h1>
           </div>

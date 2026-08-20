@@ -199,7 +199,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             className="h-10 w-auto object-contain"
           />
           <h1 className="text-lg font-bold tracking-wide">
-            <span className="text-blue-600">Arsip</span>
+            <span className="text-green-700">Arsip</span>
             <span className="text-gray-800"> Digital</span>
           </h1>
         </div>
