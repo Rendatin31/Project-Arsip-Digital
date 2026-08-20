@@ -49,7 +49,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
-                      ? 'text-blue-600 bg-blue-100'
+                      ? 'text-secondary bg-secondary-container/30'
                       : 'text-on-surface-variant'
                   }`}
                 >
@@ -113,7 +113,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
-                      ? 'text-blue-600 bg-blue-100'
+                      ? 'text-secondary bg-secondary-container/30'
                       : 'text-on-surface-variant'
                   }`}
                 >
@@ -183,8 +183,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                         !isAllowed
                           ? 'text-on-surface-variant/40 cursor-not-allowed'
                           : isActive
-                          ? 'bg-blue-100 text-blue-600 font-semibold'
-                          : 'text-on-surface-variant hover:bg-blue-50'
+                          ? 'bg-secondary-container text-on-secondary-container font-semibold'
+                          : 'text-on-surface-variant hover:bg-surface-container'
                       }`}
                     >
                       <span 
