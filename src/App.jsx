@@ -1080,6 +1080,7 @@ export default function App({ supabase }) {
           supabase={supabase}
           doc={editDoc}
           categories={categories}
+          directories={directories}
           userId={user.id}
           onClose={() => setEditDoc(null)}
           onSaved={() => {
