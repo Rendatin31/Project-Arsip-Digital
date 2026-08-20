@@ -33,9 +33,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     <>
       {/* Bottom Navigation Bar */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-50">
-        <div className="flex items-center justify-between h-18 pl-6 pr-10 relative">
+        <div className="flex items-center justify-between h-18 px-4 relative">
           {/* Left side - 2 items */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             {mainMenuItems.slice(0, 2).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
@@ -94,7 +94,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
           </button>
           
           {/* Right side - Pencarian & Lainnya */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Pencarian */}
             {mainMenuItems.slice(2, 3).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
