@@ -334,7 +334,8 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
         return;
       }
 
-      const functionUrl = `${import.meta.env.VITE_SUPABASE_URL.replace(/\/$/, '')}/functions/v1/create-user`;
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://axpanhequppcviaimwte.supabase.co';
+      const functionUrl = `${supabaseUrl.replace(/\/$/, '')}/functions/v1/create-user`;
 
       const response = await fetch(functionUrl, {
         method: 'POST',
