@@ -35,7 +35,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-50">
         <div className="flex items-center justify-between h-18 pl-1 pr-1 relative">
           {/* Left side - 2 items */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0">
             {mainMenuItems.slice(0, 2).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
