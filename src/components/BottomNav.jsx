@@ -171,12 +171,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               style={{ animationDelay: '0ms' }}
             >
               {/* Label */}
-              <span className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+              <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
                 Tutup
               </span>
               
               {/* Icon Button */}
-              <div className="w-14 h-14 bg-secondary rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+              <div className="w-14 h-14 bg-blue-400 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
                 <span className="material-symbols-outlined text-white text-2xl">close</span>
               </div>
             </button>
@@ -195,12 +195,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   style={{ animationDelay: `${(index + 1) * 50}ms` }}
                 >
                   {/* Label - Always visible */}
-                  <span className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+                  <span className="bg-blue-400 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
                     {item.label}
                   </span>
                   
                   {/* Icon Button */}
-                  <div className="w-14 h-14 bg-secondary rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+                  <div className="w-14 h-14 bg-blue-400 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
                     <span className="material-symbols-outlined text-white text-xl">
                       {item.icon}
                     </span>
