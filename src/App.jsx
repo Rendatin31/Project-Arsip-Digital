@@ -941,7 +941,7 @@ export default function App({ supabase }) {
             ) : currentPage === 'access' ? (
               <HakAksesPage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} renderHeader={false} />
             ) : currentPage === 'profile' ? (
-              <ProfilePage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} onProfileUpdate={handleProfileUpdate} renderHeader={false} />
+              <ProfilePage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} onProfileUpdate={handleProfileUpdate} onLogout={handleLogout} renderHeader={false} />
             ) : currentPage === 'settings' ? (
               <PengaturanSistemPage supabase={supabase} userId={user.id} user={user} profile={profile} onNavigate={setCurrentPage} onCategoryChange={handleCategoryChange} onProfileUpdate={handleProfileUpdate} renderHeader={false} />
             ) : (

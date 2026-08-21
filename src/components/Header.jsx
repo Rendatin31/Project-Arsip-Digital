@@ -5,9 +5,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const notifRef = useRef(null);
-  const profileMenuRef = useRef(null);
 
   // Force icon size untuk mobile dengan !important
   const getIconStyle = () => {
@@ -123,19 +121,16 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       if (notifRef.current && !notifRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
-      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
-        setShowProfileMenu(false);
-      }
     };
 
-    if (showNotifications || showProfileMenu) {
+    if (showNotifications) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showNotifications, showProfileMenu]);
+  }, [showNotifications]);
 
   // Mark notification as read
   const markAsRead = async (notificationId) => {
@@ -426,18 +421,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </button>
           <div className="h-6 lg:h-8 w-[1px] bg-outline-variant mx-1 lg:mx-sm"></div>
           
-          {/* Profile Menu with Dropdown */}
-          <div className="relative" ref={profileMenuRef}>
+          {/* Profile Menu */}
+          <div className="relative">
             <div 
               onClick={() => {
-                // Desktop: navigate to profile
-                // Mobile: toggle dropdown menu
-                if (window.innerWidth >= 1024) {
-                  console.log('Profile clicked, navigating to profile page');
-                  onNavigate?.('profile');
-                } else {
-                  setShowProfileMenu(!showProfileMenu);
-                }
+                // Mobile & Desktop: navigate to profile
+                console.log('Profile clicked, navigating to profile page');
+                onNavigate?.('profile');
               }} 
               className="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-colors relative left-[5px] lg:left-0"
             >
@@ -470,24 +460,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 </p>
               </div>
             </div>
-
-            {/* Profile Dropdown Menu - Mobile Only */}
-            {showProfileMenu && (
-              <div className="lg:hidden absolute right-0 top-full mt-2 w-auto bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
-                <button
-                  onClick={() => {
-                    setShowProfileMenu(false);
-                    onLogout?.();
-                  }}
-                  className="w-full flex items-center gap-2 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap"
-                >
-                  <span className="text-sm font-medium text-error">Log out</span>
-                  <span className="material-symbols-outlined text-error text-base">
-                    logout
-                  </span>
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>

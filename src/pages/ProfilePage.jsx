@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import ModernAlert from '../components/ModernAlert';
 
-export default function ProfilePage({ supabase, userId, user, profile, onNavigate, onProfileUpdate, renderHeader = true }) {
+export default function ProfilePage({ supabase, userId, user, profile, onNavigate, onProfileUpdate, onLogout, renderHeader = true }) {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [bio, setBio] = useState(profile?.bio || '');
@@ -10,7 +10,10 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || null);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
-  const [savingProfile, setSavingProfile] = useState(false);
+  const [savingBio, setSavingBio] = useState(false);
+  
+  // Ref untuk debounce bio auto-save
+  const bioTimeoutRef = useRef(null);
 
   // Modern Alert State
   const [alert, setAlert] = useState({
@@ -46,7 +49,59 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
     setEmail(user?.email || '');
   }, [profile, user]);
 
-  const handleAvatarChange = (e) => {
+  // Auto-save bio dengan debounce (tunggu 1.5 detik setelah user berhenti mengetik)
+  useEffect(() => {
+    // Clear timeout sebelumnya
+    if (bioTimeoutRef.current) {
+      clearTimeout(bioTimeoutRef.current);
+    }
+
+    // Jika bio berbeda dari profile asli, set timeout untuk auto-save
+    if (bio !== (profile?.bio || '')) {
+      bioTimeoutRef.current = setTimeout(() => {
+        handleSaveBio();
+      }, 1500); // Auto-save setelah 1.5 detik
+    }
+
+    // Cleanup
+    return () => {
+      if (bioTimeoutRef.current) {
+        clearTimeout(bioTimeoutRef.current);
+      }
+    };
+  }, [bio]);
+
+  // Auto-save bio function
+  const handleSaveBio = async () => {
+    try {
+      setSavingBio(true);
+      console.log('Auto-saving bio...');
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          bio: bio?.trim() || null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      if (updateError) {
+        console.error('Error auto-saving bio:', updateError);
+      } else {
+        console.log('Bio auto-saved successfully');
+        // Refresh profile in parent
+        if (onProfileUpdate) {
+          onProfileUpdate();
+        }
+      }
+    } catch (err) {
+      console.error('Error auto-saving bio:', err);
+    } finally {
+      setSavingBio(false);
+    }
+  };
+
+  const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -62,14 +117,67 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
       return;
     }
 
-    setAvatar(file);
+    // Auto-upload avatar immediately
+    try {
+      setUploadingAvatar(true);
+      console.log('Uploading avatar...');
 
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setAvatarPreview(reader.result);
-    };
-    reader.readAsDataURL(file);
+      // Delete old avatar if exists
+      if (avatarUrl) {
+        const oldPath = avatarUrl.replace('avatars/', '');
+        await supabase.storage.from('avatars').remove([oldPath]);
+        console.log('Old avatar deleted');
+      }
+
+      // Upload new avatar
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${userId}/avatar.${fileExt}`;
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, { upsert: true });
+
+      if (uploadError) {
+        console.error('Error uploading avatar:', uploadError);
+        showAlert('error', 'Gagal Upload', 'Gagal mengupload avatar: ' + uploadError.message);
+        setUploadingAvatar(false);
+        return;
+      }
+
+      const newAvatarUrl = `avatars/${filePath}`;
+      console.log('Avatar uploaded:', newAvatarUrl);
+
+      // Update database
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          avatar_url: newAvatarUrl,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      if (updateError) {
+        console.error('Error updating avatar in database:', updateError);
+        showAlert('error', 'Gagal Memperbarui', 'Gagal memperbarui avatar');
+        setUploadingAvatar(false);
+        return;
+      }
+
+      // Update local state
+      setAvatarUrl(newAvatarUrl);
+      showAlert('success', 'Berhasil', 'Foto profil berhasil diperbarui!');
+
+      // Refresh profile in parent
+      if (onProfileUpdate) {
+        onProfileUpdate();
+      }
+    } catch (err) {
+      console.error('Error uploading avatar:', err);
+      showAlert('error', 'Gagal Upload', 'Gagal mengupload foto profil');
+    } finally {
+      setUploadingAvatar(false);
+    }
   };
 
   const handleRemoveAvatar = async () => {
@@ -88,7 +196,10 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
           // Update database
           await supabase
             .from('profiles')
-            .update({ avatar_url: null })
+            .update({ 
+              avatar_url: null,
+              updated_at: new Date().toISOString()
+            })
             .eq('id', userId);
 
           setAvatarUrl(null);
@@ -109,101 +220,18 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
     );
   };
 
-  const handleSave = async () => {
-    try {
-      setSavingProfile(true);
-      console.log('Updating profile for user:', userId);
-      
-      // Validasi
-      if (!fullName || fullName.trim() === '') {
-        setSavingProfile(false);
-        showAlert('warning', 'Validasi Gagal', 'Nama lengkap tidak boleh kosong!');
-        return;
-      }
-
-      let newAvatarUrl = avatarUrl;
-
-      // Upload avatar if new file selected
-      if (avatar) {
-        console.log('Uploading avatar...');
-        setUploadingAvatar(true);
-
-        // Delete old avatar if exists
-        if (avatarUrl) {
-          const oldPath = avatarUrl.replace('avatars/', '');
-          await supabase.storage.from('avatars').remove([oldPath]);
-          console.log('Old avatar deleted');
+  const handleLogout = () => {
+    showAlert(
+      'confirm',
+      'Konfirmasi Logout',
+      'Apakah Anda yakin ingin keluar?',
+      async () => {
+        if (onLogout) {
+          onLogout();
         }
-
-        // Upload new avatar
-        const fileExt = avatar.name.split('.').pop();
-        const fileName = `${userId}/avatar.${fileExt}`;
-        const filePath = fileName;
-
-        const { error: uploadError } = await supabase.storage
-          .from('avatars')
-          .upload(filePath, avatar, { upsert: true });
-
-        if (uploadError) {
-          console.error('Error uploading avatar:', uploadError);
-          setSavingProfile(false);
-          setUploadingAvatar(false);
-          showAlert('error', 'Gagal Upload', 'Gagal mengupload avatar: ' + uploadError.message);
-          return;
-        }
-
-        newAvatarUrl = `avatars/${filePath}`;
-        console.log('Avatar uploaded:', newAvatarUrl);
-        setUploadingAvatar(false);
-      }
-
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({
-          full_name: fullName.trim(),
-          bio: bio?.trim() || null,
-          avatar_url: newAvatarUrl,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', userId);
-
-      if (updateError) {
-        console.error('Error updating profile:', updateError);
-        setSavingProfile(false);
-        showAlert('error', 'Gagal Memperbarui', 'Gagal memperbarui profil: ' + updateError.message);
-        return;
-      }
-
-      console.log('Profile updated successfully');
-      
-      // Refresh profile data in parent component (App.jsx)
-      if (onProfileUpdate) {
-        onProfileUpdate();
-      }
-      
-      // Refresh profile data locally
-      const { data: updatedProfile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-      
-      if (updatedProfile) {
-        setFullName(updatedProfile.full_name || '');
-        setBio(updatedProfile.bio || '');
-        setAvatarUrl(updatedProfile.avatar_url || null);
-        setAvatar(null);
-        setAvatarPreview(null);
-      }
-      
-      setSavingProfile(false);
-      showAlert('success', 'Berhasil', 'Profil berhasil diperbarui!');
-      
-    } catch (err) {
-      console.error('Error saving profile:', err);
-      setSavingProfile(false);
-      showAlert('error', 'Gagal Menyimpan', 'Gagal menyimpan profil');
-    }
+      },
+      true
+    );
   };
 
   return (
@@ -292,7 +320,9 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Masukkan nama lengkap"
-                    className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                    disabled
+                    className="w-full bg-surface-container-high border border-outline-variant rounded-lg px-md py-sm text-body-md text-on-surface-variant outline-none cursor-not-allowed opacity-60"
+                    title="Nama tidak dapat diubah di halaman ini"
                   />
                 </div>
 
@@ -309,7 +339,15 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                 </div>
 
                 <div>
-                  <label className="text-xs text-on-surface block mb-xs font-semibold uppercase">Bio Singkat</label>
+                  <label className="text-xs text-on-surface block mb-xs font-semibold uppercase flex items-center gap-2">
+                    Bio Singkat
+                    {savingBio && (
+                      <span className="text-[10px] text-secondary font-normal flex items-center gap-1">
+                        <span className="material-symbols-outlined animate-spin text-[12px]">progress_activity</span>
+                        Menyimpan...
+                      </span>
+                    )}
+                  </label>
                   <textarea
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
@@ -317,32 +355,20 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                     rows={4}
                     className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all resize-none"
                   />
+                  <p className="text-[10px] text-on-surface-variant mt-1">Bio akan tersimpan otomatis setelah Anda berhenti mengetik</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons - Logout Only */}
           <div className="flex justify-end gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
             <button
-              onClick={() => onNavigate?.('dashboard')}
-              className="px-lg py-sm bg-surface-container-high text-on-surface rounded-lg font-semibold hover:bg-surface-container-highest transition-all"
+              onClick={handleLogout}
+              className="px-lg py-sm bg-error text-white rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-sm flex items-center gap-xs"
             >
-              Batal
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={savingProfile}
-              className="px-lg py-sm bg-secondary text-on-secondary rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-xs"
-            >
-              {savingProfile ? (
-                <>
-                  <span className="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
-                  <span>Menyimpan...</span>
-                </>
-              ) : (
-                'Simpan'
-              )}
+              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <span>Log Out</span>
             </button>
           </div>
         </div>
