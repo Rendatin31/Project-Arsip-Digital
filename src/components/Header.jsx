@@ -299,18 +299,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           <div className="relative" ref={notifRef}>
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 rounded-full hover:bg-surface-container transition-colors relative"
+              className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
               <span 
                 className="material-symbols-outlined text-on-surface-variant block"
-                style={{ fontSize: '24px', width: '24px', height: '24px' }}
+                style={{ fontSize: '20px', width: '20px', height: '20px' }}
               >
                 notifications
               </span>
               {unreadCount > 0 && (
                 <>
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-                  <span className="absolute top-1 right-1 bg-error text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="absolute top-1.5 right-1.5 lg:top-2 lg:right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+                  <span className="absolute top-0.5 right-0.5 lg:top-1 lg:right-1 bg-error text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 </>
@@ -404,10 +404,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             )}
           </div>
 
-          <button onClick={() => onNavigate?.('settings')} className="p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
+          <button onClick={() => onNavigate?.('settings')} className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
             <span 
               className="material-symbols-outlined text-on-surface-variant block"
-              style={{ fontSize: '24px', width: '24px', height: '24px' }}
+              style={{ fontSize: '20px', width: '20px', height: '20px' }}
             >
               settings
             </span>
@@ -432,7 +432,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {/* Avatar - dari database atau default */}
               {profile?.avatar_url ? (
                 <img
-                  className="w-8 h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
+                  className="w-7 h-7 lg:w-8 lg:h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
                   src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
                   alt={profile?.full_name || 'User'}
                   onError={(e) => {
@@ -445,8 +445,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 />
               ) : null}
               {/* Default avatar icon - Simple person icon with gray background */}
-              <div className={`w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
-                <span className="material-symbols-outlined text-green-600 text-2xl">
+              <div className={`w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
+                <span className="material-symbols-outlined text-green-600 text-xl lg:text-2xl">
                   person
                 </span>
               </div>
