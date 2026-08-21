@@ -12,12 +12,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     { id: 'search', icon: 'manage_search', label: 'Pencarian', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
   ];
 
-  // Menu items untuk "Lainnya" (termasuk Direktori Arsip yang dipindahkan dari main menu)
+  // Menu items untuk "Lainnya" - urutan dari atas: Direktori Arsip, Hak Akses, Riwayat Aktivitas, Pengaturan
   const moreMenuItems = [
-    { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['super_admin', 'admin', 'editor'] },
-    { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['super_admin', 'admin'] },
-    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
     { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
+    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
+    { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['super_admin', 'admin'] },
+    { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['super_admin', 'admin', 'editor'] },
   ];
 
   const handleMoreClick = () => {
