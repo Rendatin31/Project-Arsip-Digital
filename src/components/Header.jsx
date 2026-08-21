@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { initializePushNotifications, sendPushNotification, setupNotificationListeners } from '../utils/pushNotifications';
+import { downloadAndInstallAPK } from '../utils/apkDownloader';
 
 export default function Header({ user, profile, onLogout, breadcrumbs = [], onNavigate, showSearch = false, searchValue = '', onSearchChange, searchPlaceholder = 'Cari dokumen...', supabase, onMenuClick }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showPlatformMenu, setShowPlatformMenu] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
@@ -209,6 +212,31 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   };
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
+
+  // Handle APK download
+  const handleDownloadAPK = async () => {
+    try {
+      setIsDownloading(true);
+      setDownloadProgress(0);
+      setShowPlatformMenu(false);
+      
+      // TODO: Replace with actual APK URL from your server
+      const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
+      
+      await downloadAndInstallAPK(apkUrl, (progress) => {
+        setDownloadProgress(progress);
+      });
+      
+      // Success - installer should open automatically
+      console.log('APK download complete, installer opened');
+    } catch (error) {
+      console.error('Failed to download APK:', error);
+      alert(`Gagal download APK: ${error.message}`);
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    }
+  };
 
   return (
     <header className="flex justify-between items-center pr-1 pl-lg lg:px-lg w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm h-16">
@@ -442,12 +470,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 <div className="py-2">
                   {/* Android */}
                   <button
-                    onClick={() => {
-                      setShowPlatformMenu(false);
-                      // TODO: Add Android download link
-                      console.log('Download Android APK');
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                    onClick={handleDownloadAPK}
+                    disabled={isDownloading}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors disabled:opacity-50"
                   >
                     <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
                       <path d="M17.523 15.3414C17.5315 15.5449 17.4884 15.7475 17.3975 15.9299C17.3065 16.1123 17.1708 16.2684 17.003 16.3838C16.8353 16.4993 16.6409 16.5703 16.4384 16.5903C16.236 16.6103 16.0323 16.5788 15.8457 16.4985L15.6457 16.4138C14.5866 15.9346 13.4325 15.685 12.263 15.6814C11.0866 15.6809 9.92568 15.9327 8.8604 16.4185L8.6604 16.5031C8.47382 16.5834 8.27012 16.6149 8.06765 16.5949C7.86518 16.5749 7.6708 16.5039 7.50306 16.3885C7.33531 16.273 7.19956 16.1169 7.10862 15.9345C7.01768 15.7521 6.97458 15.5495 6.98305 15.3461L7.04771 14.0414C7.08771 13.1861 7.36438 12.3585 7.84771 11.6508L8.84771 10.1931C9.27438 9.57614 9.56305 8.87214 9.69305 8.13214L9.73305 7.8768C9.80771 7.41214 9.97505 6.9668 10.2257 6.5668C10.491 6.14614 10.8604 5.79814 11.2997 5.55347C11.739 5.30881 12.2337 5.17614 12.7377 5.16814H11.263C11.767 5.17614 12.2617 5.30881 12.701 5.55347C13.1403 5.79814 13.5097 6.14614 13.775 6.5668C14.0257 6.9668 14.193 7.41214 14.2677 7.8768L14.3077 8.13214C14.4377 8.87214 14.7263 9.57614 15.153 10.1931L16.153 11.6508C16.6363 12.3585 16.913 13.1861 16.953 14.0414L17.523 15.3414Z" fill="#3DDC84"/>
@@ -456,10 +481,17 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                       <circle cx="9.5" cy="10.5" r="1" fill="#121212"/>
                       <circle cx="14.5" cy="10.5" r="1" fill="#121212"/>
                     </svg>
-                    <div className="text-left">
+                    <div className="text-left flex-1">
                       <p className="text-sm font-medium">Android</p>
-                      <p className="text-xs text-on-surface-variant">Download APK</p>
+                      <p className="text-xs text-on-surface-variant">
+                        {isDownloading ? `Downloading... ${downloadProgress}%` : 'Download APK'}
+                      </p>
                     </div>
+                    {isDownloading && (
+                      <span className="material-symbols-outlined animate-spin text-secondary text-base">
+                        progress_activity
+                      </span>
+                    )}
                   </button>
 
                   {/* iOS */}
