@@ -68,10 +68,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             })}
           </div>
           
-          {/* Center Profile Button - Elevated */}
+          {/* Center Profile Button - Elevated & Bigger */}
           <button
             onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 -top-7 w-18 h-18 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
               currentPage === 'profile' 
                 ? 'ring-4 ring-blue-500' 
                 : 'ring-4 ring-gray-300'
@@ -91,7 +91,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               />
             ) : null}
             {!profile?.avatar_url && (
-              <span className={`material-symbols-outlined text-secondary text-[32px] filled-icon`}>
+              <span className={`material-symbols-outlined text-secondary text-[36px] filled-icon`}>
                 person
               </span>
             )}
