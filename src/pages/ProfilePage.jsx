@@ -277,7 +277,9 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-green-600" style={{ fontSize: '60px' }}>
+                        <span 
+                          className="material-symbols-outlined text-gray-400 profile-avatar-icon"
+                        >
                           person
                         </span>
                       </div>

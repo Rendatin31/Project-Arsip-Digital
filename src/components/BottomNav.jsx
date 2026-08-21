@@ -91,7 +91,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               />
             ) : null}
             {!profile?.avatar_url && (
-              <span className={`material-symbols-outlined text-secondary text-[36px] filled-icon`}>
+              <span className={`material-symbols-outlined text-gray-400 filled-icon profile-icon-large`}>
                 person
               </span>
             )}

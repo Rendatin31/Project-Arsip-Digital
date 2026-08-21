@@ -452,6 +452,22 @@ body {
   body .material-symbols-outlined {
     font-size: 26px !important;
   }
+  
+  /* EXCEPTION: Profile icon person - besar untuk mobile */
+  .profile-avatar-icon {
+    font-size: 96px !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    min-height: auto !important;
+    max-height: none !important;
+  }
+  
+  /* EXCEPTION: Bottom nav profile icon - lebih besar */
+  nav .profile-icon-large {
+    font-size: 44px !important;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -459,6 +475,11 @@ body {
     font-size: 24px !important;
     width: 24px !important;
     height: 24px !important;
+  }
+  
+  /* Desktop: profile icon lebih kecil */
+  .profile-avatar-icon {
+    font-size: 72px !important;
   }
 }
 
