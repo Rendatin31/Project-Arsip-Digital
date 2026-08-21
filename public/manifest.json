@@ -1,0 +1,43 @@
+{
+  "name": "Arsip Digital",
+  "short_name": "Arsip Digital",
+  "description": "Aplikasi Manajemen Arsip Digital untuk Rendatin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Beranda",
+      "short_name": "Home",
+      "description": "Buka halaman beranda",
+      "url": "/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Riwayat",
+      "short_name": "History",
+      "description": "Lihat riwayat aktivitas",
+      "url": "/riwayat-aktivitas",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

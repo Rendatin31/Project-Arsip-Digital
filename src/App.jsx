@@ -18,6 +18,7 @@ import RiwayatAktivitasPage from './pages/RiwayatAktivitasPage';
 import PengaturanSistemPage from './pages/PengaturanSistemPage';
 import ProfilePage from './pages/ProfilePage';
 import ModernAlert from './components/ModernAlert';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { notifyAllUsersExcept } from './utils/notifications';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
@@ -1240,6 +1241,9 @@ export default function App({ supabase }) {
         onConfirm={alert.onConfirm}
         showCancel={alert.showCancel}
       />
+      
+      {/* PWA Install Prompt for iOS */}
+      <PWAInstallPrompt />
       
       {/* Bottom Navigation for Mobile */}
       <BottomNav 

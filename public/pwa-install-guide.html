@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install Arsip Digital - iOS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: #3b82f6;
+            border-radius: 22px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        h1 {
+            color: #1f2937;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        
+        .platform-badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .steps {
+            margin-top: 30px;
+        }
+        
+        .step {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-left: 44px;
+        }
+        
+        .icon-demo {
+            text-align: center;
+            font-size: 48px;
+            margin: 15px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 2px dashed #d1d5db;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .warning-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .warning-text {
+            color: #78350f;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .success-title {
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .success-list {
+            color: #047857;
+            font-size: 14px;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .success-list li {
+            margin-bottom: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer-text {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        
+        .btn-back:hover {
+            background: #2563eb;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .step-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="app-icon">📂</div>
+            <h1>Install Arsip Digital</h1>
+            <p class="subtitle">Panduan Install untuk iPhone & iPad</p>
+            <span class="platform-badge">🍎 iOS / iPadOS</span>
+        </div>
+        
+        <div class="warning">
+            <div class="warning-title">
+                <span>⚠️</span>
+                <span>Penting!</span>
+            </div>
+            <p class="warning-text">
+                Panduan ini hanya untuk Safari browser. Chrome, Firefox, dan browser lain di iOS tidak support fitur "Add to Home Screen" untuk PWA.
+            </p>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Buka di Safari
+                </div>
+                <div class="step-description">
+                    Pastikan Anda membuka aplikasi ini menggunakan <strong>Safari browser</strong>, bukan Chrome atau browser lainnya.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Tap Tombol Share
+                </div>
+                <div class="step-description">
+                    Di bagian bawah Safari, tap tombol <strong>Share</strong> (ikon kotak dengan panah ke atas).
+                    <div class="icon-demo">📤</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Pilih "Add to Home Screen"
+                </div>
+                <div class="step-description">
+                    Scroll ke bawah di menu share, lalu tap <strong>"Add to Home Screen"</strong> atau <strong>"Tambah ke Layar Utama"</strong>.
+                    <div class="icon-demo">➕ 🏠</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Konfirmasi Install
+                </div>
+                <div class="step-description">
+                    Edit nama aplikasi jika perlu (default: <strong>"Arsip Digital"</strong>), lalu tap tombol <strong>"Add"</strong> atau <strong>"Tambah"</strong> di pojok kanan atas.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    Buka dari Home Screen
+                </div>
+                <div class="step-description">
+                    Kembali ke home screen iPhone/iPad Anda. Icon <strong>Arsip Digital</strong> akan muncul seperti aplikasi lainnya. Tap untuk membuka!
+                    <div class="icon-demo">📱 ✨</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="success">
+            <div class="success-title">
+                <span>✅</span>
+                <span>Setelah Install, Anda Akan Mendapatkan:</span>
+            </div>
+            <ul class="success-list">
+                <li>Icon aplikasi di home screen</li>
+                <li>Buka dalam mode fullscreen (tanpa address bar)</li>
+                <li>Bisa digunakan offline</li>
+                <li>Loading lebih cepat dengan cache</li>
+                <li>Notifikasi push (jika diaktifkan)</li>
+                <li>Auto-update otomatis</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p class="footer-text">
+                Butuh bantuan? Hubungi support atau admin aplikasi.
+            </p>
+            <a href="/" class="btn-back">Kembali ke Aplikasi</a>
+        </div>
+    </div>
+</body>
+</html>
