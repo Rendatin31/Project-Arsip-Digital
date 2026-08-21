@@ -305,7 +305,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </div>
         )}
       </div>
-      <div className="flex items-center gap-lg">
+      <div className="flex items-center gap-lg lg:ml-auto">
         <div className="flex items-center gap-0 lg:gap-sm">
           {/* Notification Button with Dropdown */}
           <div className="relative" ref={notifRef}>
