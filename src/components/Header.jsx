@@ -493,10 +493,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             </span>
           </button>
           
-          <div className="h-6 lg:h-8 w-[1px] bg-outline-variant mx-1 lg:mx-sm"></div>
+          <div className="hidden lg:block h-6 lg:h-8 w-[1px] bg-outline-variant mx-1 lg:mx-sm"></div>
           
-          {/* Profile Menu */}
-          <div className="relative">
+          {/* Profile Menu - Desktop Only */}
+          <div className="relative hidden lg:flex">
             <div 
               onClick={() => {
                 // Mobile & Desktop: navigate to profile
