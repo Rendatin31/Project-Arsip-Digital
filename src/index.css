@@ -433,15 +433,15 @@ body {
 /* Force icon sizes untuk mobile - Override SEMUA icon di aplikasi */
 /* Prevent icon scaling di layar kecil */
 @media (max-width: 1023px) {
-  /* Header icons - paksa kecil */
+  /* Header icons - diperbesar untuk mobile */
   header .material-symbols-outlined {
-    font-size: 18px !important;
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
-    max-width: 18px !important;
-    min-height: 18px !important;
-    max-height: 18px !important;
+    font-size: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    min-height: 24px !important;
+    max-height: 24px !important;
   }
   
   /* Bottom navigation icons */
