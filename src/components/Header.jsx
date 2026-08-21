@@ -220,19 +220,19 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
       if (isNativeAndroid) {
-        // Native Android app - use Capacitor plugin with progress
-        setIsDownloading(true);
-        setDownloadProgress(0);
+        // Native Android app - direct browser download (simpler & more reliable)
         setShowPlatformMenu(false);
         
         // TODO: Replace with actual APK URL from your server
         const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
         
-        await downloadAndInstallAPK(apkUrl, (progress) => {
-          setDownloadProgress(progress);
-        });
+        // Open URL in browser for download
+        window.open(apkUrl, '_blank');
         
-        console.log('APK download complete, installer opened');
+        // Show success message
+        setTimeout(() => {
+          alert('Download dimulai!\n\nSetelah download selesai, buka file APK dari folder Downloads untuk install.');
+        }, 500);
       } else {
         // Browser (desktop or mobile) - direct download
         setShowPlatformMenu(false);
