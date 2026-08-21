@@ -365,9 +365,9 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
           <div className="flex justify-end gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
             <button
               onClick={handleLogout}
-              className="px-lg py-sm bg-error text-white rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-sm flex items-center gap-xs"
+              className="px-md py-xs bg-error text-white rounded-lg text-sm font-medium hover:brightness-110 active:scale-[0.98] transition-all shadow-sm flex items-center gap-1"
             >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <span className="material-symbols-outlined text-[16px]">logout</span>
               <span>Log Out</span>
             </button>
           </div>
