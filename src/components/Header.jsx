@@ -5,7 +5,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showPlatformMenu, setShowPlatformMenu] = useState(false);
   const notifRef = useRef(null);
+  const platformMenuRef = useRef(null);
 
   // Force icon size untuk mobile dengan !important
   const getIconStyle = () => {
@@ -121,16 +123,19 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       if (notifRef.current && !notifRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
+      if (platformMenuRef.current && !platformMenuRef.current.contains(event.target)) {
+        setShowPlatformMenu(false);
+      }
     };
 
-    if (showNotifications) {
+    if (showNotifications || showPlatformMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showNotifications]);
+  }, [showNotifications, showPlatformMenu]);
 
   // Mark notification as read
   const markAsRead = async (notificationId) => {
@@ -419,6 +424,75 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               settings
             </span>
           </button>
+          
+          {/* Platform Menu Button - Mobile Only */}
+          <div className="lg:hidden relative" ref={platformMenuRef}>
+            <button 
+              onClick={() => setShowPlatformMenu(!showPlatformMenu)}
+              className="p-1.5 rounded-full hover:bg-surface-container transition-colors relative right-[3px]"
+            >
+              <span 
+                className="material-symbols-outlined text-on-surface-variant"
+                style={getIconStyle()}
+              >
+                more_vert
+              </span>
+            </button>
+
+            {/* Platform Menu Dropdown */}
+            {showPlatformMenu && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
+                {/* Header */}
+                <div className="px-4 py-3 border-b border-outline-variant bg-surface-container">
+                  <h3 className="text-sm font-semibold text-on-surface">Download Aplikasi</h3>
+                </div>
+
+                {/* Menu Items */}
+                <div className="py-2">
+                  {/* Android */}
+                  <button
+                    onClick={() => {
+                      setShowPlatformMenu(false);
+                      // TODO: Add Android download link
+                      console.log('Download Android APK');
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                      <path d="M17.523 15.3414C17.5315 15.5449 17.4884 15.7475 17.3975 15.9299C17.3065 16.1123 17.1708 16.2684 17.003 16.3838C16.8353 16.4993 16.6409 16.5703 16.4384 16.5903C16.236 16.6103 16.0323 16.5788 15.8457 16.4985L15.6457 16.4138C14.5866 15.9346 13.4325 15.685 12.263 15.6814C11.0866 15.6809 9.92568 15.9327 8.8604 16.4185L8.6604 16.5031C8.47382 16.5834 8.27012 16.6149 8.06765 16.5949C7.86518 16.5749 7.6708 16.5039 7.50306 16.3885C7.33531 16.273 7.19956 16.1169 7.10862 15.9345C7.01768 15.7521 6.97458 15.5495 6.98305 15.3461L7.04771 14.0414C7.08771 13.1861 7.36438 12.3585 7.84771 11.6508L8.84771 10.1931C9.27438 9.57614 9.56305 8.87214 9.69305 8.13214L9.73305 7.8768C9.80771 7.41214 9.97505 6.9668 10.2257 6.5668C10.491 6.14614 10.8604 5.79814 11.2997 5.55347C11.739 5.30881 12.2337 5.17614 12.7377 5.16814H11.263C11.767 5.17614 12.2617 5.30881 12.701 5.55347C13.1403 5.79814 13.5097 6.14614 13.775 6.5668C14.0257 6.9668 14.193 7.41214 14.2677 7.8768L14.3077 8.13214C14.4377 8.87214 14.7263 9.57614 15.153 10.1931L16.153 11.6508C16.6363 12.3585 16.913 13.1861 16.953 14.0414L17.523 15.3414Z" fill="#3DDC84"/>
+                      <path d="M7.5 9C7.5 8.60218 7.34196 8.22064 7.06066 7.93934C6.77936 7.65804 6.39782 7.5 6 7.5C5.60218 7.5 5.22064 7.65804 4.93934 7.93934C4.65804 8.22064 4.5 8.60218 4.5 9V14C4.5 14.3978 4.65804 14.7794 4.93934 15.0607C5.22064 15.342 5.60218 15.5 6 15.5C6.39782 15.5 6.77936 15.342 7.06066 15.0607C7.34196 14.7794 7.5 14.3978 7.5 14V9Z" fill="#3DDC84"/>
+                      <path d="M19.5 9C19.5 8.60218 19.342 8.22064 19.0607 7.93934C18.7794 7.65804 18.3978 7.5 18 7.5C17.6022 7.5 17.2206 7.65804 16.9393 7.93934C16.658 8.22064 16.5 8.60218 16.5 9V14C16.5 14.3978 16.658 14.7794 16.9393 15.0607C17.2206 15.342 17.6022 15.5 18 15.5C18.3978 15.5 18.7794 15.342 19.0607 15.0607C19.342 14.7794 19.5 14.3978 19.5 14V9Z" fill="#3DDC84"/>
+                      <circle cx="9.5" cy="10.5" r="1" fill="#121212"/>
+                      <circle cx="14.5" cy="10.5" r="1" fill="#121212"/>
+                    </svg>
+                    <div className="text-left">
+                      <p className="text-sm font-medium">Android</p>
+                      <p className="text-xs text-on-surface-variant">Download APK</p>
+                    </div>
+                  </button>
+
+                  {/* iOS */}
+                  <button
+                    onClick={() => {
+                      setShowPlatformMenu(false);
+                      // TODO: Add iOS download link
+                      console.log('Download iOS App');
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                      <path d="M17.05 20.28C16.03 21.23 14.96 21.08 13.93 20.63C12.84 20.17 11.84 20.15 10.7 20.63C9.28 21.25 8.52 21.07 7.62 20.28C3.87 16.36 4.42 10.28 8.62 10.05C9.73 10.11 10.49 10.7 11.16 10.74C12.25 10.54 13.3 9.93 14.47 10.01C15.86 10.12 16.9 10.64 17.58 11.58C14.62 13.33 15.33 17.26 17.05 20.28ZM12.03 9.91C11.88 7.96 13.5 6.37 15.34 6.2C15.62 8.48 13.38 10.15 12.03 9.91Z" fill="#555555"/>
+                    </svg>
+                    <div className="text-left">
+                      <p className="text-sm font-medium">iOS</p>
+                      <p className="text-xs text-on-surface-variant">Download App</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          
           <div className="h-6 lg:h-8 w-[1px] bg-outline-variant mx-1 lg:mx-sm"></div>
           
           {/* Profile Menu */}
