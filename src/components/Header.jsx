@@ -219,40 +219,27 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       // Check if running on native Android app
       const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
+      setShowPlatformMenu(false);
+      
+      // TODO: Replace with actual APK URL from your server
+      const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
+      
       if (isNativeAndroid) {
-        // Native Android app - direct browser download (simpler & more reliable)
-        setShowPlatformMenu(false);
-        
-        // TODO: Replace with actual APK URL from your server
-        const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
-        
-        // Open URL in browser for download
+        // Native Android app - simple browser download
         window.open(apkUrl, '_blank');
-        
-        // Show success message
         setTimeout(() => {
           alert('Download dimulai!\n\nSetelah download selesai, buka file APK dari folder Downloads untuk install.');
         }, 500);
       } else {
-        // Browser (desktop or mobile) - direct download
-        setShowPlatformMenu(false);
+        // Browser - download with progress bar
+        setIsDownloading(true);
+        setDownloadProgress(0);
         
-        // TODO: Replace with actual APK URL from your server
-        const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
+        await downloadAPKWithProgress(apkUrl, (progress) => {
+          setDownloadProgress(progress);
+        });
         
-        // Create temporary link and trigger download
-        const link = document.createElement('a');
-        link.href = apkUrl;
-        link.download = 'arsip-digital.apk';
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Show success message
-        setTimeout(() => {
-          alert('Download dimulai!\n\nSetelah download selesai, buka file APK dari folder Downloads untuk install.');
-        }, 500);
+        alert('Download selesai!\n\nBuka file APK dari folder Downloads untuk install.');
       }
     } catch (error) {
       console.error('Failed to download APK:', error);
@@ -261,6 +248,53 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       setIsDownloading(false);
       setDownloadProgress(0);
     }
+  };
+
+  // Download APK with progress tracking (for browser)
+  const downloadAPKWithProgress = (url, onProgress) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      xhr.open('GET', url, true);
+      xhr.responseType = 'blob';
+      
+      // Track download progress
+      xhr.onprogress = (event) => {
+        if (event.lengthComputable && onProgress) {
+          const percentComplete = Math.round((event.loaded / event.total) * 100);
+          onProgress(percentComplete);
+        }
+      };
+      
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          // Create blob URL and trigger download
+          const blob = xhr.response;
+          const blobUrl = window.URL.createObjectURL(blob);
+          
+          // Create temporary link and trigger download
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = 'arsip-digital.apk';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // Clean up blob URL
+          window.URL.revokeObjectURL(blobUrl);
+          
+          resolve();
+        } else {
+          reject(new Error(`Download failed with status: ${xhr.status}`));
+        }
+      };
+      
+      xhr.onerror = () => {
+        reject(new Error('Network error during download'));
+      };
+      
+      xhr.send();
+    });
   };
 
   return (
@@ -518,6 +552,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                       </span>
                     )}
                   </button>
+
+                  {/* Progress Bar */}
+                  {isDownloading && (
+                    <div className="px-4 pb-2">
+                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div 
+                          className="bg-secondary h-full transition-all duration-300 ease-out"
+                          style={{ width: `${downloadProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* iOS */}
                   <button
