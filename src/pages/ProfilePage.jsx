@@ -278,7 +278,8 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                         <span 
-                          className="material-symbols-outlined text-gray-400 profile-avatar-icon"
+                          className="material-symbols-outlined profile-avatar-icon"
+                          style={{ color: '#6b7280' }}
                         >
                           person
                         </span>
@@ -367,7 +368,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
           <div className="flex justify-end gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
             <button
               onClick={handleLogout}
-              className="px-md py-xs bg-error text-white rounded-lg text-sm font-medium hover:brightness-110 active:scale-[0.98] transition-all shadow-sm flex items-center gap-1"
+              className="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1 transition-colors"
             >
               <span className="material-symbols-outlined text-[16px]">logout</span>
               <span>Log Out</span>

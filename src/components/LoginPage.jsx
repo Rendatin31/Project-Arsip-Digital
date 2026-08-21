@@ -75,9 +75,9 @@ export default function LoginPage({ onLogin, supabase }) {
                   className="h-24 w-auto object-contain"
                 />
               </div>
-              <h1 className="text-2xl uppercase mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '0.08em' }}>
-                <span className="text-[#004d33]">ARSIP</span>
-                <span className="text-gray-700"> DIGITAL</span>
+              <h1 className="text-2xl uppercase mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, letterSpacing: '0.08em' }}>
+                <span style={{ color: '#3b82f6' }}>ARSIP</span>
+                <span style={{ color: '#1f2937' }}> DIGITAL</span>
               </h1>
               <p className="text-xs font-medium text-gray-600 mb-10">Divisi Rendatin - KPU Halmahera Utara</p>
             </div>
@@ -154,7 +154,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
               {/* Main Sign In Button */}
               <button
-                className="w-full bg-[#006c49] text-white font-bold py-3.5 rounded-lg hover:bg-[#005236] transition-colors shadow-lg active:scale-[0.98] transform"
+                className="w-full bg-[#10b981] text-white font-bold py-2.5 rounded-lg hover:bg-[#059669] transition-colors shadow-lg active:scale-[0.98] transform"
                 type="submit"
               >
                 Sign in

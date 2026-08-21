@@ -363,9 +363,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             alt="Logo KPU"
             className="h-10 w-auto object-contain"
           />
-          <h1 className="text-xl font-bold tracking-wide">
-            <span style={{ color: '#4F46E5' }}>Arsip</span>
-            <span style={{ color: '#3730A3' }}> Digital</span>
+          <h1 className="text-xl font-extrabold tracking-wide">
+            <span style={{ color: '#3b82f6' }}>Arsip</span>
+            <span style={{ color: '#1f2937' }}> Digital</span>
           </h1>
         </div>
 
@@ -669,7 +669,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               ) : null}
               {/* Default avatar icon - Simple person icon with gray background */}
               <div className={`w-8 lg:w-8 h-8 lg:h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
-                <span className="material-symbols-outlined text-gray-400 text-2xl lg:text-2xl">
+                <span className="material-symbols-outlined text-2xl lg:text-2xl" style={{ color: '#6b7280' }}>
                   person
                 </span>
               </div>

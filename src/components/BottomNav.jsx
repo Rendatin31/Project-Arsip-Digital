@@ -91,7 +91,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               />
             ) : null}
             {!profile?.avatar_url && (
-              <span className={`material-symbols-outlined text-gray-400 filled-icon profile-icon-large`}>
+              <span 
+                className="material-symbols-outlined filled-icon profile-icon-large"
+                style={{ color: '#6b7280' }}
+              >
                 person
               </span>
             )}
@@ -171,12 +174,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               style={{ animationDelay: '0ms' }}
             >
               {/* Label */}
-              <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+              <span className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
                 Tutup
               </span>
               
               {/* Icon Button */}
-              <div className="w-14 h-14 bg-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
                 <span className="material-symbols-outlined text-white text-2xl">close</span>
               </div>
             </button>
@@ -195,12 +198,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   style={{ animationDelay: `${(index + 1) * 50}ms` }}
                 >
                   {/* Label - Always visible */}
-                  <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+                  <span className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
                     {item.label}
                   </span>
                   
                   {/* Icon Button */}
-                  <div className="w-14 h-14 bg-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
                     <span className="material-symbols-outlined text-white text-xl">
                       {item.icon}
                     </span>

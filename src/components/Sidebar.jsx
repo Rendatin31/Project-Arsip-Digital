@@ -41,9 +41,9 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
               alt="Logo KPU"
               className="h-12 w-auto object-contain"
             />
-            <h1 className="text-xl font-bold tracking-wide">
-              <span className="text-green-700">Arsip</span>
-              <span className="text-gray-800"> Digital</span>
+            <h1 className="text-xl font-extrabold tracking-wide">
+              <span style={{ color: '#3b82f6' }}>Arsip</span>
+              <span style={{ color: '#1f2937' }}> Digital</span>
             </h1>
           </div>
         </div>
@@ -100,24 +100,12 @@ export default function Sidebar({ user, profile, onLogout, currentPage, onNaviga
             );
           })}
         </nav>
-        <div className="pt-2xl border-t border-outline-variant">
-          <button
-            onClick={onLogout}
-            className="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg w-full text-left mt-md mb-0"
-          >
-            <span 
-              className="material-symbols-outlined block shrink-0" 
-              data-icon="logout"
-              style={{ 
-                fontSize: '24px',
-                width: '24px',
-                height: '24px'
-              }}
-            >
-              logout
-            </span>
-            <span className="font-body-md text-body-md">Log out</span>
-          </button>
+        
+        {/* Footer separator line with copyright */}
+        <div className="pt-md border-t border-outline-variant mt-auto">
+          <p className="text-xs text-center text-on-surface-variant/70 py-sm tracking-widest">
+            © Rendatin Arsip 2026
+          </p>
         </div>
       </aside>
     </>
