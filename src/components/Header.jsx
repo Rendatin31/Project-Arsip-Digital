@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { initializePushNotifications, sendPushNotification, setupNotificationListeners } from '../utils/pushNotifications';
 
 export default function Header({ user, profile, onLogout, breadcrumbs = [], onNavigate, showSearch = false, searchValue = '', onSearchChange, searchPlaceholder = 'Cari dokumen...', supabase, onMenuClick }) {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -18,6 +19,29 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
     };
     return roleMap[role] || 'User';
   };
+
+  // Initialize push notifications on mount
+  useEffect(() => {
+    const setupPush = async () => {
+      const initialized = await initializePushNotifications();
+      if (initialized) {
+        console.log('✅ Push notifications initialized');
+        
+        // Setup listener for notification taps
+        setupNotificationListeners((notification) => {
+          console.log('User tapped notification:', notification);
+          // Mark as read when tapped
+          if (notification.id) {
+            markAsRead(notification.id);
+          }
+          // Open notifications panel
+          setShowNotifications(true);
+        });
+      }
+    };
+
+    setupPush();
+  }, []);
 
   // Fetch notifications from database
   useEffect(() => {
@@ -60,7 +84,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         (payload) => {
           console.log('Notification change:', payload);
           if (payload.eventType === 'INSERT') {
-            setNotifications((prev) => [payload.new, ...prev].slice(0, 10));
+            const newNotification = payload.new;
+            setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
+            
+            // 🔔 Send push notification to device
+            sendPushNotification(newNotification);
           } else if (payload.eventType === 'UPDATE') {
             setNotifications((prev) =>
               prev.map((n) => (n.id === payload.new.id ? payload.new : n))
