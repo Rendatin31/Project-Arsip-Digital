@@ -416,15 +416,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             )}
           </div>
 
-          <button onClick={() => onNavigate?.('settings')} className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
-            <span 
-              className="material-symbols-outlined text-on-surface-variant"
-              style={getIconStyle()}
-            >
-              settings
-            </span>
-          </button>
-          
           {/* Platform Menu Button - Mobile Only */}
           <div className="lg:hidden relative" ref={platformMenuRef}>
             <button 
@@ -435,7 +426,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 className="material-symbols-outlined text-on-surface-variant"
                 style={getIconStyle()}
               >
-                more_vert
+                download
               </span>
             </button>
 
@@ -492,6 +483,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               </div>
             )}
           </div>
+          
+          <button onClick={() => onNavigate?.('settings')} className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
+            <span 
+              className="material-symbols-outlined text-on-surface-variant"
+              style={getIconStyle()}
+            >
+              settings
+            </span>
+          </button>
           
           <div className="h-6 lg:h-8 w-[1px] bg-outline-variant mx-1 lg:mx-sm"></div>
           
