@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import CompactAlert from './CompactAlert';
 import { initializePushNotifications, sendPushNotification, setupNotificationListeners } from '../utils/pushNotifications';
 import { downloadAndInstallAPK } from '../utils/apkDownloader';
 
@@ -9,6 +10,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [showPlatformMenu, setShowPlatformMenu] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({ show: false, title: '', message: '', icon: '' });
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
@@ -226,7 +228,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       
       // Check if URL is still placeholder
       if (apkUrl.includes('your-server.com')) {
-        alert('⚠️ APK URL belum dikonfigurasi!\n\nSilakan upload APK ke server dan update URL di code.\n\nBaca APK-DOWNLOAD-SETUP.md untuk instruksi lengkap.');
+        setAlertConfig({
+          show: true,
+          title: 'APK URL Belum Dikonfigurasi',
+          message: 'Silakan upload APK ke server dan update URL di code.\n\nBaca APK-DOWNLOAD-SETUP.md untuk instruksi lengkap.',
+          icon: '⚠️'
+        });
         return;
       }
       
@@ -234,7 +241,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         // Native Android app - simple browser download
         window.open(apkUrl, '_blank');
         setTimeout(() => {
-          alert('Download dimulai!\n\nSetelah download selesai, buka file APK dari folder Downloads untuk install.');
+          setAlertConfig({
+            show: true,
+            title: 'Download Dimulai',
+            message: 'Setelah download selesai, buka file APK dari folder Downloads untuk install.',
+            icon: '📥'
+          });
         }, 500);
       } else {
         // Browser - download with progress bar
@@ -245,19 +257,31 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           setDownloadProgress(progress);
         });
         
-        alert('Download selesai!\n\nBuka file APK dari folder Downloads untuk install.');
+        setAlertConfig({
+          show: true,
+          title: 'Download Selesai',
+          message: 'Buka file APK dari folder Downloads untuk install.',
+          icon: '✅'
+        });
       }
     } catch (error) {
       console.error('Failed to download APK:', error);
       
       let errorMessage = 'Gagal download APK';
+      let errorIcon = '❌';
+      
       if (error.message.includes('Network error')) {
-        errorMessage = 'Gagal download APK: Koneksi error atau URL tidak valid.\n\nPastikan APK sudah diupload ke server dan URL sudah benar.';
+        errorMessage = 'Koneksi error atau URL tidak valid.\n\nPastikan APK sudah diupload ke server dan URL sudah benar.';
       } else {
-        errorMessage = `Gagal download APK: ${error.message}`;
+        errorMessage = error.message;
       }
       
-      alert(errorMessage);
+      setAlertConfig({
+        show: true,
+        title: 'Download Gagal',
+        message: errorMessage,
+        icon: errorIcon
+      });
     } finally {
       setIsDownloading(false);
       setDownloadProgress(0);
@@ -533,21 +557,21 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
 
             {/* Platform Menu Dropdown */}
             {showPlatformMenu && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl overflow-hidden z-50">
-                {/* Header */}
-                <div className="px-4 py-3 border-b border-outline-variant bg-surface-container">
-                  <h3 className="text-sm font-semibold text-on-surface">Download Aplikasi</h3>
+              <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-50">
+                {/* Header - Compact */}
+                <div className="px-3 py-2 border-b border-gray-100 bg-gray-50">
+                  <h3 className="text-xs font-semibold text-gray-700">Download App</h3>
                 </div>
 
-                {/* Menu Items */}
-                <div className="py-2">
+                {/* Menu Items - Compact & Thin */}
+                <div className="py-1">
                   {/* Android */}
                   <button
                     onClick={handleDownloadAPK}
                     disabled={isDownloading}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors disabled:opacity-50"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
                   >
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
                       <path d="M17.523 15.3414C17.5315 15.5449 17.4884 15.7475 17.3975 15.9299C17.3065 16.1123 17.1708 16.2684 17.003 16.3838C16.8353 16.4993 16.6409 16.5703 16.4384 16.5903C16.236 16.6103 16.0323 16.5788 15.8457 16.4985L15.6457 16.4138C14.5866 15.9346 13.4325 15.685 12.263 15.6814C11.0866 15.6809 9.92568 15.9327 8.8604 16.4185L8.6604 16.5031C8.47382 16.5834 8.27012 16.6149 8.06765 16.5949C7.86518 16.5749 7.6708 16.5039 7.50306 16.3885C7.33531 16.273 7.19956 16.1169 7.10862 15.9345C7.01768 15.7521 6.97458 15.5495 6.98305 15.3461L7.04771 14.0414C7.08771 13.1861 7.36438 12.3585 7.84771 11.6508L8.84771 10.1931C9.27438 9.57614 9.56305 8.87214 9.69305 8.13214L9.73305 7.8768C9.80771 7.41214 9.97505 6.9668 10.2257 6.5668C10.491 6.14614 10.8604 5.79814 11.2997 5.55347C11.739 5.30881 12.2337 5.17614 12.7377 5.16814H11.263C11.767 5.17614 12.2617 5.30881 12.701 5.55347C13.1403 5.79814 13.5097 6.14614 13.775 6.5668C14.0257 6.9668 14.193 7.41214 14.2677 7.8768L14.3077 8.13214C14.4377 8.87214 14.7263 9.57614 15.153 10.1931L16.153 11.6508C16.6363 12.3585 16.913 13.1861 16.953 14.0414L17.523 15.3414Z" fill="#3DDC84"/>
                       <path d="M7.5 9C7.5 8.60218 7.34196 8.22064 7.06066 7.93934C6.77936 7.65804 6.39782 7.5 6 7.5C5.60218 7.5 5.22064 7.65804 4.93934 7.93934C4.65804 8.22064 4.5 8.60218 4.5 9V14C4.5 14.3978 4.65804 14.7794 4.93934 15.0607C5.22064 15.342 5.60218 15.5 6 15.5C6.39782 15.5 6.77936 15.342 7.06066 15.0607C7.34196 14.7794 7.5 14.3978 7.5 14V9Z" fill="#3DDC84"/>
                       <path d="M19.5 9C19.5 8.60218 19.342 8.22064 19.0607 7.93934C18.7794 7.65804 18.3978 7.5 18 7.5C17.6022 7.5 17.2206 7.65804 16.9393 7.93934C16.658 8.22064 16.5 8.60218 16.5 9V14C16.5 14.3978 16.658 14.7794 16.9393 15.0607C17.2206 15.342 17.6022 15.5 18 15.5C18.3978 15.5 18.7794 15.342 19.0607 15.0607C19.342 14.7794 19.5 14.3978 19.5 14V9Z" fill="#3DDC84"/>
@@ -555,24 +579,26 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                       <circle cx="14.5" cy="10.5" r="1" fill="#121212"/>
                     </svg>
                     <div className="text-left flex-1">
-                      <p className="text-sm font-medium">Android</p>
-                      <p className="text-xs text-on-surface-variant">
-                        {isDownloading ? `Downloading... ${downloadProgress}%` : 'Download APK'}
-                      </p>
+                      <p className="text-xs font-medium">Android</p>
+                      {isDownloading && (
+                        <p className="text-[10px] text-gray-500">
+                          {downloadProgress}%
+                        </p>
+                      )}
                     </div>
                     {isDownloading && (
-                      <span className="material-symbols-outlined animate-spin text-secondary text-base">
+                      <span className="material-symbols-outlined animate-spin text-green-600 text-sm">
                         progress_activity
                       </span>
                     )}
                   </button>
 
-                  {/* Progress Bar */}
+                  {/* Progress Bar - Thin */}
                   {isDownloading && (
-                    <div className="px-4 pb-2">
-                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                    <div className="px-3 pb-1">
+                      <div className="w-full bg-gray-200 rounded-full h-1 overflow-hidden">
                         <div 
-                          className="bg-secondary h-full transition-all duration-300 ease-out"
+                          className="bg-green-600 h-full transition-all duration-300 ease-out"
                           style={{ width: `${downloadProgress}%` }}
                         ></div>
                       </div>
@@ -583,17 +609,21 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   <button
                     onClick={() => {
                       setShowPlatformMenu(false);
-                      // TODO: Add iOS download link
-                      console.log('Download iOS App');
+                      // Show custom alert instead of browser alert
+                      setAlertConfig({
+                        show: true,
+                        title: 'Aplikasi iOS Belum Tersedia',
+                        message: 'Maaf, aplikasi untuk iOS sedang dalam pengembangan.\n\nSementara itu, Anda bisa:\n\n1. Gunakan Safari browser\n2. Tap tombol Share (📤)\n3. Pilih "Add to Home Screen"\n4. Install sebagai PWA',
+                        icon: '📱'
+                      });
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
                       <path d="M17.05 20.28C16.03 21.23 14.96 21.08 13.93 20.63C12.84 20.17 11.84 20.15 10.7 20.63C9.28 21.25 8.52 21.07 7.62 20.28C3.87 16.36 4.42 10.28 8.62 10.05C9.73 10.11 10.49 10.7 11.16 10.74C12.25 10.54 13.3 9.93 14.47 10.01C15.86 10.12 16.9 10.64 17.58 11.58C14.62 13.33 15.33 17.26 17.05 20.28ZM12.03 9.91C11.88 7.96 13.5 6.37 15.34 6.2C15.62 8.48 13.38 10.15 12.03 9.91Z" fill="#555555"/>
                     </svg>
                     <div className="text-left">
-                      <p className="text-sm font-medium">iOS</p>
-                      <p className="text-xs text-on-surface-variant">Download App</p>
+                      <p className="text-xs font-medium">iOS</p>
                     </div>
                   </button>
                 </div>
@@ -654,6 +684,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           </div>
         </div>
       </div>
+
+      {/* Custom Compact Alert Modal */}
+      <CompactAlert
+        show={alertConfig.show}
+        title={alertConfig.title}
+        message={alertConfig.message}
+        icon={alertConfig.icon}
+        onClose={() => setAlertConfig({ ...alertConfig, show: false })}
+      />
     </header>
   );
 }
