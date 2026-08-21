@@ -430,10 +430,9 @@ body {
   animation: slide-in-right 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Force icon sizes untuk mobile - Override SEMUA icon di aplikasi */
-/* Prevent icon scaling di layar kecil */
+/* Force icon sizes untuk mobile - SEMUA 24px */
 @media (max-width: 1023px) {
-  /* Header icons - diperbesar untuk mobile */
+  /* SEMUA icon di header - 24px */
   header .material-symbols-outlined {
     font-size: 24px !important;
     width: 24px !important;
@@ -444,13 +443,14 @@ body {
     max-height: 24px !important;
   }
   
-  /* Bottom navigation icons */
-  nav .material-symbols-outlined:not(.filled-icon) {
-    font-size: 22px !important;
+  /* SEMUA icon di bottom navigation - 24px */
+  nav .material-symbols-outlined {
+    font-size: 24px !important;
   }
   
-  nav .material-symbols-outlined.filled-icon {
-    font-size: 26px !important;
+  /* SEMUA icon di body - 24px */
+  body .material-symbols-outlined {
+    font-size: 24px !important;
   }
 }
 
@@ -469,10 +469,5 @@ body {
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-  }
-  
-  /* Extra safeguard untuk icon */
-  .material-symbols-outlined {
-    font-size: inherit !important;
   }
 }
