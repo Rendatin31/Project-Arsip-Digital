@@ -444,7 +444,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {/* Avatar - dari database atau default */}
               {profile?.avatar_url ? (
                 <img
-                  className="w-6 lg:w-8 h-6 lg:h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
+                  className="w-8 lg:w-8 h-8 lg:h-8 rounded-full object-cover border border-outline-variant relative left-[4px] lg:left-0"
                   src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
                   alt={profile?.full_name || 'User'}
                   onError={(e) => {
@@ -457,8 +457,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 />
               ) : null}
               {/* Default avatar icon - Simple person icon with gray background */}
-              <div className={`w-6 lg:w-8 h-6 lg:h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
-                <span className="material-symbols-outlined text-green-600 text-lg lg:text-2xl">
+              <div className={`w-8 lg:w-8 h-8 lg:h-8 rounded-full bg-gray-200 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`}>
+                <span className="material-symbols-outlined text-green-600 text-2xl lg:text-2xl">
                   person
                 </span>
               </div>
