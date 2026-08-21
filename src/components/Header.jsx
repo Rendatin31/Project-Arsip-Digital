@@ -355,7 +355,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                     </div>
                   ) : notifications.length === 0 ? (
                     <div className="px-md lg:px-lg py-md lg:py-xl text-center">
-                      <span className="material-symbols-outlined text-4xl lg:text-6xl text-on-surface-variant/30 mb-xs lg:mb-sm block">notifications_off</span>
+                      <span className="material-symbols-outlined text-on-surface-variant/30 mb-xs lg:mb-sm block" style={{ fontSize: '48px' }}>notifications_off</span>
                       <p className="text-sm lg:text-body-sm text-on-surface-variant">Tidak ada notifikasi</p>
                     </div>
                   ) : (
@@ -370,8 +370,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                           }`}
                         >
                           <div className="flex gap-sm lg:gap-md">
-                            <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 ${!notif.is_read ? 'ring-2 ring-secondary' : ''}`}>
-                              <span className={`material-symbols-outlined text-[16px] lg:text-[20px] ${style.color}`}>
+                            <div className={`w-10 h-10 lg:w-10 lg:h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 ${!notif.is_read ? 'ring-2 ring-secondary' : ''}`}>
+                              <span className={`material-symbols-outlined ${style.color}`} style={{ fontSize: '20px' }}>
                                 {style.icon}
                               </span>
                             </div>
