@@ -455,7 +455,7 @@ body {
   
   /* EXCEPTION: Profile icon person - besar untuk mobile */
   .profile-avatar-icon {
-    font-size: 96px !important;
+    font-size: 110px !important;
     width: auto !important;
     height: auto !important;
     min-width: auto !important;
@@ -466,7 +466,7 @@ body {
   
   /* EXCEPTION: Bottom nav profile icon - lebih besar */
   nav .profile-icon-large {
-    font-size: 44px !important;
+    font-size: 52px !important;
   }
 }
 
