@@ -224,6 +224,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       // TODO: Replace with actual APK URL from your server
       const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
       
+      // Check if URL is still placeholder
+      if (apkUrl.includes('your-server.com')) {
+        alert('⚠️ APK URL belum dikonfigurasi!\n\nSilakan upload APK ke server dan update URL di code.\n\nBaca APK-DOWNLOAD-SETUP.md untuk instruksi lengkap.');
+        return;
+      }
+      
       if (isNativeAndroid) {
         // Native Android app - simple browser download
         window.open(apkUrl, '_blank');
@@ -243,7 +249,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       }
     } catch (error) {
       console.error('Failed to download APK:', error);
-      alert(`Gagal download APK: ${error.message}`);
+      
+      let errorMessage = 'Gagal download APK';
+      if (error.message.includes('Network error')) {
+        errorMessage = 'Gagal download APK: Koneksi error atau URL tidak valid.\n\nPastikan APK sudah diupload ke server dan URL sudah benar.';
+      } else {
+        errorMessage = `Gagal download APK: ${error.message}`;
+      }
+      
+      alert(errorMessage);
     } finally {
       setIsDownloading(false);
       setDownloadProgress(0);
