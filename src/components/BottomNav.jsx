@@ -134,12 +134,18 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             {/* More Button */}
             <button
               onClick={handleMoreClick}
-              className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] text-on-surface-variant"
+              className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                showMoreMenu
+                  ? 'text-secondary bg-secondary-container/30'
+                  : 'text-on-surface-variant'
+              }`}
             >
-              <span className="material-symbols-outlined text-[22px]">
+              <span className={`material-symbols-outlined transition-all ${
+                showMoreMenu ? 'filled-icon text-[26px]' : 'text-[22px]'
+              }`}>
                 more_horiz
               </span>
-              <span className={`text-[11px] font-medium`}>
+              <span className={`text-[11px] font-medium ${showMoreMenu ? 'font-bold' : ''}`}>
                 Lainnya
               </span>
             </button>
@@ -147,7 +153,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
         </div>
       </nav>
 
-      {/* More Menu Modal */}
+      {/* More Menu - Floating Vertical Buttons (Google Drive style) */}
       {showMoreMenu && (
         <>
           {/* Overlay */}
@@ -156,49 +162,52 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             onClick={() => setShowMoreMenu(false)}
           />
           
-          {/* Menu Content */}
-          <div className="fixed bottom-0 left-0 right-0 bg-surface-container-lowest rounded-t-2xl z-50 lg:hidden max-h-[70vh] overflow-y-auto">
-            <div className="p-lg">
-              <div className="flex justify-between items-center mb-md">
-                <h3 className="text-title-md font-semibold">Menu Lainnya</h3>
-                <button 
-                  onClick={() => setShowMoreMenu(false)}
-                  className="p-2 rounded-full hover:bg-surface-container transition-colors"
-                >
-                  <span className="material-symbols-outlined">close</span>
-                </button>
-              </div>
+          {/* Floating Vertical Buttons */}
+          <div className="fixed bottom-24 right-4 z-50 lg:hidden flex flex-col gap-3 items-end">
+            {/* Close Button (X) */}
+            <button
+              onClick={() => setShowMoreMenu(false)}
+              className="flex items-center gap-3 animate-scale-in"
+              style={{ animationDelay: '0ms' }}
+            >
+              {/* Label */}
+              <span className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+                Tutup
+              </span>
               
-              <div className="space-y-xs">
-                {moreMenuItems.map((item) => {
-                  const isAllowed = item.allowedRoles.includes(userRole);
-                  const isActive = currentPage === item.id;
-                  
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => isAllowed && handleMenuItemClick(item.id)}
-                      disabled={!isAllowed}
-                      className={`w-full flex items-center gap-md px-md py-sm rounded-lg transition-colors duration-200 ${
-                        !isAllowed
-                          ? 'text-on-surface-variant/40 cursor-not-allowed'
-                          : isActive
-                          ? 'bg-secondary-container text-on-secondary-container font-semibold'
-                          : 'text-on-surface-variant hover:bg-surface-container'
-                      }`}
-                    >
-                      <span 
-                        className="material-symbols-outlined block shrink-0" 
-                        style={{ fontSize: '24px', width: '24px', height: '24px' }}
-                      >
-                        {item.icon}
-                      </span>
-                      <span className="font-body-md text-body-md">{item.label}</span>
-                    </button>
-                  );
-                })}
+              {/* Icon Button */}
+              <div className="w-14 h-14 bg-secondary rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+                <span className="material-symbols-outlined text-white text-2xl">close</span>
               </div>
-            </div>
+            </button>
+            
+            {/* Menu Buttons */}
+            {moreMenuItems.slice().reverse().map((item, index) => {
+              const isAllowed = item.allowedRoles.includes(userRole);
+              
+              if (!isAllowed) return null;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className="flex items-center gap-3 animate-scale-in"
+                  style={{ animationDelay: `${(index + 1) * 50}ms` }}
+                >
+                  {/* Label - Always visible */}
+                  <span className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+                    {item.label}
+                  </span>
+                  
+                  {/* Icon Button */}
+                  <div className="w-14 h-14 bg-secondary rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+                    <span className="material-symbols-outlined text-white text-xl">
+                      {item.icon}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </>
       )}
