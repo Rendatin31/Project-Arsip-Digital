@@ -252,7 +252,25 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
               <img src={url} alt={name} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
           ) : isPdf ? (
-            pdfBlobUrl ? (
+            isMobile && url ? (
+              // Mobile: Direct download link instead of iframe
+              <div className="h-full flex items-center justify-center">
+                <div className="text-center space-y-md p-lg max-w-sm">
+                  <span className="material-symbols-outlined text-6xl text-error">picture_as_pdf</span>
+                  <p className="text-body-md text-on-surface font-semibold">{name}</p>
+                  <p className="text-body-sm text-on-surface-variant">
+                    Preview PDF tidak tersedia di perangkat mobile. Silakan buka file lengkap untuk melihat dokumen.
+                  </p>
+                  <button
+                    onClick={() => window.open(url, '_blank')}
+                    className="inline-flex items-center gap-xs px-lg py-sm rounded-lg bg-secondary text-white font-semibold hover:brightness-110 transition-all text-body-sm"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                    Buka PDF
+                  </button>
+                </div>
+              </div>
+            ) : pdfBlobUrl ? (
               <div className="w-full h-[70vh] bg-gray-100 rounded-lg overflow-hidden">
                 <iframe 
                   src={pdfBlobUrl}
@@ -318,7 +336,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
           )}
         </div>
 
-        <div className="flex justify-end gap-sm px-lg py-md border-t border-outline-variant">
+        <div className="hidden lg:flex justify-end gap-sm px-lg py-md border-t border-outline-variant">
           <button
             onClick={onClose}
             className="px-md py-sm rounded-lg border border-outline-variant text-on-surface font-semibold hover:bg-surface-container transition-colors text-body-sm"

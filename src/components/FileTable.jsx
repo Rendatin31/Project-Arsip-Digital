@@ -531,7 +531,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
                   {/* Icon Container - Smaller */}
                   <div 
                     className={`relative ${isImage ? 'mb-1' : '-mb-1'}`}
-                    onDoubleClick={() => handleView(file)}
+                    onClick={() => handleView(file)}
                   >
                     {isPDF ? (
                       <div className="w-[40px] h-[52px] flex items-center justify-center">
