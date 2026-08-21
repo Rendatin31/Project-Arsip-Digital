@@ -429,3 +429,50 @@ body {
 .animate-slide-in-right {
   animation: slide-in-right 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Force icon sizes untuk mobile - Override SEMUA icon di aplikasi */
+/* Prevent icon scaling di layar kecil */
+@media (max-width: 1023px) {
+  /* Header icons - paksa kecil */
+  header .material-symbols-outlined {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+  }
+  
+  /* Bottom navigation icons */
+  nav .material-symbols-outlined:not(.filled-icon) {
+    font-size: 22px !important;
+  }
+  
+  nav .material-symbols-outlined.filled-icon {
+    font-size: 26px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  header .material-symbols-outlined {
+    font-size: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+/* Prevent zoom scaling on small screens */
+@media (max-width: 480px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Extra safeguard untuk icon */
+  .material-symbols-outlined {
+    font-size: inherit !important;
+  }
+}

@@ -55,12 +55,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive && isAllowed ? 'filled-icon text-[28px]' : 'text-[24px]'
+                      isActive && isAllowed ? 'filled-icon text-[26px]' : 'text-[22px]'
                     }`}
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[12px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
+                  <span className={`text-[11px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
                     {item.label}
                   </span>
                 </button>
@@ -71,7 +71,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
           {/* Center Profile Button - Elevated */}
           <button
             onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+            className={`absolute left-1/2 -translate-x-1/2 -top-7 w-18 h-18 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
               currentPage === 'profile' 
                 ? 'ring-4 ring-blue-500' 
                 : 'ring-4 ring-gray-300'
@@ -91,7 +91,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               />
             ) : null}
             {!profile?.avatar_url && (
-              <span className={`material-symbols-outlined text-secondary text-[36px] filled-icon`}>
+              <span className={`material-symbols-outlined text-secondary text-[32px] filled-icon`}>
                 person
               </span>
             )}
@@ -119,12 +119,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive && isAllowed ? 'filled-icon text-[28px]' : 'text-[24px]'
+                      isActive && isAllowed ? 'filled-icon text-[26px]' : 'text-[22px]'
                     }`}
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[12px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
+                  <span className={`text-[11px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
                     {item.label}
                   </span>
                 </button>
@@ -136,10 +136,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               onClick={handleMoreClick}
               className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] text-on-surface-variant"
             >
-              <span className="material-symbols-outlined text-[24px]">
+              <span className="material-symbols-outlined text-[22px]">
                 more_horiz
               </span>
-              <span className={`text-[12px] font-medium`}>
+              <span className={`text-[11px] font-medium`}>
                 Lainnya
               </span>
             </button>
