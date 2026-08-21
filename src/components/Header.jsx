@@ -224,7 +224,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       setShowPlatformMenu(false);
       
       // TODO: Replace with actual APK URL from your server
-      const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/app-release.apk';
+      const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk';
       
       // Check if URL is still placeholder
       if (apkUrl.includes('your-server.com')) {
