@@ -216,19 +216,44 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   // Handle APK download
   const handleDownloadAPK = async () => {
     try {
-      setIsDownloading(true);
-      setDownloadProgress(0);
-      setShowPlatformMenu(false);
+      // Check if running on native Android app
+      const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
-      // TODO: Replace with actual APK URL from your server
-      const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
-      
-      await downloadAndInstallAPK(apkUrl, (progress) => {
-        setDownloadProgress(progress);
-      });
-      
-      // Success - installer should open automatically
-      console.log('APK download complete, installer opened');
+      if (isNativeAndroid) {
+        // Native Android app - use Capacitor plugin with progress
+        setIsDownloading(true);
+        setDownloadProgress(0);
+        setShowPlatformMenu(false);
+        
+        // TODO: Replace with actual APK URL from your server
+        const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
+        
+        await downloadAndInstallAPK(apkUrl, (progress) => {
+          setDownloadProgress(progress);
+        });
+        
+        console.log('APK download complete, installer opened');
+      } else {
+        // Browser (desktop or mobile) - direct download
+        setShowPlatformMenu(false);
+        
+        // TODO: Replace with actual APK URL from your server
+        const apkUrl = 'https://your-server.com/path/to/arsip-digital.apk';
+        
+        // Create temporary link and trigger download
+        const link = document.createElement('a');
+        link.href = apkUrl;
+        link.download = 'arsip-digital.apk';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        setTimeout(() => {
+          alert('Download dimulai!\n\nSetelah download selesai, buka file APK dari folder Downloads untuk install.');
+        }, 500);
+      }
     } catch (error) {
       console.error('Failed to download APK:', error);
       alert(`Gagal download APK: ${error.message}`);
