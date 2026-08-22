@@ -1,4 +1,5 @@
 import React from 'react';
+import { handleError } from '../utils/errorHandler';
 
 // Component untuk menampilkan thumbnail image
 function ImageThumbnail({ file, supabase }) {
@@ -153,7 +154,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
         }
       } catch (err) {
         console.error('Gagal mengubah nama file:', err);
-        alert('Gagal mengubah nama file: ' + (err.message || 'Unknown error'));
+        alert(handleError(err, 'update'));
       }
     }
     setEditingFileId(null);
@@ -201,7 +202,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
       .download(file.filePath);
     if (error || !data) {
       console.error('Gagal mengunduh file:', error);
-      alert('Gagal mengunduh file: ' + (error?.message || 'Unknown error'));
+      alert(handleError(error, 'download'));
       return;
     }
     const url = URL.createObjectURL(data);
@@ -238,7 +239,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
           }
         } catch (err) {
           console.error('Gagal menghapus dokumen:', err);
-          // Error will be handled by parent through onDeleteFile
+          alert(handleError(err, 'delete'));
         }
       });
     } else {
@@ -266,6 +267,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
         }
       } catch (err) {
         console.error('Gagal menghapus dokumen:', err);
+        alert(handleError(err, 'delete'));
       }
     }
   };
