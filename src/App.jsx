@@ -22,6 +22,9 @@ import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { notifyAllUsersExcept } from './utils/notifications';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
+import { App as CapacitorApp } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
+import { initializePushNotifications, setupNotificationListeners } from './utils/pushNotifications';
 
 function getFileType(mimeType, fileName) {
   const ext = fileName?.split('.').pop()?.toLowerCase();
@@ -129,6 +132,72 @@ export default function App({ supabase }) {
 
   // Update page title dynamically based on current page
   usePageTitle(currentPage);
+
+  // Initialize push notifications on native platforms
+  useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      console.log('🔔 Initializing push notifications...');
+      
+      // Initialize notifications
+      initializePushNotifications().then((success) => {
+        if (success) {
+          console.log('✅ Push notifications initialized successfully');
+        } else {
+          console.log('❌ Push notifications initialization failed');
+        }
+      });
+
+      // Setup notification tap listener
+      setupNotificationListeners((notification) => {
+        console.log('📱 Notification tapped:', notification);
+        // Handle notification tap - you can navigate to specific page based on notification type
+        // For example: navigate to documents page, history, etc.
+      });
+    }
+  }, []);
+
+  // Handle Android back button - minimize app instead of closing
+  useEffect(() => {
+    if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
+      console.log('📱 Setting up Android back button handler...');
+      
+      const backButtonListener = CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+        console.log('🔙 Back button pressed, canGoBack:', canGoBack);
+        
+        // If user is on login/reset password page, allow default back behavior
+        if (!user || isResetPassword) {
+          console.log('On auth page, allowing default back');
+          return;
+        }
+        
+        // If there's a modal open, close it first
+        if (showAddModal || editDoc || previewFile) {
+          console.log('Modal open, closing modal');
+          setShowAddModal(false);
+          setEditDoc(null);
+          setPreviewFile(null);
+          return;
+        }
+        
+        // If not on dashboard, go back to dashboard
+        if (currentPage !== 'dashboard') {
+          console.log('Not on dashboard, navigating to dashboard');
+          setCurrentPage('dashboard');
+          return;
+        }
+        
+        // If on dashboard, minimize app (send to background)
+        console.log('On dashboard, minimizing app');
+        CapacitorApp.minimizeApp();
+      });
+
+      // Cleanup listener on unmount
+      return () => {
+        console.log('🧹 Cleaning up back button listener');
+        backButtonListener.remove();
+      };
+    }
+  }, [user, isResetPassword, currentPage, showAddModal, editDoc, previewFile]);
 
   useEffect(() => {
     const updateResetFlag = () => {

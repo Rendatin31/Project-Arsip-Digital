@@ -13,33 +13,63 @@ export async function initializePushNotifications() {
   }
 
   try {
-    // Request permission
-    const permissionResult = await LocalNotifications.requestPermissions();
+    console.log('🔔 Checking current notification permission...');
     
-    if (permissionResult.display === 'granted') {
+    // First check current permission status
+    const currentPermission = await LocalNotifications.checkPermissions();
+    console.log('Current permission status:', currentPermission);
+    
+    let permissionStatus = currentPermission.display;
+    
+    // If permission is not granted, request it
+    if (permissionStatus !== 'granted') {
+      console.log('🔔 Requesting notification permission...');
+      const permissionResult = await LocalNotifications.requestPermissions();
+      console.log('Permission request result:', permissionResult);
+      permissionStatus = permissionResult.display;
+    }
+    
+    if (permissionStatus === 'granted') {
       console.log('✅ Notification permission granted');
       
       // Create notification channel (Android only)
       if (Capacitor.getPlatform() === 'android') {
+        console.log('📱 Creating notification channel for Android...');
+        
+        // Delete old channel if exists (to ensure fresh setup)
+        try {
+          await LocalNotifications.deleteChannel({ id: 'arsip_digital' });
+        } catch (e) {
+          // Ignore error if channel doesn't exist
+        }
+        
+        // Create new channel
         await LocalNotifications.createChannel({
           id: 'arsip_digital',
-          name: 'Arsip Digital Notifications',
-          description: 'Notifikasi untuk dokumen dan aktivitas',
-          importance: 4, // High importance
+          name: 'Arsip Digital',
+          description: 'Notifikasi untuk dokumen dan aktivitas arsip',
+          importance: 5, // Max importance for heads-up notifications
           visibility: 1, // Public
           sound: 'default',
           vibration: true,
+          lights: true,
+          lightColor: '#0ea5e9',
         });
-        console.log('✅ Notification channel created');
+        console.log('✅ Notification channel created: arsip_digital');
+        
+        // List all channels to verify
+        const channels = await LocalNotifications.listChannels();
+        console.log('📋 All notification channels:', channels);
       }
       
       return true;
     } else {
-      console.log('❌ Notification permission denied');
+      console.log('❌ Notification permission denied or not determined');
+      console.log('Permission status:', permissionStatus);
       return false;
     }
   } catch (error) {
-    console.error('Error initializing push notifications:', error);
+    console.error('❌ Error initializing push notifications:', error);
     return false;
   }
 }

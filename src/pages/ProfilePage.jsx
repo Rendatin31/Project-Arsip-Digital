@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import ModernAlert from '../components/ModernAlert';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { initializePushNotifications, checkNotificationPermission } from '../utils/pushNotifications';
 
 export default function ProfilePage({ supabase, userId, user, profile, onNavigate, onProfileUpdate, onLogout, renderHeader = true }) {
   const [fullName, setFullName] = useState(profile?.full_name || '');
@@ -234,6 +237,71 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
     );
   };
 
+  // Test notification function
+  const handleTestNotification = async () => {
+    if (!Capacitor.isNativePlatform()) {
+      showAlert('warning', 'Platform Tidak Didukung', 'Notifikasi hanya tersedia di aplikasi mobile Android/iOS');
+      return;
+    }
+
+    try {
+      // Check permission first
+      const hasPermission = await checkNotificationPermission();
+      
+      if (!hasPermission) {
+        showAlert(
+          'confirm',
+          'Permission Diperlukan',
+          'Aplikasi memerlukan izin notifikasi. Aktifkan sekarang?',
+          async () => {
+            const success = await initializePushNotifications();
+            if (success) {
+              // Try sending test notification after permission granted
+              await sendTestNotification();
+            } else {
+              showAlert('error', 'Gagal', 'Gagal mengaktifkan notifikasi. Silakan aktifkan manual di pengaturan device.');
+            }
+          },
+          true
+        );
+        return;
+      }
+
+      // Permission granted, send test notification
+      await sendTestNotification();
+    } catch (error) {
+      console.error('Error testing notification:', error);
+      showAlert('error', 'Error', 'Gagal mengirim notifikasi test: ' + error.message);
+    }
+  };
+
+  // Send test notification
+  const sendTestNotification = async () => {
+    try {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: Math.floor(Math.random() * 100000),
+            title: '🔔 Test Notifikasi',
+            body: 'Notifikasi Arsip Digital berhasil! Sistem notifikasi berfungsi dengan baik.',
+            largeBody: 'Ini adalah notifikasi test untuk memastikan sistem push notification berfungsi dengan baik di device Anda.',
+            summaryText: 'Arsip Digital',
+            channelId: 'arsip_digital',
+            sound: 'default',
+            extra: {
+              type: 'test',
+            },
+          },
+        ],
+      });
+
+      showAlert('success', 'Berhasil!', 'Notifikasi test berhasil dikirim! Cek notification bar di device Anda.');
+    } catch (error) {
+      console.error('Error sending test notification:', error);
+      showAlert('error', 'Gagal', 'Gagal mengirim notifikasi: ' + error.message);
+    }
+  };
+
   return (
     <div className={renderHeader ? "flex flex-col min-h-screen w-full min-w-0 ml-0 lg:ml-[230px]" : "flex flex-col min-h-screen w-full min-w-0"}>
       {renderHeader && (
@@ -364,11 +432,22 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
             </div>
           </div>
 
-          {/* Action Buttons - Logout Only */}
-          <div className="flex justify-end gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
+          {/* Action Buttons - Test Notification & Logout */}
+          <div className="flex justify-between items-center gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
+            {/* Test Notification Button (Only on Native) */}
+            {Capacitor.isNativePlatform() && (
+              <button
+                onClick={handleTestNotification}
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-1 transition-colors"
+              >
+                <span className="material-symbols-outlined text-[16px]">notifications</span>
+                <span>Test Notifikasi</span>
+              </button>
+            )}
+            
             <button
               onClick={handleLogout}
-              className="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1 transition-colors"
+              className="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1 transition-colors ml-auto"
             >
               <span className="material-symbols-outlined text-[16px]">logout</span>
               <span>Log Out</span>
