@@ -24,7 +24,7 @@ import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
-import { initializePushNotifications, setupNotificationListeners } from './utils/pushNotifications';
+import { initializePushNotifications, setupNotificationListeners, sendPushNotification } from './utils/pushNotifications';
 
 function getFileType(mimeType, fileName) {
   const ext = fileName?.split('.').pop()?.toLowerCase();
@@ -155,6 +155,53 @@ export default function App({ supabase }) {
       });
     }
   }, []);
+
+  // Real-time notification listener - Listen for new notifications from database
+  useEffect(() => {
+    if (!user || !Capacitor.isNativePlatform()) return;
+
+    console.log('🔔 Setting up real-time notification listener for user:', user.id);
+
+    // Subscribe to INSERT events on notifications table for current user
+    const subscription = supabase
+      .channel(`notifications:${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        async (payload) => {
+          console.log('🔔 New notification received from database:', payload);
+          
+          const newNotification = payload.new;
+          
+          // Send push notification to THIS device
+          try {
+            await sendPushNotification({
+              id: newNotification.id,
+              type: newNotification.type,
+              title: newNotification.title,
+              message: newNotification.message,
+            });
+            console.log('✅ Push notification sent to device for:', newNotification.title);
+          } catch (error) {
+            console.error('❌ Error sending push notification:', error);
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log('🔔 Subscription status:', status);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      console.log('🧹 Cleaning up notification subscription');
+      subscription.unsubscribe();
+    };
+  }, [user, supabase]);
 
   // Handle Android back button - minimize app instead of closing
   useEffect(() => {

@@ -3,8 +3,6 @@
  * Fungsi helper untuk membuat notifikasi sistem
  */
 
-import { sendPushNotification } from './pushNotifications';
-
 /**
  * Check if user has notification preference enabled
  * @param {object} supabase - Supabase client instance
@@ -41,6 +39,7 @@ async function checkNotificationPreference(supabase, userId, notificationType) {
 
 /**
  * Create a notification for a user
+ * Push notifications are handled by real-time subscription in App.jsx
  * @param {object} supabase - Supabase client instance
  * @param {string} userId - Target user ID
  * @param {string} type - Notification type (upload, security, share, system, approval, delete, edit, access)
@@ -71,24 +70,9 @@ export async function createNotification(supabase, userId, type, title, message)
       return { error };
     }
 
-    console.log('✅ In-app notification created:', data);
+    console.log('✅ Notification created in database:', data);
+    // Push notification will be sent automatically via real-time subscription
     
-    // Also send push notification to device (if on native platform)
-    if (data) {
-      try {
-        await sendPushNotification({
-          id: data.id || Math.floor(Math.random() * 100000),
-          type: type,
-          title: title,
-          message: message,
-        });
-        console.log('✅ Push notification sent to device');
-      } catch (pushError) {
-        console.error('❌ Error sending push notification:', pushError);
-        // Don't fail the whole operation if push fails
-      }
-    }
-
     return { data };
   } catch (err) {
     console.error('Failed to create notification:', err);
@@ -202,6 +186,7 @@ export async function notifyAccessChange(supabase, userId, message) {
 
 /**
  * Notify all users except the current user (excludes user who performed the action)
+ * Push notifications are handled by real-time subscription in App.jsx
  * @param {object} supabase - Supabase client instance
  * @param {string} currentUserId - User ID who performed the action (will be excluded)
  * @param {string} type - Notification type
@@ -230,8 +215,7 @@ export async function notifyAllUsersExcept(supabase, currentUserId, type, title,
       return { data: [] };
     }
 
-    // Use database function to create notifications (bypasses RLS)
-    // Check preferences before sending
+    // Create notifications in database (push will be sent via real-time subscription)
     const results = [];
     let skippedCount = 0;
     
@@ -256,20 +240,7 @@ export async function notifyAllUsersExcept(supabase, currentUserId, type, title,
         console.error('Error creating notification for user:', profile.id, error);
       } else {
         results.push(data);
-        
-        // Also send push notification to device
-        try {
-          await sendPushNotification({
-            id: data.id || Math.floor(Math.random() * 100000),
-            type: type,
-            title: title,
-            message: message,
-          });
-          console.log(`✅ Push notification sent to user ${profile.id}`);
-        } catch (pushError) {
-          console.error(`❌ Error sending push notification to user ${profile.id}:`, pushError);
-          // Don't fail the whole operation if push fails
-        }
+        console.log(`✅ Notification created for user ${profile.id}, push will be sent via real-time`);
       }
     }
 
@@ -326,6 +297,7 @@ export async function notifyAllUsers(supabase, type, title, message) {
 
 /**
  * Notify all admins about an event
+ * Push notifications are handled by real-time subscription in App.jsx
  */
 export async function notifyAllAdmins(supabase, type, title, message) {
   try {
@@ -340,8 +312,7 @@ export async function notifyAllAdmins(supabase, type, title, message) {
       return { error: profileError };
     }
 
-    // Use database function to create notifications (bypasses RLS)
-    // Check preferences before sending
+    // Create notifications in database (push will be sent via real-time subscription)
     const results = [];
     let skippedCount = 0;
     
@@ -366,20 +337,7 @@ export async function notifyAllAdmins(supabase, type, title, message) {
         console.error('Error creating notification for admin:', profile.id, error);
       } else {
         results.push(data);
-        
-        // Also send push notification to device
-        try {
-          await sendPushNotification({
-            id: data.id || Math.floor(Math.random() * 100000),
-            type: type,
-            title: title,
-            message: message,
-          });
-          console.log(`✅ Push notification sent to admin ${profile.id}`);
-        } catch (pushError) {
-          console.error(`❌ Error sending push notification to admin ${profile.id}:`, pushError);
-          // Don't fail the whole operation if push fails
-        }
+        console.log(`✅ Notification created for admin ${profile.id}, push will be sent via real-time`);
       }
     }
 
