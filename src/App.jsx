@@ -238,9 +238,10 @@ export default function App({ supabase }) {
       const backButtonListener = CapacitorApp.addListener('backButton', ({ canGoBack }) => {
         console.log('🔙 Back button pressed, canGoBack:', canGoBack);
         
-        // If user is on login/reset password page, allow default back behavior
+        // If user is on login/reset password page, MINIMIZE APP (don't close)
         if (!user || isResetPassword) {
-          console.log('On auth page, allowing default back');
+          console.log('On auth page, minimizing app');
+          CapacitorApp.minimizeApp();
           return;
         }
         

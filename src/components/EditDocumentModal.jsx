@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { notifyAllUsersExcept } from '../utils/notifications';
+import { handleError } from '../utils/errorHandler';
 import FileTypeIcon from './FileTypeIcon';
 
 export default function EditDocumentModal({ doc, categories, directories = [], supabase, userId, onClose, onSaved }) {
@@ -143,7 +144,7 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
           .upload(uniqueName, file);
 
         if (uploadError) {
-          setError('Gagal mengunggah file: ' + uploadError.message);
+          setError(handleError(uploadError, 'upload'));
           setUploading(false);
           return;
         }
@@ -179,7 +180,7 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
         .eq('id', doc.id);
 
       if (updateError) {
-        setError('Gagal memperbarui arsip: ' + (updateError.message || JSON.stringify(updateError)));
+        setError(handleError(updateError, 'update'));
         setUploading(false);
         return;
       }

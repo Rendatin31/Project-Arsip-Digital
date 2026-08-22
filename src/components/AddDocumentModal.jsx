@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { handleError } from '../utils/errorHandler';
 import { supabase } from '../lib/supabase';
 import { notifyAllUsersExcept } from '../utils/notifications';
 import FileTypeIcon from './FileTypeIcon';
@@ -104,7 +105,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
 
         if (uploadError) {
           console.error('Upload error:', uploadError);
-          setError('Gagal mengunggah file: ' + (uploadError.message || JSON.stringify(uploadError)));
+          setError(handleError(uploadError, 'upload'));
           setUploading(false);
           return;
         }
@@ -142,7 +143,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
       if (insertError) {
         console.error('Insert documents error:', insertError);
         console.error('Insert documents payload:', payload);
-        setError('Gagal menyimpan data arsip: ' + (insertError.message || JSON.stringify(insertError)));
+        setError(handleError(insertError, 'upload'));
         setUploading(false);
         return;
       }
@@ -194,7 +195,7 @@ export default function AddDocumentModal({ categories, directories, userId, curr
       onSave?.();
       onClose?.();
     } catch (err) {
-      setError('Terjadi kesalahan');
+      setError(handleError(err, 'upload'));
       setUploading(false);
     }
   };

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ForgotPasswordModal from './ForgotPasswordModal';
+import { handleError } from '../utils/errorHandler';
 
 export default function LoginPage({ onLogin, supabase }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +36,7 @@ export default function LoginPage({ onLogin, supabase }) {
       });
 
       if (authError) {
-        setError(authError.message || 'Login gagal');
+        setError(handleError(authError, 'login'));
         btn.textContent = 'Sign in';
         btn.classList.remove('opacity-80');
         btn.disabled = false;
@@ -52,7 +53,7 @@ export default function LoginPage({ onLogin, supabase }) {
         btn.disabled = false;
       }, 2000);
     } catch (err) {
-      setError('Terjadi kesalahan koneksi');
+      setError(handleError(err, 'login'));
       btn.textContent = 'Sign in';
       btn.classList.remove('opacity-80');
       btn.disabled = false;
