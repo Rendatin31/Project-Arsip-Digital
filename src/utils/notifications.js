@@ -3,6 +3,61 @@
  * Fungsi helper untuk membuat notifikasi sistem
  */
 
+// OneSignal Configuration
+const ONESIGNAL_APP_ID = '663c3ef2-4bf4-4073-ab3b-47fb918faec5';
+const ONESIGNAL_REST_API_KEY = 'a55511bovuak5kk2pzkvy7vdh';  // API Key from OneSignal Dashboard > Settings > API Keys
+
+/**
+ * Send notification via OneSignal REST API
+ * @param {string} userId - External User ID (database user ID)
+ * @param {string} title - Notification title
+ * @param {string} message - Notification message
+ * @param {string} type - Notification type
+ * @returns {Promise<object>} Success status and notification ID
+ */
+async function sendOneSignalNotification(userId, title, message, type) {
+  try {
+    console.log('📤 Sending OneSignal notification to user:', userId);
+    
+    const response = await fetch('https://onesignal.com/api/v1/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${ONESIGNAL_REST_API_KEY}`,
+      },
+      body: JSON.stringify({
+        app_id: ONESIGNAL_APP_ID,
+        // Target specific user by External User ID
+        include_external_user_ids: [userId],
+        // Notification content
+        headings: { en: title },
+        contents: { en: message },
+        // Additional data
+        data: {
+          type: type,
+          userId: userId,
+        },
+        // Android specific
+        android_channel_id: 'arsip_digital',
+        priority: 10,
+      }),
+    });
+
+    const result = await response.json();
+    
+    if (result.id) {
+      console.log('✅ OneSignal notification sent:', result.id);
+      return { success: true, id: result.id };
+    } else {
+      console.error('❌ OneSignal error:', result);
+      return { success: false, error: result };
+    }
+  } catch (error) {
+    console.error('❌ Error sending OneSignal notification:', error);
+    return { success: false, error: error.message };
+  }
+}
+
 /**
  * Check if user has notification preference enabled
  * @param {object} supabase - Supabase client instance
@@ -72,28 +127,19 @@ export async function createNotification(supabase, userId, type, title, message)
 
     console.log('✅ Notification created in database:', data);
     
-    // Send FCM push notification via Edge Function (for closed-app notifications)
+    // Send push notification via OneSignal REST API (works even when app is CLOSED!)
     try {
-      console.log('📤 Sending FCM notification via Edge Function...');
-      const { data: fcmResult, error: fcmError } = await supabase.functions.invoke('send-fcm-notification', {
-        body: {
-          userId: userId,
-          title: title,
-          message: message,
-          type: type,
-        },
-      });
+      console.log('📤 Sending OneSignal push notification...');
+      const oneSignalResult = await sendOneSignalNotification(userId, title, message, type);
 
-      if (fcmError) {
-        console.error('❌ FCM Edge Function error:', fcmError);
-      } else if (fcmResult?.success) {
-        console.log('✅ FCM notification sent via Edge Function');
+      if (oneSignalResult.success) {
+        console.log('✅ OneSignal notification sent:', oneSignalResult.id);
       } else {
-        console.log('⚠️ FCM notification not sent:', fcmResult);
+        console.error('❌ OneSignal notification failed:', oneSignalResult.error);
       }
-    } catch (fcmError) {
-      console.error('❌ Error calling FCM Edge Function:', fcmError);
-      // Don't fail the whole operation if FCM fails
+    } catch (oneSignalError) {
+      console.error('❌ Error calling OneSignal API:', oneSignalError);
+      // Don't fail the whole operation if OneSignal fails
     }
     
     return { data };

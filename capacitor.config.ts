@@ -11,6 +11,10 @@ const config: CapacitorConfig = {
     FirebaseMessaging: {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
+    OneSignal: {
+      appId: '663c3ef2-4bf4-4073-ab3b-47fb918faec5',
+      googleProjectNumber: '452692426520'
+    },
     App: {
       // Tombol back akan minimize app, bukan close
       // User harus swipe close dari recent apps untuk benar-benar close

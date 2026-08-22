@@ -25,7 +25,7 @@ import { usePageTitle } from './hooks/usePageTitle';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { initializePushNotifications, setupNotificationListeners, sendPushNotification } from './utils/pushNotifications';
-import { initializeFCM, setupFCMListeners, saveFCMToken, removeFCMToken } from './utils/fcmNotifications';
+import { initializeOneSignal, setOneSignalExternalUserId, removeOneSignalExternalUserId, sendOneSignalTags } from './utils/oneSignalNotifications';
 
 function getFileType(mimeType, fileName) {
   const ext = fileName?.split('.').pop()?.toLowerCase();
@@ -134,7 +134,7 @@ export default function App({ supabase }) {
   // Update page title dynamically based on current page
   usePageTitle(currentPage);
 
-  // Initialize push notifications on native platforms (Local + FCM)
+  // Initialize push notifications on native platforms (Local + OneSignal)
   useEffect(() => {
     if (Capacitor.isNativePlatform()) {
       console.log('🔔 Initializing push notifications...');
@@ -148,53 +148,40 @@ export default function App({ supabase }) {
         }
       });
 
-      // Initialize Firebase Cloud Messaging (for remote push)
-      initializeFCM().then(async (fcmToken) => {
-        if (fcmToken) {
-          console.log('✅ FCM initialized successfully');
-          // FCM token will be saved when user logs in (see below)
-        } else {
-          console.log('❌ FCM initialization failed');
-        }
-      });
+      // Initialize OneSignal (for remote push - works even when app is CLOSED!)
+      initializeOneSignal();
 
       // Setup local notification tap listener
       setupNotificationListeners((notification) => {
         console.log('📱 Local notification tapped:', notification);
       });
-
-      // Setup FCM message listener
-      setupFCMListeners((notification) => {
-        console.log('📱 FCM notification received:', notification);
-        // Notification already displayed by system, just log it
-      });
     }
   }, []);
 
-  // Save FCM token when user logs in
+  // Set OneSignal External User ID when user logs in
   useEffect(() => {
     if (!user || !Capacitor.isNativePlatform()) return;
 
-    console.log('🔥 User logged in, getting FCM token...');
+    console.log('👤 User logged in, setting OneSignal External User ID...');
+    
+    // Set External User ID = database user ID (for targeting specific users)
+    setOneSignalExternalUserId(user.id);
+    
+    // Optional: Send tags for user segmentation
+    if (profile) {
+      sendOneSignalTags({
+        role: profile.role,
+        email: user.email,
+        name: profile.full_name,
+      });
+    }
 
-    // Get and save FCM token
-    initializeFCM().then(async (fcmToken) => {
-      if (fcmToken) {
-        console.log('🔥 FCM token obtained, saving to database...');
-        const saved = await saveFCMToken(supabase, user.id, fcmToken);
-        if (saved) {
-          console.log('✅ FCM token saved successfully');
-        } else {
-          console.log('❌ Failed to save FCM token');
-        }
-      }
-    });
-
-    // Cleanup: Remove FCM token on logout
+    // Cleanup: Remove External User ID on logout
     return () => {
-      console.log('🔥 Component unmounting, will remove FCM token on logout');
+      console.log('👋 User logging out, removing External User ID');
+      removeOneSignalExternalUserId();
     };
-  }, [user, supabase]);
+  }, [user, profile]);
 
   // Real-time notification listener - Listen for new notifications from database
   useEffect(() => {
@@ -750,10 +737,10 @@ export default function App({ supabase }) {
 
   const handleLogout = async () => {
     if (user) {
-      // Remove FCM token before logout
+      // Remove OneSignal External User ID before logout
       if (Capacitor.isNativePlatform()) {
-        console.log('🔥 Removing FCM token on logout...');
-        await removeFCMToken(supabase, user.id);
+        console.log('👋 Removing OneSignal External User ID on logout...');
+        removeOneSignalExternalUserId();
       }
 
       const { error: auditError } = await supabase.from('audit_logs').insert({
