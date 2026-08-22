@@ -8,6 +8,9 @@ const config: CapacitorConfig = {
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert']
     },
+    FirebaseMessaging: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
     App: {
       // Tombol back akan minimize app, bukan close
       // User harus swipe close dari recent apps untuk benar-benar close

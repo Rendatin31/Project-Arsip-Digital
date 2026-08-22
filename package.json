@@ -21,6 +21,7 @@
     "build:aab": "npm run build && npx cap sync && cd android && gradlew bundleRelease"
   },
   "dependencies": {
+    "@capacitor-firebase/messaging": "^8.4.0",
     "@capacitor/android": "^8.5.0",
     "@capacitor/app": "^8.1.1",
     "@capacitor/cli": "^8.5.0",
@@ -30,6 +31,7 @@
     "@capacitor/local-notifications": "^8.3.1",
     "@supabase/supabase-js": "^2.110.0",
     "@tailwindcss/vite": "^4.3.2",
+    "firebase": "^12.18.0",
     "mammoth": "^1.12.0",
     "pdfjs-dist": "^6.1.200",
     "react": "^19.2.7",

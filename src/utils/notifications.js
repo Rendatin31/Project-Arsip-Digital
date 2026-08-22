@@ -39,7 +39,7 @@ async function checkNotificationPreference(supabase, userId, notificationType) {
 
 /**
  * Create a notification for a user
- * Push notifications are handled by real-time subscription in App.jsx
+ * Also sends FCM push notification via Edge Function
  * @param {object} supabase - Supabase client instance
  * @param {string} userId - Target user ID
  * @param {string} type - Notification type (upload, security, share, system, approval, delete, edit, access)
@@ -71,7 +71,30 @@ export async function createNotification(supabase, userId, type, title, message)
     }
 
     console.log('✅ Notification created in database:', data);
-    // Push notification will be sent automatically via real-time subscription
+    
+    // Send FCM push notification via Edge Function (for closed-app notifications)
+    try {
+      console.log('📤 Sending FCM notification via Edge Function...');
+      const { data: fcmResult, error: fcmError } = await supabase.functions.invoke('send-fcm-notification', {
+        body: {
+          userId: userId,
+          title: title,
+          message: message,
+          type: type,
+        },
+      });
+
+      if (fcmError) {
+        console.error('❌ FCM Edge Function error:', fcmError);
+      } else if (fcmResult?.success) {
+        console.log('✅ FCM notification sent via Edge Function');
+      } else {
+        console.log('⚠️ FCM notification not sent:', fcmResult);
+      }
+    } catch (fcmError) {
+      console.error('❌ Error calling FCM Edge Function:', fcmError);
+      // Don't fail the whole operation if FCM fails
+    }
     
     return { data };
   } catch (err) {

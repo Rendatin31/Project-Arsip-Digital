@@ -25,6 +25,7 @@ import { usePageTitle } from './hooks/usePageTitle';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { initializePushNotifications, setupNotificationListeners, sendPushNotification } from './utils/pushNotifications';
+import { initializeFCM, setupFCMListeners, saveFCMToken, removeFCMToken } from './utils/fcmNotifications';
 
 function getFileType(mimeType, fileName) {
   const ext = fileName?.split('.').pop()?.toLowerCase();
@@ -133,28 +134,67 @@ export default function App({ supabase }) {
   // Update page title dynamically based on current page
   usePageTitle(currentPage);
 
-  // Initialize push notifications on native platforms
+  // Initialize push notifications on native platforms (Local + FCM)
   useEffect(() => {
     if (Capacitor.isNativePlatform()) {
       console.log('🔔 Initializing push notifications...');
       
-      // Initialize notifications
+      // Initialize local notifications (for in-app)
       initializePushNotifications().then((success) => {
         if (success) {
-          console.log('✅ Push notifications initialized successfully');
+          console.log('✅ Local push notifications initialized successfully');
         } else {
-          console.log('❌ Push notifications initialization failed');
+          console.log('❌ Local push notifications initialization failed');
         }
       });
 
-      // Setup notification tap listener
+      // Initialize Firebase Cloud Messaging (for remote push)
+      initializeFCM().then(async (fcmToken) => {
+        if (fcmToken) {
+          console.log('✅ FCM initialized successfully');
+          // FCM token will be saved when user logs in (see below)
+        } else {
+          console.log('❌ FCM initialization failed');
+        }
+      });
+
+      // Setup local notification tap listener
       setupNotificationListeners((notification) => {
-        console.log('📱 Notification tapped:', notification);
-        // Handle notification tap - you can navigate to specific page based on notification type
-        // For example: navigate to documents page, history, etc.
+        console.log('📱 Local notification tapped:', notification);
+      });
+
+      // Setup FCM message listener
+      setupFCMListeners((notification) => {
+        console.log('📱 FCM notification received:', notification);
+        // Notification already displayed by system, just log it
       });
     }
   }, []);
+
+  // Save FCM token when user logs in
+  useEffect(() => {
+    if (!user || !Capacitor.isNativePlatform()) return;
+
+    console.log('🔥 User logged in, getting FCM token...');
+
+    // Get and save FCM token
+    initializeFCM().then(async (fcmToken) => {
+      if (fcmToken) {
+        console.log('🔥 FCM token obtained, saving to database...');
+        const saved = await saveFCMToken(supabase, user.id, fcmToken);
+        if (saved) {
+          console.log('✅ FCM token saved successfully');
+        } else {
+          console.log('❌ Failed to save FCM token');
+        }
+      }
+    });
+
+    // Cleanup: Remove FCM token on logout
+    return () => {
+      console.log('🔥 Component unmounting, will remove FCM token on logout');
+    };
+  }, [user, supabase]);
 
   // Real-time notification listener - Listen for new notifications from database
   useEffect(() => {
@@ -710,6 +750,12 @@ export default function App({ supabase }) {
 
   const handleLogout = async () => {
     if (user) {
+      // Remove FCM token before logout
+      if (Capacitor.isNativePlatform()) {
+        console.log('🔥 Removing FCM token on logout...');
+        await removeFCMToken(supabase, user.id);
+      }
+
       const { error: auditError } = await supabase.from('audit_logs').insert({
         user_id: user.id,
         action: 'LOGOUT',
