@@ -1,0 +1,6 @@
+{
+  "userId": "GANTI_DENGAN_USER_ID_DARI_DATABASE",
+  "title": "Test Manual dari Supabase Dashboard",
+  "message": "Ini adalah test notifikasi FCM. Jika muncul di device, berarti FCM berfungsi dengan baik!",
+  "type": "test"
+}
