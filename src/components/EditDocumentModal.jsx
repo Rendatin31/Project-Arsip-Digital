@@ -245,7 +245,7 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
       onClose?.();
     } catch (err) {
       console.error('Terjadi kesalahan', err);
-      setError('Terjadi kesalahan');
+      setError(handleError(err, 'update'));
       setUploading(false);
     }
   };
