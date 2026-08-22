@@ -221,13 +221,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       // Check if running on native Android app
       const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
-      setShowPlatformMenu(false);
+      // JANGAN tutup modal dulu - biarkan terbuka untuk melihat progress
+      // setShowPlatformMenu(false);
       
       // TODO: Replace with actual APK URL from your server
       const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk';
       
       // Check if URL is still placeholder
       if (apkUrl.includes('your-server.com')) {
+        setShowPlatformMenu(false); // Tutup modal jika error
         setAlertConfig({
           show: true,
           title: 'APK URL Belum Dikonfigurasi',
@@ -241,6 +243,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         // Native Android app - simple browser download
         window.open(apkUrl, '_blank');
         setTimeout(() => {
+          setShowPlatformMenu(false); // Tutup modal setelah open link
           setAlertConfig({
             show: true,
             title: 'Download Dimulai',
@@ -257,6 +260,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           setDownloadProgress(progress);
         });
         
+        // Download selesai - tutup modal dan tampilkan alert
+        setShowPlatformMenu(false);
         setAlertConfig({
           show: true,
           title: 'Download Selesai',
@@ -266,6 +271,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       }
     } catch (error) {
       console.error('Failed to download APK:', error);
+      
+      // Tutup modal jika error
+      setShowPlatformMenu(false);
       
       let errorMessage = 'Gagal download APK';
       let errorIcon = '❌';
