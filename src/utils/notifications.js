@@ -3,6 +3,8 @@
  * Fungsi helper untuk membuat notifikasi sistem
  */
 
+import { sendPushNotification } from './pushNotifications';
+
 /**
  * Check if user has notification preference enabled
  * @param {object} supabase - Supabase client instance
@@ -69,7 +71,24 @@ export async function createNotification(supabase, userId, type, title, message)
       return { error };
     }
 
-    console.log('Notification created:', data);
+    console.log('✅ In-app notification created:', data);
+    
+    // Also send push notification to device (if on native platform)
+    if (data) {
+      try {
+        await sendPushNotification({
+          id: data.id || Math.floor(Math.random() * 100000),
+          type: type,
+          title: title,
+          message: message,
+        });
+        console.log('✅ Push notification sent to device');
+      } catch (pushError) {
+        console.error('❌ Error sending push notification:', pushError);
+        // Don't fail the whole operation if push fails
+      }
+    }
+
     return { data };
   } catch (err) {
     console.error('Failed to create notification:', err);
@@ -237,6 +256,20 @@ export async function notifyAllUsersExcept(supabase, currentUserId, type, title,
         console.error('Error creating notification for user:', profile.id, error);
       } else {
         results.push(data);
+        
+        // Also send push notification to device
+        try {
+          await sendPushNotification({
+            id: data.id || Math.floor(Math.random() * 100000),
+            type: type,
+            title: title,
+            message: message,
+          });
+          console.log(`✅ Push notification sent to user ${profile.id}`);
+        } catch (pushError) {
+          console.error(`❌ Error sending push notification to user ${profile.id}:`, pushError);
+          // Don't fail the whole operation if push fails
+        }
       }
     }
 
@@ -333,6 +366,20 @@ export async function notifyAllAdmins(supabase, type, title, message) {
         console.error('Error creating notification for admin:', profile.id, error);
       } else {
         results.push(data);
+        
+        // Also send push notification to device
+        try {
+          await sendPushNotification({
+            id: data.id || Math.floor(Math.random() * 100000),
+            type: type,
+            title: title,
+            message: message,
+          });
+          console.log(`✅ Push notification sent to admin ${profile.id}`);
+        } catch (pushError) {
+          console.error(`❌ Error sending push notification to admin ${profile.id}:`, pushError);
+          // Don't fail the whole operation if push fails
+        }
       }
     }
 
