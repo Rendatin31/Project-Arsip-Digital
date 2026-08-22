@@ -1,9 +1,8 @@
 // Supabase Edge Function to send FCM notifications
-// Final version using google-auth-library (official Google library)
+// Using FCM Legacy API with Server Key (much simpler than OAuth2!)
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
-import { GoogleAuth } from 'https://esm.sh/google-auth-library@9.6.3'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -25,20 +24,16 @@ serve(async (req) => {
   }
 
   try {
-    console.log('🔥 FCM Edge Function called (Final - google-auth-library)')
+    console.log('🔥 FCM Edge Function called (Legacy API)')
 
-    // Get Firebase Service Account from environment
-    const FIREBASE_SERVICE_ACCOUNT = Deno.env.get('FIREBASE_SERVICE_ACCOUNT')
-    if (!FIREBASE_SERVICE_ACCOUNT) {
-      console.error('❌ FIREBASE_SERVICE_ACCOUNT not configured')
-      throw new Error('FIREBASE_SERVICE_ACCOUNT not configured')
+    // Get Firebase Server Key from environment
+    const FIREBASE_SERVER_KEY = Deno.env.get('FIREBASE_SERVER_KEY')
+    if (!FIREBASE_SERVER_KEY) {
+      console.error('❌ FIREBASE_SERVER_KEY not configured')
+      throw new Error('FIREBASE_SERVER_KEY not configured')
     }
     
-    console.log('📦 Parsing Service Account JSON...')
-    const serviceAccount = JSON.parse(FIREBASE_SERVICE_ACCOUNT)
-    console.log('✅ Service Account parsed, project_id:', serviceAccount.project_id)
-    
-    const projectId = serviceAccount.project_id
+    console.log('✅ Firebase Server Key found')
 
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
@@ -87,57 +82,32 @@ serve(async (req) => {
 
     console.log('✅ FCM token found:', profile.fcm_token.substring(0, 20) + '...')
 
-    // Get OAuth2 access token using Google Auth Library
-    console.log('🔐 Getting OAuth2 access token with google-auth-library...')
-    
-    const auth = new GoogleAuth({
-      credentials: serviceAccount,
-      scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
-    })
-    
-    const client = await auth.getClient()
-    const accessToken = await client.getAccessToken()
-    
-    if (!accessToken.token) {
-      console.error('❌ Failed to get access token')
-      throw new Error('Failed to get OAuth2 access token')
-    }
-    
-    console.log('✅ Access token obtained via google-auth-library')
-
-    // Prepare FCM v1 message
+    // Prepare FCM Legacy API message
     const fcmMessage = {
-      message: {
-        token: profile.fcm_token,
-        notification: {
-          title: title,
-          body: message,
-        },
-        android: {
-          priority: 'high',
-          notification: {
-            sound: 'default',
-            priority: 'high',
-            channelId: 'arsip_digital',
-          },
-        },
-        data: {
-          type: type || 'notification',
-          userId: userId,
-          ...data,
-        },
+      to: profile.fcm_token,
+      priority: 'high',
+      notification: {
+        title: title,
+        body: message,
+        sound: 'default',
+        android_channel_id: 'arsip_digital',
+      },
+      data: {
+        type: type || 'notification',
+        userId: userId,
+        ...data,
       },
     }
 
-    console.log('📤 Sending FCM v1 message to Firebase...')
+    console.log('📤 Sending FCM notification via Legacy API...')
 
-    // Send FCM notification via Firebase v1 API
+    // Send FCM notification via Legacy API
     const fcmResponse = await fetch(
-      `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
+      'https://fcm.googleapis.com/fcm/send',
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${accessToken.token}`,
+          'Authorization': `key=${FIREBASE_SERVER_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(fcmMessage),
@@ -152,7 +122,7 @@ serve(async (req) => {
       console.error('❌ FCM API error:', fcmResult)
       
       // If token is invalid, remove it from database
-      if (fcmResult.error?.status === 'NOT_FOUND' || fcmResult.error?.status === 'INVALID_ARGUMENT') {
+      if (fcmResult.results && fcmResult.results[0]?.error === 'InvalidRegistration') {
         console.log('🗑️ Removing invalid FCM token from database')
         await supabase
           .from('profiles')
@@ -163,12 +133,19 @@ serve(async (req) => {
       throw new Error(`FCM API error: ${JSON.stringify(fcmResult)}`)
     }
 
+    // Check if message was sent successfully
+    if (fcmResult.failure > 0) {
+      console.error('❌ FCM message failed:', fcmResult)
+      throw new Error(`FCM message failed: ${JSON.stringify(fcmResult)}`)
+    }
+
     console.log('✅ FCM notification sent successfully!')
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        messageName: fcmResult.name,
+        messageId: fcmResult.results[0]?.message_id,
+        multicastId: fcmResult.multicast_id,
         userId,
         userName: profile.full_name,
       }),
@@ -177,15 +154,12 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('❌ Error in FCM Edge Function:', error)
-    console.error('❌ Error name:', error.name)
-    console.error('❌ Error message:', error.message)
-    if (error.stack) console.error('❌ Error stack:', error.stack)
-    
+    console.error('❌ Error stack:', error.stack)
     return new Response(
       JSON.stringify({ 
         error: error.message || 'Internal server error',
-        errorName: error.name,
         details: error.toString(),
+        stack: error.stack
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )

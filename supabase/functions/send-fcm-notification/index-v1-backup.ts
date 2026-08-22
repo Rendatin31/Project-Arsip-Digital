@@ -1,9 +1,8 @@
-// Supabase Edge Function to send FCM notifications
-// Final version using google-auth-library (official Google library)
+// Supabase Edge Function to send FCM notifications - Version 2
+// Simplified OAuth2 implementation with better error handling
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
-import { GoogleAuth } from 'https://esm.sh/google-auth-library@9.6.3'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +17,66 @@ interface NotificationPayload {
   data?: Record<string, any>
 }
 
+// Simplified JWT creation using jose library
+async function getAccessToken(serviceAccount: any): Promise<string> {
+  try {
+    console.log('🔐 Creating JWT for OAuth2...')
+    
+    // Use jose library for JWT signing (more reliable in Deno)
+    const jose = await import('https://deno.land/x/jose@v4.14.4/index.ts')
+    
+    // Extract private key
+    const privateKeyPem = serviceAccount.private_key
+    
+    // Import private key using jose
+    const privateKey = await jose.importPKCS8(privateKeyPem, 'RS256')
+    
+    // Create JWT
+    const now = Math.floor(Date.now() / 1000)
+    const jwt = await new jose.SignJWT({})
+      .setProtectedHeader({ alg: 'RS256', typ: 'JWT' })
+      .setIssuer(serviceAccount.client_email)
+      .setSubject(serviceAccount.client_email)
+      .setAudience('https://oauth2.googleapis.com/token')
+      .setIssuedAt(now)
+      .setExpirationTime(now + 3600)
+      .sign(privateKey)
+    
+    console.log('✅ JWT created successfully')
+    
+    // Exchange JWT for access token
+    console.log('🔄 Exchanging JWT for access token...')
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        assertion: jwt,
+      }).toString(),
+    })
+    
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text()
+      console.error('❌ OAuth2 token exchange failed:', errorText)
+      throw new Error(`OAuth2 error: ${errorText}`)
+    }
+    
+    const tokenData = await tokenResponse.json()
+    
+    if (!tokenData.access_token) {
+      console.error('❌ No access_token in response:', tokenData)
+      throw new Error('Failed to get access token')
+    }
+    
+    console.log('✅ Access token obtained')
+    return tokenData.access_token
+    
+  } catch (error) {
+    console.error('❌ Error in getAccessToken:', error)
+    throw error
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -25,7 +84,7 @@ serve(async (req) => {
   }
 
   try {
-    console.log('🔥 FCM Edge Function called (Final - google-auth-library)')
+    console.log('🔥 FCM Edge Function called (v2)')
 
     // Get Firebase Service Account from environment
     const FIREBASE_SERVICE_ACCOUNT = Deno.env.get('FIREBASE_SERVICE_ACCOUNT')
@@ -35,8 +94,14 @@ serve(async (req) => {
     }
     
     console.log('📦 Parsing Service Account JSON...')
-    const serviceAccount = JSON.parse(FIREBASE_SERVICE_ACCOUNT)
-    console.log('✅ Service Account parsed, project_id:', serviceAccount.project_id)
+    let serviceAccount: any
+    try {
+      serviceAccount = JSON.parse(FIREBASE_SERVICE_ACCOUNT)
+      console.log('✅ Service Account parsed, project_id:', serviceAccount.project_id)
+    } catch (parseError) {
+      console.error('❌ Failed to parse Service Account JSON:', parseError)
+      throw new Error('Invalid Service Account JSON')
+    }
     
     const projectId = serviceAccount.project_id
 
@@ -87,23 +152,9 @@ serve(async (req) => {
 
     console.log('✅ FCM token found:', profile.fcm_token.substring(0, 20) + '...')
 
-    // Get OAuth2 access token using Google Auth Library
-    console.log('🔐 Getting OAuth2 access token with google-auth-library...')
-    
-    const auth = new GoogleAuth({
-      credentials: serviceAccount,
-      scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
-    })
-    
-    const client = await auth.getClient()
-    const accessToken = await client.getAccessToken()
-    
-    if (!accessToken.token) {
-      console.error('❌ Failed to get access token')
-      throw new Error('Failed to get OAuth2 access token')
-    }
-    
-    console.log('✅ Access token obtained via google-auth-library')
+    // Get OAuth2 access token
+    console.log('🔐 Getting OAuth2 access token...')
+    const accessToken = await getAccessToken(serviceAccount)
 
     // Prepare FCM v1 message
     const fcmMessage = {
@@ -137,7 +188,7 @@ serve(async (req) => {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${accessToken.token}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(fcmMessage),
@@ -177,15 +228,12 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('❌ Error in FCM Edge Function:', error)
-    console.error('❌ Error name:', error.name)
-    console.error('❌ Error message:', error.message)
-    if (error.stack) console.error('❌ Error stack:', error.stack)
-    
+    console.error('❌ Error stack:', error.stack)
     return new Response(
       JSON.stringify({ 
         error: error.message || 'Internal server error',
-        errorName: error.name,
         details: error.toString(),
+        stack: error.stack
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
