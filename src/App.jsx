@@ -917,9 +917,9 @@ export default function App({ supabase }) {
       setSelectedDirectoryName('File Saya');
       setSelectedDirectoryPath([]);
     } else if (id === 'data-arsip') {
-      setCurrentPage('documents');
+      setCurrentPage('data-arsip');  // ✅ Navigate to Direktori Arsip
       setSelectedDirectoryId(null);
-      setSelectedDirectoryName('File Saya');
+      setSelectedDirectoryName('Direktori Arsip');
       setSelectedDirectoryPath([]);
     } else if (id === 'categories') {
       setCurrentPage('categories');
