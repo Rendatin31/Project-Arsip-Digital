@@ -511,7 +511,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                             }
                             
                             // Handle navigation based on notification type and user role
-                            if (notif.type === 'upload' || notif.type === 'edit') {
+                            if (notif.type === 'upload' || notif.type === 'edit' || notif.type === 'approval') {
                               // Document publication/update notifications
                               const userRole = profile?.role || 'viewer';
                               
@@ -529,7 +529,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                 onNavigate?.('search');
                               }
                             } else {
-                              console.log('Not upload/edit notification, only marking as read');
+                              console.log('Not document notification, only marking as read');
                             }
                           }}
                           className={`px-md lg:px-lg py-sm lg:py-md border-b border-outline-variant hover:bg-surface-container transition-colors cursor-pointer ${
