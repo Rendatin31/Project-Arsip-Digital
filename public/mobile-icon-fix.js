@@ -57,23 +57,19 @@
       const isNavIcon = icon.closest('nav');
       
       if (isHeaderIcon || isNavIcon) {
-        // Header & Nav: 38px (comfortable, tidak terlalu besar)
-        icon.style.setProperty('font-size', '38px', 'important');
-        icon.style.setProperty('width', '38px', 'important');
-        icon.style.setProperty('height', '38px', 'important');
-        icon.style.setProperty('min-width', '38px', 'important');
-        icon.style.setProperty('min-height', '38px', 'important');
+        // Header & Nav: 2x scale
+        icon.style.setProperty('transform', 'scale(2)', 'important');
+        icon.style.setProperty('transform-origin', 'center', 'important');
       } else {
-        // All others: 34px (standard size, easy to read)
-        icon.style.setProperty('font-size', '34px', 'important');
-        icon.style.setProperty('min-width', '34px', 'important');
-        icon.style.setProperty('min-height', '34px', 'important');
+        // All others: 2x scale
+        icon.style.setProperty('transform', 'scale(2)', 'important');
+        icon.style.setProperty('transform-origin', 'center', 'important');
       }
       
       resizedCount++;
     });
     
-    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 38px, Others: 34px)`);
+    console.log(`✅ RESIZED ${resizedCount} ICONS (All: 2x scale)`);
   }
   
   // Run multiple times to ensure it catches all icons

@@ -149,21 +149,17 @@ export default function App({ supabase }) {
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
-            // Header & Nav: 38px (comfortable, tidak terlalu besar)
-            icon.style.setProperty('font-size', '38px', 'important');
-            icon.style.setProperty('width', '38px', 'important');
-            icon.style.setProperty('height', '38px', 'important');
-            icon.style.setProperty('min-width', '38px', 'important');
-            icon.style.setProperty('min-height', '38px', 'important');
+            // Header & Nav: 2x scale
+            icon.style.setProperty('transform', 'scale(2)', 'important');
+            icon.style.setProperty('transform-origin', 'center', 'important');
           } else {
-            // All other icons: 34px (standard size, easy to read)
-            icon.style.setProperty('font-size', '34px', 'important');
-            icon.style.setProperty('min-width', '34px', 'important');
-            icon.style.setProperty('min-height', '34px', 'important');
+            // All other icons: 2x scale
+            icon.style.setProperty('transform', 'scale(2)', 'important');
+            icon.style.setProperty('transform-origin', 'center', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile (min 34px, header/nav 38px)`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (All: 2x scale)`);
       }
     };
     
