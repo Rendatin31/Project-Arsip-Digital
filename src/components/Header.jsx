@@ -18,9 +18,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const getIconStyle = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
     return {
-      fontSize: isMobile ? '28px !important' : '24px !important',
-      width: isMobile ? '28px !important' : '24px !important',
-      height: isMobile ? '28px !important' : '24px !important',
+      fontSize: isMobile ? '32px !important' : '24px !important',
+      width: isMobile ? '32px !important' : '24px !important',
+      height: isMobile ? '32px !important' : '24px !important',
       lineHeight: '1',
       display: 'block',
     };

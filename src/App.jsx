@@ -136,6 +136,8 @@ export default function App({ supabase }) {
       
       if (isMobile) {
         console.log('📱 Mobile detected, resizing icons...');
+        console.log('Screen width:', window.innerWidth);
+        console.log('Device pixel ratio:', window.devicePixelRatio);
         
         // Get all Material Icons
         const icons = document.querySelectorAll('.material-symbols-outlined');
@@ -144,30 +146,30 @@ export default function App({ supabase }) {
           const currentSize = window.getComputedStyle(icon).fontSize;
           const sizeValue = parseInt(currentSize);
           
-          // Force minimum 24px for all icons
-          if (sizeValue < 24) {
-            icon.style.setProperty('font-size', '24px', 'important');
-          }
-          
-          // Special handling for header and nav icons
+          // Special handling for header and nav icons - MUCH LARGER
           const isHeaderIcon = icon.closest('header');
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
+            icon.style.setProperty('font-size', '32px', 'important');
+            icon.style.setProperty('width', '32px', 'important');
+            icon.style.setProperty('height', '32px', 'important');
+          } else if (sizeValue < 28) {
+            // All other icons minimum 28px
             icon.style.setProperty('font-size', '28px', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (min 28px, header/nav 32px)`);
       }
     };
     
-    // Run on mount
-    resizeIconsForMobile();
+    // Run on mount with delay to ensure DOM is ready
+    setTimeout(resizeIconsForMobile, 100);
     
     // Run on every route change (when new icons are rendered)
     const observer = new MutationObserver(() => {
-      resizeIconsForMobile();
+      setTimeout(resizeIconsForMobile, 50);
     });
     
     observer.observe(document.body, {
@@ -177,6 +179,11 @@ export default function App({ supabase }) {
     
     // Run on window resize
     window.addEventListener('resize', resizeIconsForMobile);
+    
+    // Run on orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(resizeIconsForMobile, 200);
+    });
     
     return () => {
       observer.disconnect();
