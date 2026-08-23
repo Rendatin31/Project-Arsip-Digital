@@ -211,7 +211,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
          )}
 
         <div className="flex-1 overflow-auto">
-          <div className="px-[25px] py-[2px] space-y-sm max-w-[1600px] mx-auto mt-3">
+          <div className="px-3 lg:px-[25px] py-[2px] space-y-sm max-w-[1600px] mx-auto mt-3">
             <section className="space-y-md">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
@@ -347,7 +347,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               </div>
             </div>
 
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-lg min-h-[500px]">
+            <section className="grid grid-cols-1 lg:grid-cols-[1fr_600px] gap-lg min-h-[500px]">
               <div className="flex flex-col gap-md pr-md">
                 <div className="flex items-center justify-between mb-xs">
                   <h5 className="font-title-sm text-[14px] text-on-surface">Hasil Pencarian ({results.length} Dokumen)</h5>
