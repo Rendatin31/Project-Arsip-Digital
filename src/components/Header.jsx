@@ -559,11 +559,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow-lg ${style.bg}`}
+                                className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center bg-white shadow-lg"
                               >
                                 <span 
                                   style={{ 
-                                    fontSize: '15px',
+                                    fontSize: '16px',
                                     lineHeight: '1'
                                   }}
                                 >
