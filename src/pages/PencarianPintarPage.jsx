@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import FilePreviewModal from '../components/FilePreviewModal';
 import FileTypeIcon from '../components/FileTypeIcon';
 import Header from '../components/Header';
+import { Share } from '@capacitor/share';
+import { Capacitor } from '@capacitor/core';
 
 const STATUS_MAP = {
   DRAFT: { label: 'Ditinjau', cls: 'bg-surface-container-high text-on-surface-variant border-outline-variant' },
@@ -49,46 +51,79 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
       if (error) throw error;
       
       if (data?.signedUrl) {
-        // Check if Web Share API is supported (mobile devices)
-        if (navigator.share) {
+        const shareData = {
+          title: doc.subject || 'Dokumen Arsip Digital',
+          text: `Dokumen: ${doc.subject}\nNo. Surat: ${doc.letter_number || '-'}\n\nDownload dokumen:`,
+          url: data.signedUrl,
+          dialogTitle: 'Bagikan Dokumen'
+        };
+        
+        // Check if running on native platform (Android/iOS)
+        if (Capacitor.isNativePlatform()) {
           try {
-            await navigator.share({
-              title: doc.subject || 'Dokumen Arsip Digital',
-              text: `Dokumen: ${doc.subject}\nNo. Surat: ${doc.letter_number || '-'}\n\nDownload dokumen:`,
-              url: data.signedUrl
-            });
-            
-            console.log('Document shared successfully via native share');
+            // Use Capacitor Share API for native apps
+            await Share.share(shareData);
+            console.log('Document shared successfully via Capacitor Share');
             
             // Reset sharing state after delay
             setTimeout(() => setSharingDocId(null), 500);
           } catch (shareError) {
             // User cancelled share or error occurred
-            if (shareError.name !== 'AbortError') {
-              console.error('Share error:', shareError);
-              // Fallback to copy to clipboard
-              await navigator.clipboard.writeText(data.signedUrl);
-              setShareAlert({
-                show: true,
-                message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
-                type: 'success'
-              });
-            }
+            console.error('Capacitor Share error:', shareError);
+            
+            // Fallback to copy to clipboard
+            await navigator.clipboard.writeText(data.signedUrl);
+            setShareAlert({
+              show: true,
+              message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+              type: 'success'
+            });
             
             // Reset sharing state
             setTimeout(() => setSharingDocId(null), 500);
           }
         } else {
-          // Fallback for desktop: Copy to clipboard
-          await navigator.clipboard.writeText(data.signedUrl);
-          setShareAlert({
-            show: true,
-            message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
-            type: 'success'
-          });
-          
-          // Reset sharing state after delay
-          setTimeout(() => setSharingDocId(null), 500);
+          // Running in browser - try Web Share API first
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: shareData.title,
+                text: shareData.text,
+                url: shareData.url
+              });
+              
+              console.log('Document shared successfully via Web Share API');
+              
+              // Reset sharing state after delay
+              setTimeout(() => setSharingDocId(null), 500);
+            } catch (shareError) {
+              // User cancelled share or error occurred
+              if (shareError.name !== 'AbortError') {
+                console.error('Web Share error:', shareError);
+                // Fallback to copy to clipboard
+                await navigator.clipboard.writeText(data.signedUrl);
+                setShareAlert({
+                  show: true,
+                  message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+                  type: 'success'
+                });
+              }
+              
+              // Reset sharing state
+              setTimeout(() => setSharingDocId(null), 500);
+            }
+          } else {
+            // Fallback for desktop: Copy to clipboard
+            await navigator.clipboard.writeText(data.signedUrl);
+            setShareAlert({
+              show: true,
+              message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+              type: 'success'
+            });
+            
+            // Reset sharing state after delay
+            setTimeout(() => setSharingDocId(null), 500);
+          }
         }
         
         // Hide alert after 3 seconds (if shown)
