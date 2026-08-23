@@ -559,25 +559,26 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center border-2 border-white ${
+                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-surface-container-lowest ${
                                   style.color === 'text-primary' ? 'bg-primary' :
                                   style.color === 'text-secondary' ? 'bg-secondary' :
                                   style.color === 'text-tertiary' ? 'bg-tertiary' :
                                   style.color === 'text-error' ? 'bg-error' : 'bg-outline'
                                 }`}
                                 style={{ 
-                                  boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
                                 }}
                               >
                                 <span 
-                                  className="material-symbols-outlined text-white"
+                                  className="material-symbols-outlined text-white filled-icon"
                                   style={{ 
-                                    fontSize: '12px',
+                                    fontSize: '14px',
                                     lineHeight: '1',
-                                    fontWeight: '600',
+                                    fontWeight: '700',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    justifyContent: 'center'
+                                    justifyContent: 'center',
+                                    fontVariationSettings: '"FILL" 1, "wght" 700, "GRAD" 0, "opsz" 20'
                                   }}
                                 >
                                   {style.icon}
