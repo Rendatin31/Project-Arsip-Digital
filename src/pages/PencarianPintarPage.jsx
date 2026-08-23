@@ -30,6 +30,47 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
   const [scale, setScale] = useState(1);
   const [fullPreview, setFullPreview] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [shareAlert, setShareAlert] = useState({ show: false, message: '', type: 'success' });
+
+  // Function to generate shareable download link
+  const handleShare = async (doc, e) => {
+    e.stopPropagation(); // Prevent card click
+    
+    try {
+      // Generate signed URL for download (valid for 7 days)
+      const { data, error } = await supabase.storage
+        .from('documents')
+        .createSignedUrl(doc.file_path, 604800); // 7 days in seconds
+      
+      if (error) throw error;
+      
+      if (data?.signedUrl) {
+        // Copy to clipboard
+        await navigator.clipboard.writeText(data.signedUrl);
+        setShareAlert({
+          show: true,
+          message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+          type: 'success'
+        });
+        
+        // Hide alert after 3 seconds
+        setTimeout(() => {
+          setShareAlert({ show: false, message: '', type: 'success' });
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error generating share link:', error);
+      setShareAlert({
+        show: true,
+        message: 'Gagal membuat link download. Silakan coba lagi.',
+        type: 'error'
+      });
+      
+      setTimeout(() => {
+        setShareAlert({ show: false, message: '', type: 'error' });
+      }, 3000);
+    }
+  };
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -337,7 +378,19 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             <FileTypeIcon type={fileType} size={32} className="flex-shrink-0" />
                             <h4 className="font-title-sm text-on-surface truncate">{d.subject || '-'}</h4>
                           </div>
-                          <span className={`px-sm py-0.5 rounded text-[12px] font-bold border whitespace-nowrap flex-shrink-0 ${st.cls}`}>{st.label}</span>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <span className={`px-sm py-0.5 rounded text-[12px] font-bold border whitespace-nowrap ${st.cls}`}>{st.label}</span>
+                            {/* Share Button */}
+                            <button
+                              onClick={(e) => handleShare(d, e)}
+                              className="p-1.5 rounded-lg hover:bg-surface-container transition-colors group"
+                              title="Bagikan link download"
+                            >
+                              <span className="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary transition-colors">
+                                share
+                              </span>
+                            </button>
+                          </div>
                         </div>
                         <p className="text-body-sm text-on-surface-variant mb-md truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
                         <div className="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface break-words line-clamp-3">{d.perihal || '-'}</div>
@@ -456,6 +509,22 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
 
       {fullPreview && (
         <FilePreviewModal preview={fullPreview} supabase={supabase} userId={userId} onClose={() => setFullPreview(null)} />
+      )}
+      
+      {/* Share Alert Notification */}
+      {shareAlert.show && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
+          <div className={`px-lg py-md rounded-lg shadow-xl flex items-center gap-3 ${
+            shareAlert.type === 'success' 
+              ? 'bg-secondary text-white' 
+              : 'bg-error text-white'
+          }`}>
+            <span className="material-symbols-outlined text-2xl">
+              {shareAlert.type === 'success' ? 'check_circle' : 'error'}
+            </span>
+            <span className="font-semibold text-sm">{shareAlert.message}</span>
+          </div>
+        </div>
       )}
     </div>
   );
