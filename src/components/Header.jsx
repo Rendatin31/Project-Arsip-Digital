@@ -548,12 +548,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   <span 
                                     className="material-symbols-outlined filled-icon text-gray-600"
                                     style={{ 
-                                      fontSize: '80px',
-                                      display: 'block',
+                                      fontSize: '48px',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
                                       width: '100%',
                                       height: '100%',
-                                      lineHeight: '1',
-                                      transform: 'scale(2)'
+                                      lineHeight: '1'
                                     }}
                                   >
                                     account_circle
