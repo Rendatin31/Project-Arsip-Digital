@@ -98,7 +98,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               >
                 <span 
                   className="material-symbols-outlined filled-icon profile-icon-large"
-                  style={{ color: '#6b7280', fontSize: '56px', lineHeight: '1' }}
+                  style={{ color: '#6b7280', lineHeight: '1' }}
                 >
                   account_circle
                 </span>
