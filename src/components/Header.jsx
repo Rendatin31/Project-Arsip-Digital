@@ -513,11 +513,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   !notif.is_read 
                                     ? 'border-[3px] border-secondary ring-2 ring-secondary/20' 
                                     : ''
-                                } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
+                                } ${isSystemNotification ? 'bg-surface-container' : ''}`}
                                 style={{ 
                                   display: 'flex', 
                                   alignItems: 'center', 
-                                  justifyContent: 'center' 
+                                  justifyContent: 'center',
+                                  background: isSystemNotification ? undefined : 'transparent'
                                 }}
                               >
                                 {isSystemNotification ? (
@@ -537,16 +538,17 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       // Fallback to account_circle icon if avatar fails to load
                                       e.target.style.display = 'none';
                                       const parent = e.target.parentElement;
-                                      parent.classList.add('bg-surface-container-low');
-                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 28px; display: flex; align-items: center; justify-content: center;">account_circle</span>';
+                                      parent.classList.remove('bg-surface-container-low');
+                                      parent.style.background = 'transparent';
+                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-600" style="font-size: 32px; display: flex; align-items: center; justify-content: center;">account_circle</span>';
                                     }}
                                   />
                                 ) : (
                                   // User action notification WITHOUT avatar → Show default account_circle icon
                                   <span 
-                                    className="material-symbols-outlined text-gray-500"
+                                    className="material-symbols-outlined text-gray-600"
                                     style={{ 
-                                      fontSize: '28px',
+                                      fontSize: '32px',
                                       display: 'flex',
                                       alignItems: 'center',
                                       justifyContent: 'center'
