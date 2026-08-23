@@ -188,14 +188,14 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   // Get icon and color based on notification type
   const getNotificationStyle = (type) => {
     const styles = {
-      upload: { icon: '📤', emoji: '📤', color: 'text-secondary', bg: 'bg-green-600' },
+      upload: { icon: '📢', emoji: '📢', color: 'text-secondary', bg: 'bg-green-600' },
       security: { icon: '⚠️', emoji: '⚠️', color: 'text-error', bg: 'bg-red-600' },
       share: { icon: '🔗', emoji: '🔗', color: 'text-tertiary', bg: 'bg-purple-600' },
       system: { icon: '🔄', emoji: '🔄', color: 'text-primary', bg: 'bg-blue-600' },
       approval: { icon: '✅', emoji: '✅', color: 'text-secondary', bg: 'bg-green-600' },
       delete: { icon: '🗑️', emoji: '🗑️', color: 'text-error', bg: 'bg-red-600' },
       edit: { icon: '✏️', emoji: '✏️', color: 'text-tertiary', bg: 'bg-purple-600' },
-      access: { icon: '🛡️', emoji: '🛡️', color: 'text-primary', bg: 'bg-blue-600' },
+      access: { icon: '🔑', emoji: '🔑', color: 'text-primary', bg: 'bg-blue-600' },
     };
     return styles[type] || { icon: '🔔', emoji: '🔔', color: 'text-on-surface-variant', bg: 'bg-gray-600' };
   };
