@@ -57,23 +57,23 @@
       const isNavIcon = icon.closest('nav');
       
       if (isHeaderIcon || isNavIcon) {
-        // Header & Nav: 48px (MAXIMUM SIZE - even larger!)
-        icon.style.setProperty('font-size', '48px', 'important');
-        icon.style.setProperty('width', '48px', 'important');
-        icon.style.setProperty('height', '48px', 'important');
-        icon.style.setProperty('min-width', '48px', 'important');
-        icon.style.setProperty('min-height', '48px', 'important');
+        // Header & Nav: 28px (comfortable size)
+        icon.style.setProperty('font-size', '28px', 'important');
+        icon.style.setProperty('width', '28px', 'important');
+        icon.style.setProperty('height', '28px', 'important');
+        icon.style.setProperty('min-width', '28px', 'important');
+        icon.style.setProperty('min-height', '28px', 'important');
       } else {
-        // All others: 40px (VERY LARGE)
-        icon.style.setProperty('font-size', '40px', 'important');
-        icon.style.setProperty('min-width', '40px', 'important');
-        icon.style.setProperty('min-height', '40px', 'important');
+        // All others: 24px (standard size)
+        icon.style.setProperty('font-size', '24px', 'important');
+        icon.style.setProperty('min-width', '24px', 'important');
+        icon.style.setProperty('min-height', '24px', 'important');
       }
       
       resizedCount++;
     });
     
-    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 48px, Others: 40px)`);
+    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 28px, Others: 24px)`);
   }
   
   // Run multiple times to ensure it catches all icons

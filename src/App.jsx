@@ -144,26 +144,26 @@ export default function App({ supabase }) {
         const icons = document.querySelectorAll('.material-symbols-outlined');
         
         icons.forEach((icon) => {
-          // Special handling for header and nav icons - MAXIMUM SIZE
+          // Special handling for header and nav icons - comfortable size
           const isHeaderIcon = icon.closest('header');
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
-            // Header & Nav: 48px (MAXIMUM)
-            icon.style.setProperty('font-size', '48px', 'important');
-            icon.style.setProperty('width', '48px', 'important');
-            icon.style.setProperty('height', '48px', 'important');
-            icon.style.setProperty('min-width', '48px', 'important');
-            icon.style.setProperty('min-height', '48px', 'important');
+            // Header & Nav: 28px (comfortable)
+            icon.style.setProperty('font-size', '28px', 'important');
+            icon.style.setProperty('width', '28px', 'important');
+            icon.style.setProperty('height', '28px', 'important');
+            icon.style.setProperty('min-width', '28px', 'important');
+            icon.style.setProperty('min-height', '28px', 'important');
           } else {
-            // All other icons: 40px (VERY LARGE)
-            icon.style.setProperty('font-size', '40px', 'important');
-            icon.style.setProperty('min-width', '40px', 'important');
-            icon.style.setProperty('min-height', '40px', 'important');
+            // All other icons: 24px (standard)
+            icon.style.setProperty('font-size', '24px', 'important');
+            icon.style.setProperty('min-width', '24px', 'important');
+            icon.style.setProperty('min-height', '24px', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile (min 40px, header/nav 48px)`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (min 24px, header/nav 28px)`);
       }
     };
     
