@@ -100,9 +100,11 @@ async function checkNotificationPreference(supabase, userId, notificationType) {
  * @param {string} type - Notification type (upload, security, share, system, approval, delete, edit, access)
  * @param {string} title - Notification title
  * @param {string} message - Notification message
+ * @param {string} creatorUserId - User ID who triggered this notification (optional)
+ * @param {string} creatorAvatarUrl - Avatar URL of creator user (optional)
  * @returns {Promise<object>} Created notification or error
  */
-export async function createNotification(supabase, userId, type, title, message) {
+export async function createNotification(supabase, userId, type, title, message, creatorUserId = null, creatorAvatarUrl = null) {
   try {
     // Check if user has this notification type enabled
     const isEnabled = await checkNotificationPreference(supabase, userId, type);
@@ -118,6 +120,8 @@ export async function createNotification(supabase, userId, type, title, message)
       notif_type: type,
       notif_title: title,
       notif_message: message,
+      creator_id: creatorUserId,
+      creator_avatar: creatorAvatarUrl,
     });
 
     if (error) {
@@ -151,14 +155,18 @@ export async function createNotification(supabase, userId, type, title, message)
 
 /**
  * Notify user when a document is uploaded
+ * @param {string} creatorUserId - User ID of uploader
+ * @param {string} creatorAvatarUrl - Avatar URL of uploader
  */
-export async function notifyDocumentUpload(supabase, userId, uploaderName, fileName) {
+export async function notifyDocumentUpload(supabase, userId, uploaderName, fileName, creatorUserId = null, creatorAvatarUrl = null) {
   return createNotification(
     supabase,
     userId,
     'upload',
     'Dokumen Baru Diunggah',
-    `${uploaderName} mengunggah "${fileName}"`
+    `${uploaderName} mengunggah "${fileName}"`,
+    creatorUserId,
+    creatorAvatarUrl
   );
 }
 
@@ -216,27 +224,35 @@ export async function notifyDocumentApproval(supabase, userId, documentName) {
 
 /**
  * Notify user when document is deleted
+ * @param {string} creatorUserId - User ID of deleter
+ * @param {string} creatorAvatarUrl - Avatar URL of deleter
  */
-export async function notifyDocumentDelete(supabase, userId, deleterName, fileName) {
+export async function notifyDocumentDelete(supabase, userId, deleterName, fileName, creatorUserId = null, creatorAvatarUrl = null) {
   return createNotification(
     supabase,
     userId,
     'delete',
     'Dokumen Dihapus',
-    `${deleterName} menghapus dokumen "${fileName}"`
+    `${deleterName} menghapus dokumen "${fileName}"`,
+    creatorUserId,
+    creatorAvatarUrl
   );
 }
 
 /**
  * Notify user when document is edited
+ * @param {string} creatorUserId - User ID of editor
+ * @param {string} creatorAvatarUrl - Avatar URL of editor
  */
-export async function notifyDocumentEdit(supabase, userId, editorName, fileName) {
+export async function notifyDocumentEdit(supabase, userId, editorName, fileName, creatorUserId = null, creatorAvatarUrl = null) {
   return createNotification(
     supabase,
     userId,
     'edit',
     'Dokumen Diperbarui',
-    `${editorName} memperbarui dokumen "${fileName}"`
+    `${editorName} memperbarui dokumen "${fileName}"`,
+    creatorUserId,
+    creatorAvatarUrl
   );
 }
 
@@ -262,10 +278,29 @@ export async function notifyAccessChange(supabase, userId, message) {
  * @param {string} title - Notification title
  * @param {string} message - Notification message
  * @param {array} roles - Array of roles to notify (e.g., ['admin', 'editor', 'viewer'])
+ * @param {string} creatorUserId - User ID who triggered this notification (optional, defaults to currentUserId)
+ * @param {string} creatorAvatarUrl - Avatar URL of creator user (optional)
  * @returns {Promise<object>} Created notifications or error
  */
-export async function notifyAllUsersExcept(supabase, currentUserId, type, title, message, roles = ['super_admin', 'admin', 'editor', 'viewer']) {
+export async function notifyAllUsersExcept(supabase, currentUserId, type, title, message, roles = ['super_admin', 'admin', 'editor', 'viewer'], creatorUserId = null, creatorAvatarUrl = null) {
   try {
+    // Use currentUserId as creator if not explicitly provided
+    const finalCreatorId = creatorUserId || currentUserId;
+    
+    // If creatorAvatarUrl not provided, fetch it from profiles
+    let finalCreatorAvatar = creatorAvatarUrl;
+    if (!finalCreatorAvatar && finalCreatorId) {
+      const { data: creatorProfile } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('id', finalCreatorId)
+        .single();
+      
+      if (creatorProfile?.avatar_url) {
+        finalCreatorAvatar = creatorProfile.avatar_url;
+      }
+    }
+    
     // Get all users with specified roles and status Aktif, except current user
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
@@ -303,6 +338,8 @@ export async function notifyAllUsersExcept(supabase, currentUserId, type, title,
         notif_type: type,
         notif_title: title,
         notif_message: message,
+        creator_id: finalCreatorId,
+        creator_avatar: finalCreatorAvatar,
       });
 
       if (error) {

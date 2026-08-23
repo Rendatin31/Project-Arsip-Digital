@@ -494,7 +494,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   ) : (
                     notifications.map((notif) => {
                       const style = getNotificationStyle(notif.type);
-                      // System/Access notifications show app logo, others show default person icon
+                      // System/Access notifications show app logo, others show user avatar
                       const isSystemNotification = notif.type === 'system' || notif.type === 'access';
                       
                       return (
@@ -506,8 +506,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                           }`}
                         >
                           <div className="flex gap-sm lg:gap-md">
-                            {/* Avatar - App Logo for system, Person Icon for user actions */}
-                            <div className={`w-10 h-10 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${!notif.is_read ? 'ring-2 ring-secondary' : ''} ${isSystemNotification ? 'bg-surface-container' : 'bg-gray-200'}`}>
+                            {/* Avatar - App Logo for system, User Avatar for user actions */}
+                            <div className={`w-10 h-10 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${!notif.is_read ? 'ring-2 ring-secondary' : ''} ${isSystemNotification ? 'bg-surface-container' : ''}`}>
                               {isSystemNotification ? (
                                 // System/Access notification → Show app logo
                                 <img 
@@ -515,9 +515,20 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   alt="App Logo"
                                   className="w-full h-full object-cover"
                                 />
+                              ) : notif.creator_avatar_url ? (
+                                // User action notification WITH avatar → Show actual user avatar
+                                <img 
+                                  src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                                  alt="User Avatar"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    // Fallback to person icon if avatar fails to load
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = `<span class="material-symbols-outlined text-gray-500" style="font-size: 24px;">person</span>`;
+                                  }}
+                                />
                               ) : (
-                                // User action notification → Show default person icon
-                                // TODO: To show actual user avatar, need to add creator_user_id field in notifications table
+                                // User action notification WITHOUT avatar → Show default person icon (no border/background)
                                 <span 
                                   className="material-symbols-outlined text-gray-500"
                                   style={{ fontSize: '24px' }}
