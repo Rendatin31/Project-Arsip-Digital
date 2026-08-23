@@ -344,12 +344,12 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <div className="w-full h-full bg-gray-100 flex items-center justify-center" style={{ border: '4px solid #e5e7eb' }}>
                         <span 
-                          className="material-symbols-outlined profile-avatar-icon"
-                          style={{ color: '#6b7280' }}
+                          className="material-symbols-outlined filled-icon profile-avatar-icon"
+                          style={{ color: '#6b7280', fontSize: '80px', lineHeight: '1' }}
                         >
-                          person
+                          account_circle
                         </span>
                       </div>
                     )}
