@@ -43,7 +43,7 @@ Saya sudah buat file JSON yang **siap pakai** dengan user ID Anda:
 
 ---
 
-### Option 2: Ketik Manual (Jika copy tidak work)
+### Option 2: Ketik Manual (Jika copy tidak work)rvice_role" key
 
 **Ketik PERSIS seperti ini** (termasuk spasi dan tanda kutip):
 

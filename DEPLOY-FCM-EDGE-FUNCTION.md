@@ -26,7 +26,8 @@ supabase login
 # Get your project reference from Supabase Dashboard
 # URL format: https://app.supabase.com/project/YOUR_PROJECT_REF
 
-supabase link --project-ref YOUR_PROJECT_REF
+supabase link --project-ref axpanhequppcviaimwte
+
 ```
 
 ---

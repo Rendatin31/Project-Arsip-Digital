@@ -34,7 +34,7 @@ Link: https://app.supabase.com/project/axpanhequppcviaimwte/functions
 
 ```json
 {
-  "userId": "PASTE_ID_DARI_STEP_1_DI_SINI",
+  "userId": "e914e98a-d34c-4710-9dd2-f2f602a96379",
   "title": "Test Manual",
   "message": "Testing FCM dari Supabase Dashboard",
   "type": "test"

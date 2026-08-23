@@ -164,7 +164,7 @@ await sendOneSignalNotification(userId, title, message, type);
 
 1. **OneSignal Dashboard** > **Settings** > **Keys & IDs**
 2. **Copy:** "REST API Key"
-3. **Paste** di `notifications.js` (replace `YOUR_REST_API_KEY_HERE`)
+3. **Paste** di `notifications.js` (replace `a555libovuak5kk2pzkvy7vdh`)
 
 ---
 
