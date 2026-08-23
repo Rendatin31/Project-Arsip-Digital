@@ -386,8 +386,8 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                               className="p-1.5 rounded-lg hover:bg-surface-container transition-colors group"
                               title="Bagikan link download"
                             >
-                              <span className="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary transition-colors">
-                                redo
+                              <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-secondary transition-colors">
+                                share
                               </span>
                             </button>
                           </div>
