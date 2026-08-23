@@ -564,13 +564,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     style={{ 
                                       fontSize: '14px', 
                                       lineHeight: '1',
-                                      display: 'flex',
-                                      alignItems: 'center'
+                                      display: 'inline-block',
+                                      verticalAlign: 'middle'
                                     }}
                                   >
                                     {style.icon}
                                   </span>
-                                  <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} leading-tight flex-1`}>
+                                  <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} flex-1`} style={{ lineHeight: '1.4' }}>
                                     {notif.title}
                                   </p>
                                 </div>
