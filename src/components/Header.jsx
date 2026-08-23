@@ -506,74 +506,87 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                           }`}
                         >
                           <div className="flex items-start gap-3">
-                            {/* Avatar - App Logo for system, User Avatar for user actions */}
-                            <div 
-                              className={`w-10 h-10 rounded-full flex-shrink-0 overflow-hidden border-2 ${
-                                !notif.is_read 
-                                  ? 'border-secondary ring-2 ring-secondary/30' 
-                                  : 'border-outline-variant'
-                              } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
-                              style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center' 
-                              }}
-                            >
-                              {isSystemNotification ? (
-                                // System/Access notification → Show app logo
-                                <img 
-                                  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
-                                  alt="App Logo"
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : notif.creator_avatar_url ? (
-                                // User action notification WITH avatar → Show actual user avatar
-                                <img 
-                                  src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}`}
-                                  alt="User Avatar"
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    // Fallback to person icon if avatar fails to load
-                                    e.target.style.display = 'none';
-                                    const parent = e.target.parentElement;
-                                    parent.classList.add('bg-surface-container-low');
-                                    parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 24px; display: flex; align-items: center; justify-content: center;">person</span>';
-                                  }}
-                                />
-                              ) : (
-                                // User action notification WITHOUT avatar → Show default person icon with border
-                                <span 
-                                  className="material-symbols-outlined text-gray-500"
-                                  style={{ 
-                                    fontSize: '24px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                  }}
-                                >
-                                  person
-                                </span>
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-2 mb-xs">
-                                <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                                  {/* Small icon indicator based on notification type */}
+                            {/* Avatar with Badge - App Logo for system, User Avatar for user actions */}
+                            <div className="relative flex-shrink-0">
+                              <div 
+                                className={`w-10 h-10 rounded-full overflow-hidden border-2 ${
+                                  !notif.is_read 
+                                    ? 'border-secondary ring-2 ring-secondary/30' 
+                                    : 'border-outline-variant'
+                                } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
+                                style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center' 
+                                }}
+                              >
+                                {isSystemNotification ? (
+                                  // System/Access notification → Show app logo
+                                  <img 
+                                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
+                                    alt="App Logo"
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : notif.creator_avatar_url ? (
+                                  // User action notification WITH avatar → Show actual user avatar
+                                  <img 
+                                    src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                                    alt="User Avatar"
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      // Fallback to person icon if avatar fails to load
+                                      e.target.style.display = 'none';
+                                      const parent = e.target.parentElement;
+                                      parent.classList.add('bg-surface-container-low');
+                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 24px; display: flex; align-items: center; justify-content: center;">person</span>';
+                                    }}
+                                  />
+                                ) : (
+                                  // User action notification WITHOUT avatar → Show default person icon with border
                                   <span 
-                                    className={`material-symbols-outlined ${style.color} flex-shrink-0`} 
+                                    className="material-symbols-outlined text-gray-500"
                                     style={{ 
-                                      fontSize: '14px', 
-                                      lineHeight: '1',
-                                      display: 'inline-block',
-                                      verticalAlign: 'middle'
+                                      fontSize: '24px',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center'
                                     }}
                                   >
-                                    {style.icon}
+                                    person
                                   </span>
-                                  <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} flex-1`} style={{ lineHeight: '1.4' }}>
-                                    {notif.title}
-                                  </p>
-                                </div>
+                                )}
+                              </div>
+                              
+                              {/* Badge icon indicator at bottom-right corner */}
+                              <div 
+                                className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 border-white ${
+                                  style.color === 'text-primary' ? 'bg-primary' :
+                                  style.color === 'text-secondary' ? 'bg-secondary' :
+                                  style.color === 'text-tertiary' ? 'bg-tertiary' :
+                                  style.color === 'text-error' ? 'bg-error' : 'bg-outline'
+                                }`}
+                                style={{ 
+                                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                                }}
+                              >
+                                <span 
+                                  className="material-symbols-outlined text-white"
+                                  style={{ 
+                                    fontSize: '10px',
+                                    lineHeight: '1',
+                                    fontWeight: 'bold'
+                                  }}
+                                >
+                                  {style.icon}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-2 mb-xs">
+                                <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} flex-1`} style={{ lineHeight: '1.4' }}>
+                                  {notif.title}
+                                </p>
                                 {!notif.is_read && (
                                   <span className="w-2 h-2 bg-secondary rounded-full flex-shrink-0 mt-1.5"></span>
                                 )}
