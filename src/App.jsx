@@ -129,6 +129,61 @@ export default function App({ supabase }) {
     });
   };
 
+  // Force resize all Material Icons on mobile devices
+  useEffect(() => {
+    const resizeIconsForMobile = () => {
+      const isMobile = window.innerWidth < 768;
+      
+      if (isMobile) {
+        console.log('📱 Mobile detected, resizing icons...');
+        
+        // Get all Material Icons
+        const icons = document.querySelectorAll('.material-symbols-outlined');
+        
+        icons.forEach((icon) => {
+          const currentSize = window.getComputedStyle(icon).fontSize;
+          const sizeValue = parseInt(currentSize);
+          
+          // Force minimum 24px for all icons
+          if (sizeValue < 24) {
+            icon.style.setProperty('font-size', '24px', 'important');
+          }
+          
+          // Special handling for header and nav icons
+          const isHeaderIcon = icon.closest('header');
+          const isNavIcon = icon.closest('nav');
+          
+          if (isHeaderIcon || isNavIcon) {
+            icon.style.setProperty('font-size', '28px', 'important');
+          }
+        });
+        
+        console.log(`✅ Resized ${icons.length} icons for mobile`);
+      }
+    };
+    
+    // Run on mount
+    resizeIconsForMobile();
+    
+    // Run on every route change (when new icons are rendered)
+    const observer = new MutationObserver(() => {
+      resizeIconsForMobile();
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    // Run on window resize
+    window.addEventListener('resize', resizeIconsForMobile);
+    
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', resizeIconsForMobile);
+    };
+  }, []);
+
   const closeAlert = () => {
     setAlert(prev => ({ ...prev, show: false }));
   };
