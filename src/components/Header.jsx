@@ -507,11 +507,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                         >
                           <div className="flex items-start gap-3">
                             {/* Avatar - App Logo for system, User Avatar for user actions */}
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden border-2 ${
-                              !notif.is_read 
-                                ? 'border-secondary ring-2 ring-secondary/30' 
-                                : 'border-outline-variant'
-                            } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}>
+                            <div 
+                              className={`w-10 h-10 rounded-full flex-shrink-0 overflow-hidden border-2 ${
+                                !notif.is_read 
+                                  ? 'border-secondary ring-2 ring-secondary/30' 
+                                  : 'border-outline-variant'
+                              } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
+                              style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center' 
+                              }}
+                            >
                               {isSystemNotification ? (
                                 // System/Access notification → Show app logo
                                 <img 
@@ -528,25 +535,39 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   onError={(e) => {
                                     // Fallback to person icon if avatar fails to load
                                     e.target.style.display = 'none';
-                                    e.target.parentElement.classList.add('bg-surface-container-low');
-                                    e.target.parentElement.innerHTML = `<span class="material-symbols-outlined text-gray-500" style="font-size: 24px; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">person</span>`;
+                                    const parent = e.target.parentElement;
+                                    parent.classList.add('bg-surface-container-low');
+                                    parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 24px; display: flex; align-items: center; justify-content: center;">person</span>';
                                   }}
                                 />
                               ) : (
                                 // User action notification WITHOUT avatar → Show default person icon with border
                                 <span 
-                                  className="material-symbols-outlined text-gray-500 flex items-center justify-center w-full h-full"
-                                  style={{ fontSize: '24px' }}
+                                  className="material-symbols-outlined text-gray-500"
+                                  style={{ 
+                                    fontSize: '24px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                  }}
                                 >
                                   person
                                 </span>
                               )}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-start justify-between gap-2 mb-xs">
+                              <div className="flex items-center justify-between gap-2 mb-xs">
                                 <div className="flex items-center gap-1.5 flex-1 min-w-0">
                                   {/* Small icon indicator based on notification type */}
-                                  <span className={`material-symbols-outlined ${style.color} flex-shrink-0`} style={{ fontSize: '14px', lineHeight: '1.2' }}>
+                                  <span 
+                                    className={`material-symbols-outlined ${style.color} flex-shrink-0`} 
+                                    style={{ 
+                                      fontSize: '14px', 
+                                      lineHeight: '1',
+                                      display: 'flex',
+                                      alignItems: 'center'
+                                    }}
+                                  >
                                     {style.icon}
                                   </span>
                                   <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} leading-tight flex-1`}>
