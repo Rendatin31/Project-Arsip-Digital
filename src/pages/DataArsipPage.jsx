@@ -5,7 +5,7 @@ import EditDocumentModal from '../components/EditDocumentModal';
 import FilePreviewModal from '../components/FilePreviewModal';
 import ModernAlert from '../components/ModernAlert';
 
-export default function DataArsipPage({ supabase, userId, user, profile, onBack, onOpenAdd, onEditDocument, onNavigate, categories = [], renderHeader = true }) {
+export default function DataArsipPage({ supabase, userId, user, profile, onBack, onOpenAdd, onEditDocument, onNavigate, categories = [], renderHeader = true, highlightDocumentSubject = null, onHighlightClear = null }) {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,6 +18,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
   const [isFilterExpanded, setIsFilterExpanded] = useState(false); // Collapse state for mobile
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [highlightedDocId, setHighlightedDocId] = useState(null); // For visual highlight effect
 
   // Modern Alert State
   const [alert, setAlert] = useState({
@@ -234,6 +235,39 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
   useEffect(() => {
     fetchDocuments();
   }, [supabase, userId, categories]);
+  
+  // Handle document highlighting from notification
+  useEffect(() => {
+    if (highlightDocumentSubject && documents.length > 0) {
+      console.log('Looking for document to highlight:', highlightDocumentSubject);
+      
+      // Find document by subject
+      const foundDoc = documents.find(doc => doc.subject === highlightDocumentSubject);
+      
+      if (foundDoc) {
+        console.log('Document found:', foundDoc);
+        setHighlightedDocId(foundDoc.id);
+        
+        // Scroll to document after short delay (wait for render)
+        setTimeout(() => {
+          const element = document.getElementById(`doc-${foundDoc.id}`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            console.log('Scrolled to document');
+          }
+        }, 300);
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+          setHighlightedDocId(null);
+          onHighlightClear?.();
+        }, 3000);
+      } else {
+        console.log('Document not found in list');
+        onHighlightClear?.();
+      }
+    }
+  }, [highlightDocumentSubject, documents, onHighlightClear]);
 
   const getStatus = (status) => {
     const map = {
@@ -553,9 +587,10 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                     ) : (
                        paginatedDocuments.map((doc) => (
                          <tr
+                           id={`doc-${doc.id}`}
                            key={doc.id}
                            onDoubleClick={(profile?.role === 'super_admin' || profile?.role === 'admin') ? () => handleEdit(doc) : undefined}
-                           className={`hover:bg-surface-container/30 transition-colors group ${(profile?.role === 'super_admin' || profile?.role === 'admin') ? 'cursor-pointer' : 'cursor-default'}`}
+                           className={`hover:bg-surface-container/30 transition-colors group ${(profile?.role === 'super_admin' || profile?.role === 'admin') ? 'cursor-pointer' : 'cursor-default'} ${highlightedDocId === doc.id ? 'bg-secondary/20 animate-pulse' : ''}`}
                          >
                             <td className="px-lg py-sm">
                               <span className="px-sm py-1 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold rounded">{doc.category}</span>
@@ -611,8 +646,9 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
               ) : (
                 paginatedDocuments.map((doc) => (
                   <div
+                    id={`doc-${doc.id}`}
                     key={doc.id}
-                    className="bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-sm"
+                    className={`bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-sm ${highlightedDocId === doc.id ? 'ring-4 ring-secondary/50 bg-secondary/10 animate-pulse' : ''}`}
                   >
                     {/* Category & Status */}
                     <div className="flex items-center justify-between mb-sm">

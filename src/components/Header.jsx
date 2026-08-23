@@ -518,15 +518,30 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               console.log('Navigating based on role:', userRole);
                               
                               if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
-                                // Admin/Editor → Navigate to Direktori Arsip
+                                // Admin/Editor → Navigate to Direktori Arsip with document highlight
                                 console.log('Navigating to data-arsip');
                                 setShowNotifications(false);
-                                onNavigate?.('data-arsip');
+                                
+                                // Extract document name from notification message
+                                // Message format: "username mengunggah/memperbarui/mempublikasikan dokumen "Document Name""
+                                const match = notif.message.match(/dokumen "([^"]+)"/);
+                                const documentSubject = match ? match[1] : null;
+                                
+                                console.log('Document subject extracted:', documentSubject);
+                                
+                                // Navigate with document subject for highlighting
+                                onNavigate?.('data-arsip', { highlightDocument: documentSubject });
                               } else if (userRole === 'viewer') {
-                                // Viewer → Navigate to Pencarian (Search)
+                                // Viewer → Navigate to Pencarian (Search) with search query
                                 console.log('Navigating to search');
                                 setShowNotifications(false);
-                                onNavigate?.('search');
+                                
+                                // Extract document name for search
+                                const match = notif.message.match(/dokumen "([^"]+)"/);
+                                const documentSubject = match ? match[1] : null;
+                                
+                                // Navigate to search with pre-filled query
+                                onNavigate?.('search', { searchQuery: documentSubject });
                               }
                             } else {
                               console.log('Not document notification, only marking as read');

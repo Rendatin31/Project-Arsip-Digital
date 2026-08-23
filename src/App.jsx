@@ -94,6 +94,7 @@ export default function App({ supabase }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editDoc, setEditDoc] = useState(null);
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [highlightDocumentSubject, setHighlightDocumentSubject] = useState(null); // For highlighting document from notification
   
   // Debug: Track currentPage changes
   useEffect(() => {
@@ -908,31 +909,41 @@ export default function App({ supabase }) {
     console.log('Breadcrumb clicked:', id);
     if (id === null || id === 'home') {
       setCurrentPage('dashboard');
+      setHighlightDocumentSubject(null); // Clear highlight
     } else if (id === 'arsip-digital') {
       setCurrentPage('dashboard');
+      setHighlightDocumentSubject(null);
     } else if (id === 'file-saya') {
       // Klik "File Saya" - unselect semua folder, tampilkan semua file
       setCurrentPage('documents');
       setSelectedDirectoryId(null);
       setSelectedDirectoryName('File Saya');
       setSelectedDirectoryPath([]);
+      setHighlightDocumentSubject(null);
     } else if (id === 'data-arsip') {
       setCurrentPage('data-arsip');  // ✅ Navigate to Direktori Arsip
       setSelectedDirectoryId(null);
       setSelectedDirectoryName('Direktori Arsip');
       setSelectedDirectoryPath([]);
+      setHighlightDocumentSubject(null);
     } else if (id === 'categories') {
       setCurrentPage('categories');
+      setHighlightDocumentSubject(null);
     } else if (id === 'search') {
       setCurrentPage('search');
+      setHighlightDocumentSubject(null);
     } else if (id === 'history') {
       setCurrentPage('history');
+      setHighlightDocumentSubject(null);
     } else if (id === 'access') {
       setCurrentPage('access');
+      setHighlightDocumentSubject(null);
     } else if (id === 'settings') {
       setCurrentPage('settings');
+      setHighlightDocumentSubject(null);
     } else if (id === 'profile') {
       setCurrentPage('profile');
+      setHighlightDocumentSubject(null);
     } else {
       // Klik folder di breadcrumb - navigate ke folder tersebut
       const found = directories.find((d) => d.id === id);
@@ -941,7 +952,32 @@ export default function App({ supabase }) {
         setSelectedDirectoryName(found.name);
         const path = buildDirectoryPath(id);
         setSelectedDirectoryPath(path);
+        setHighlightDocumentSubject(null);
       }
+    }
+  };
+  
+  // Custom navigation handler that supports parameters
+  const handleNavigate = (pageId, options = {}) => {
+    console.log('Navigate to:', pageId, 'with options:', options);
+    
+    // Handle highlight document for data-arsip page
+    if (pageId === 'data-arsip' && options.highlightDocument) {
+      setHighlightDocumentSubject(options.highlightDocument);
+      setCurrentPage('data-arsip');
+      setSelectedDirectoryId(null);
+      setSelectedDirectoryName('Direktori Arsip');
+      setSelectedDirectoryPath([]);
+    } 
+    // Handle search with pre-filled query
+    else if (pageId === 'search' && options.searchQuery) {
+      setSearchQuery(options.searchQuery || '');
+      setCurrentPage('search');
+      setHighlightDocumentSubject(null);
+    }
+    // Normal navigation
+    else {
+      handleBreadcrumbClick(pageId);
     }
   };
 
@@ -1071,7 +1107,7 @@ export default function App({ supabase }) {
           profile={profile} 
           onLogout={handleLogout} 
           breadcrumbs={getCurrentBreadcrumbs()} 
-          onNavigate={handleBreadcrumbClick}
+          onNavigate={handleNavigate}
           showSearch={currentPage === 'search'}
           searchValue={searchQuery}
           onSearchChange={setSearchQuery}
@@ -1083,7 +1119,19 @@ export default function App({ supabase }) {
         {currentPage === 'dashboard' ? (
               <DashboardPage supabase={supabase} userId={user.id} user={user} profile={profile} categories={categories} onNavigate={setCurrentPage} renderHeader={false} />
             ) : currentPage === 'data-arsip' ? (
-              <DataArsipPage supabase={supabase} userId={user.id} user={user} profile={profile} onBack={() => setCurrentPage('documents')} onOpenAdd={() => setShowAddModal(true)} onNavigate={setCurrentPage} categories={categories} renderHeader={false} />
+              <DataArsipPage 
+                supabase={supabase} 
+                userId={user.id} 
+                user={user} 
+                profile={profile} 
+                onBack={() => setCurrentPage('documents')} 
+                onOpenAdd={() => setShowAddModal(true)} 
+                onNavigate={setCurrentPage} 
+                categories={categories} 
+                renderHeader={false} 
+                highlightDocumentSubject={highlightDocumentSubject}
+                onHighlightClear={() => setHighlightDocumentSubject(null)}
+              />
             ) : currentPage === 'categories' ? (
               <CategoriesPage supabase={supabase} userId={user.id} user={user} profile={profile} onBack={() => setCurrentPage('documents')} onNavigate={setCurrentPage} onCategoryChange={handleCategoryChange} renderHeader={false} />
             ) : currentPage === 'search' ? (
