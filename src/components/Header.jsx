@@ -501,6 +501,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                         <div
                           key={notif.id}
                           onClick={() => {
+                            console.log('Notification clicked:', notif);
+                            console.log('User role:', profile?.role);
+                            console.log('Notification type:', notif.type);
+                            
                             // Mark as read first
                             if (!notif.is_read) {
                               markAsRead(notif.id);
@@ -511,15 +515,21 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               // Document publication/update notifications
                               const userRole = profile?.role || 'viewer';
                               
+                              console.log('Navigating based on role:', userRole);
+                              
                               if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
                                 // Admin/Editor → Navigate to Direktori Arsip
+                                console.log('Navigating to data-arsip');
                                 setShowNotifications(false);
                                 onNavigate?.('data-arsip');
                               } else if (userRole === 'viewer') {
                                 // Viewer → Navigate to Pencarian (Search)
+                                console.log('Navigating to search');
                                 setShowNotifications(false);
                                 onNavigate?.('search');
                               }
+                            } else {
+                              console.log('Not upload/edit notification, only marking as read');
                             }
                           }}
                           className={`px-md lg:px-lg py-sm lg:py-md border-b border-outline-variant hover:bg-surface-container transition-colors cursor-pointer ${
