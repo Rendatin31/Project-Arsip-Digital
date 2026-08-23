@@ -559,22 +559,25 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 border-white ${
+                                className={`absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center border-2 border-white ${
                                   style.color === 'text-primary' ? 'bg-primary' :
                                   style.color === 'text-secondary' ? 'bg-secondary' :
                                   style.color === 'text-tertiary' ? 'bg-tertiary' :
                                   style.color === 'text-error' ? 'bg-error' : 'bg-outline'
                                 }`}
                                 style={{ 
-                                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
                                 }}
                               >
                                 <span 
                                   className="material-symbols-outlined text-white"
                                   style={{ 
-                                    fontSize: '10px',
+                                    fontSize: '12px',
                                     lineHeight: '1',
-                                    fontWeight: 'bold'
+                                    fontWeight: '600',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
                                   }}
                                 >
                                   {style.icon}
