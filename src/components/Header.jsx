@@ -500,7 +500,28 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                       return (
                         <div
                           key={notif.id}
-                          onClick={() => !notif.is_read && markAsRead(notif.id)}
+                          onClick={() => {
+                            // Mark as read first
+                            if (!notif.is_read) {
+                              markAsRead(notif.id);
+                            }
+                            
+                            // Handle navigation based on notification type and user role
+                            if (notif.type === 'upload' || notif.type === 'edit') {
+                              // Document publication/update notifications
+                              const userRole = profile?.role || 'viewer';
+                              
+                              if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
+                                // Admin/Editor → Navigate to Direktori Arsip
+                                setShowNotifications(false);
+                                onNavigate?.('data-arsip');
+                              } else if (userRole === 'viewer') {
+                                // Viewer → Navigate to Pencarian (Search)
+                                setShowNotifications(false);
+                                onNavigate?.('search');
+                              }
+                            }
+                          }}
                           className={`px-md lg:px-lg py-sm lg:py-md border-b border-outline-variant hover:bg-surface-container transition-colors cursor-pointer ${
                             !notif.is_read ? 'bg-secondary-container/10' : ''
                           }`}
