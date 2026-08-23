@@ -540,16 +540,22 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                 ) : (
                                   // User action notification WITHOUT avatar → Show default account_circle icon
                                   <div 
-                                    className="w-full h-full rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
+                                    className="w-full h-full rounded-full overflow-hidden bg-gray-100"
                                     style={{
-                                      border: '2px solid #e5e7eb'
+                                      border: '2px solid #e5e7eb',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      position: 'relative'
                                     }}
                                   >
                                     <span 
                                       className="material-symbols-outlined filled-icon text-gray-500"
                                       style={{ 
                                         fontSize: '40px',
-                                        lineHeight: '1'
+                                        lineHeight: '1',
+                                        display: 'block',
+                                        textAlign: 'center'
                                       }}
                                     >
                                       account_circle
