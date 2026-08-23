@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import CategoryModal from '../components/CategoryModal';
 import ModernAlert from '../components/ModernAlert';
 import { setSessionTimeout as saveSessionTimeout, getSessionTimeout } from '../utils/sessionTimeout';
+import { Capacitor } from '@capacitor/core';
 
 export default function PengaturanSistemPage({ supabase, userId, user, profile, onNavigate, onCategoryChange, onProfileUpdate, renderHeader = true }) {
   // Access control: Only super_admin role can access Konfigurasi Sistem
@@ -594,24 +595,26 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
 
                   <div className="border-t border-outline-variant my-sm"></div>
 
-                  {/* Session Timeout */}
-                  <div className="mb-md mt-md">
-                    <div className="max-w-2xl">
-                      <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
-                      <select
-                        value={sessionTimeout}
-                        onChange={(e) => setSessionTimeout(e.target.value)}
-                        className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
-                      >
-                        <option value="15">15 menit</option>
-                        <option value="30">30 menit</option>
-                        <option value="60">1 jam</option>
-                        <option value="120">2 jam</option>
-                        <option value="0">Tidak pernah</option>
-                      </select>
-                      <p className="text-body-sm text-on-surface-variant mt-xs">Sistem akan otomatis logout setelah tidak ada aktivitas</p>
+                  {/* Session Timeout - HIDDEN on Mobile Device */}
+                  {!Capacitor.isNativePlatform() && (
+                    <div className="mb-md mt-md">
+                      <div className="max-w-2xl">
+                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
+                        <select
+                          value={sessionTimeout}
+                          onChange={(e) => setSessionTimeout(e.target.value)}
+                          className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm text-body-sm md:text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
+                        >
+                          <option value="15">15 menit</option>
+                          <option value="30">30 menit</option>
+                          <option value="60">1 jam</option>
+                          <option value="120">2 jam</option>
+                          <option value="0">Tidak pernah</option>
+                        </select>
+                        <p className="text-body-sm text-on-surface-variant mt-xs">Sistem akan otomatis logout setelah tidak ada aktivitas</p>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="border-t border-outline-variant my-sm"></div>
 

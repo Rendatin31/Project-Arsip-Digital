@@ -12,7 +12,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     { id: 'search', icon: 'manage_search', label: 'Pencarian', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
   ];
 
-  // Menu items untuk "Lainnya" - urutan dari atas: Direktori Arsip, Hak Akses, Riwayat Aktivitas, Pengaturan
+  // Menu items untuk "Lainnya" - urutan dari atas: Pengaturan, Riwayat Aktivitas, Hak Akses, Direktori Arsip
+  // SEMUA MENU DITAMPILKAN, tapi yang tidak sesuai role akan disabled
   const moreMenuItems = [
     { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
     { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
@@ -184,27 +185,38 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               </div>
             </button>
             
-            {/* Menu Buttons */}
+            {/* Menu Buttons - SHOW ALL, disable if not allowed */}
             {moreMenuItems.slice().reverse().map((item, index) => {
               const isAllowed = item.allowedRoles.includes(userRole);
-              
-              if (!isAllowed) return null;
               
               return (
                 <button
                   key={item.id}
-                  onClick={() => handleMenuItemClick(item.id)}
-                  className="flex items-center gap-3 animate-scale-in"
+                  onClick={() => isAllowed && handleMenuItemClick(item.id)}
+                  disabled={!isAllowed}
+                  className={`flex items-center gap-3 animate-scale-in ${
+                    !isAllowed ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   style={{ animationDelay: `${(index + 1) * 50}ms` }}
                 >
-                  {/* Label - Always visible */}
-                  <span className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
+                  {/* Label - Always visible, grayed out if disabled */}
+                  <span className={`px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap ${
+                    isAllowed 
+                      ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white' 
+                      : 'bg-gray-300 text-gray-500'
+                  }`}>
                     {item.label}
                   </span>
                   
-                  {/* Icon Button */}
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
-                    <span className="material-symbols-outlined text-white text-xl">
+                  {/* Icon Button - Grayed out if disabled */}
+                  <div className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all ${
+                    isAllowed 
+                      ? 'bg-gradient-to-br from-blue-400 to-blue-500 active:scale-95' 
+                      : 'bg-gray-300'
+                  }`}>
+                    <span className={`material-symbols-outlined text-xl ${
+                      isAllowed ? 'text-white' : 'text-gray-500'
+                    }`}>
                       {item.icon}
                     </span>
                   </div>

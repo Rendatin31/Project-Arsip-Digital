@@ -3,6 +3,8 @@
  * Auto logout user after period of inactivity
  */
 
+import { Capacitor } from '@capacitor/core';
+
 const SESSION_TIMEOUT_KEY = 'session_timeout_minutes';
 const LAST_ACTIVITY_KEY = 'last_activity_time';
 
@@ -73,10 +75,20 @@ export function clearSessionData() {
 
 /**
  * Initialize session timeout monitoring
+ * Note: Session timeout is DISABLED on mobile devices (native platform)
  * @param {Function} onTimeout - Callback when session expires
  * @returns {Function} Cleanup function
  */
 export function initSessionTimeout(onTimeout) {
+  // DISABLE session timeout for mobile devices (native platform)
+  if (Capacitor.isNativePlatform()) {
+    console.log('📱 Session timeout DISABLED on mobile device');
+    // Return empty cleanup function
+    return () => {};
+  }
+  
+  console.log('💻 Session timeout ENABLED on web/desktop');
+  
   // Update activity on page load
   updateLastActivity();
   

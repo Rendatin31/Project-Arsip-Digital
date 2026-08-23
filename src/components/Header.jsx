@@ -18,9 +18,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const getIconStyle = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
     return {
-      fontSize: isMobile ? '22px !important' : '28px !important',
-      width: isMobile ? '22px !important' : '28px !important',
-      height: isMobile ? '22px !important' : '28px !important',
+      fontSize: isMobile ? '18px !important' : '24px !important',
+      width: isMobile ? '18px !important' : '24px !important',
+      height: isMobile ? '18px !important' : '24px !important',
       lineHeight: '1',
       display: 'block',
     };
@@ -439,7 +439,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         )}
       </div>
       <div className="flex items-center gap-lg lg:ml-auto">
-        <div className="flex items-center gap-0 lg:gap-sm">
+        <div className="flex items-center gap-2 lg:gap-sm">
           {/* Notification Button with Dropdown */}
           <div className="relative" ref={notifRef}>
             <button 
@@ -447,7 +447,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
               <span 
-                className="material-symbols-outlined text-on-surface-variant"
+                className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}
                 style={getIconStyle()}
               >
                 notifications
@@ -455,7 +455,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {unreadCount > 0 && (
                 <>
                   <span className="absolute top-1.5 right-1.5 lg:top-2 lg:right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-                  <span className="absolute top-0.5 right-0.5 lg:top-1 lg:right-1 bg-error text-white text-[9px] lg:text-[10px] font-bold rounded-full w-3.5 h-3.5 lg:w-4 lg:h-4 flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 lg:top-1 lg:right-1 bg-error text-white text-[11px] lg:text-[10px] font-bold rounded-full w-4 h-4 lg:w-4 lg:h-4 flex items-center justify-center">
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 </>
@@ -556,7 +556,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               className="p-1.5 rounded-full hover:bg-surface-container transition-colors relative right-[3px]"
             >
               <span 
-                className="material-symbols-outlined text-on-surface-variant"
+                className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}
                 style={getIconStyle()}
               >
                 download
@@ -639,9 +639,12 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             )}
           </div>
           
-          <button onClick={() => onNavigate?.('settings')} className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0">
+          <button 
+            onClick={() => onNavigate?.('settings')} 
+            className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0 group"
+          >
             <span 
-              className="material-symbols-outlined text-on-surface-variant"
+              className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
               style={getIconStyle()}
             >
               settings

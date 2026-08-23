@@ -434,11 +434,11 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
 
           {/* Action Buttons - Test Notification & Logout */}
           <div className="flex justify-between items-center gap-sm px-lg py-md bg-surface-container border-t border-outline-variant">
-            {/* Test Notification Button (Only on Native) */}
+            {/* Test Notification Button (Only on Native & Desktop) */}
             {Capacitor.isNativePlatform() && (
               <button
                 onClick={handleTestNotification}
-                className="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-1 transition-colors"
+                className="hidden lg:flex text-blue-600 hover:text-blue-700 font-medium text-sm items-center gap-1 transition-colors"
               >
                 <span className="material-symbols-outlined text-[16px]">notifications</span>
                 <span>Test Notifikasi</span>
