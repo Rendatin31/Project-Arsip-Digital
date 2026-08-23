@@ -559,26 +559,21 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-surface-container-lowest ${
-                                  style.color === 'text-primary' ? 'bg-primary' :
-                                  style.color === 'text-secondary' ? 'bg-secondary' :
-                                  style.color === 'text-tertiary' ? 'bg-tertiary' :
-                                  style.color === 'text-error' ? 'bg-error' : 'bg-outline'
+                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 shadow-md ${
+                                  style.color === 'text-primary' ? 'bg-blue-600 border-white' :
+                                  style.color === 'text-secondary' ? 'bg-green-600 border-white' :
+                                  style.color === 'text-tertiary' ? 'bg-purple-600 border-white' :
+                                  style.color === 'text-error' ? 'bg-red-600 border-white' : 
+                                  'bg-gray-600 border-white'
                                 }`}
-                                style={{ 
-                                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
-                                }}
                               >
                                 <span 
-                                  className="material-symbols-outlined text-white filled-icon"
+                                  className="material-symbols-outlined text-white"
                                   style={{ 
-                                    fontSize: '14px',
-                                    lineHeight: '1',
-                                    fontWeight: '700',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontVariationSettings: '"FILL" 1, "wght" 700, "GRAD" 0, "opsz" 20'
+                                    fontSize: '16px',
+                                    fontWeight: 'bold',
+                                    WebkitFontSmoothing: 'antialiased',
+                                    MozOsxFontSmoothing: 'grayscale'
                                   }}
                                 >
                                   {style.icon}
