@@ -528,17 +528,17 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-xs lg:gap-sm mb-xs">
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-start gap-1.5">
                                   {/* Small icon indicator based on notification type */}
-                                  <span className={`material-symbols-outlined ${style.color} flex-shrink-0`} style={{ fontSize: '14px' }}>
+                                  <span className={`material-symbols-outlined ${style.color} flex-shrink-0 mt-0.5`} style={{ fontSize: '14px', lineHeight: '1' }}>
                                     {style.icon}
                                   </span>
-                                  <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''}`}>
+                                  <p className={`text-sm lg:text-body-sm font-semibold text-on-surface ${!notif.is_read ? 'font-bold' : ''} leading-tight`}>
                                     {notif.title}
                                   </p>
                                 </div>
                                 {!notif.is_read && (
-                                  <span className="w-2 h-2 bg-secondary rounded-full flex-shrink-0 mt-1"></span>
+                                  <span className="w-2 h-2 bg-secondary rounded-full flex-shrink-0 mt-1.5"></span>
                                 )}
                               </div>
                               <p className="text-xs lg:text-body-sm text-on-surface-variant line-clamp-2 mb-xs">
