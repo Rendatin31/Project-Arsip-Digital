@@ -542,7 +542,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     }}
                                   />
                                 ) : (
-                                  // User action notification WITHOUT avatar → Show default person icon with border
+                                  // User action notification WITHOUT avatar → Show default badge icon
                                   <span 
                                     className="material-symbols-outlined text-gray-500"
                                     style={{ 
@@ -552,7 +552,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       justifyContent: 'center'
                                     }}
                                   >
-                                    person
+                                    badge
                                   </span>
                                 )}
                               </div>
