@@ -494,6 +494,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   ) : (
                     notifications.map((notif) => {
                       const style = getNotificationStyle(notif.type);
+                      // Determine if notification should show app logo (system/access types)
+                      const isSystemNotification = notif.type === 'system' || notif.type === 'access';
+                      
                       return (
                         <div
                           key={notif.id}
@@ -503,10 +506,40 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                           }`}
                         >
                           <div className="flex gap-sm lg:gap-md">
-                            <div className={`w-10 h-10 lg:w-10 lg:h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 ${!notif.is_read ? 'ring-2 ring-secondary' : ''}`}>
-                              <span className={`material-symbols-outlined ${style.color}`} style={{ fontSize: '20px' }}>
-                                {style.icon}
-                              </span>
+                            {/* Avatar/Icon */}
+                            <div className={`w-10 h-10 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${!notif.is_read ? 'ring-2 ring-secondary' : ''} ${isSystemNotification ? 'bg-surface-container' : 'bg-gray-200'}`}>
+                              {isSystemNotification ? (
+                                // System/Access notification → Show app logo
+                                <img 
+                                  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcSV7IWFroU8CkdVfLkDBLM5_-Cgs55QMT7652YgsGrL5n4L5aYExynIBv-WToLfFRJYMXhizKhYe-laxPNqCpW1LCNJx41Z76gFI0ja7V_AB3SwNJYnDHPCikDT4ap08BSJmX3a74gfabJvf0z2ADbX7GaalNkV3zzzjkQTPqhnpeiClC7sJP0Go2orBS/s320/Gemini_Generated_Image_t83gf8t83gf8t83g.jpg"
+                                  alt="App Logo"
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : profile?.avatar_url ? (
+                                // User notification with avatar → Show user avatar
+                                <img
+                                  src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                                  alt="User Avatar"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    // Fallback to default person icon if image fails
+                                    e.target.style.display = 'none';
+                                    e.target.nextElementSibling.style.display = 'flex';
+                                  }}
+                                />
+                              ) : null}
+                              {/* Default person icon (hidden if avatar loads successfully) */}
+                              {!isSystemNotification && (
+                                <span 
+                                  className="material-symbols-outlined text-gray-500"
+                                  style={{ 
+                                    fontSize: '24px',
+                                    display: profile?.avatar_url ? 'none' : 'flex'
+                                  }}
+                                >
+                                  person
+                                </span>
+                              )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-xs lg:gap-sm mb-xs">

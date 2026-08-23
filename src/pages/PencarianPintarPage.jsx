@@ -303,6 +303,22 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                       <div 
                         key={d.id} 
                         onClick={() => {
+                          // Mark document as reviewed when clicked (desktop & mobile)
+                          if (userId && d.id) {
+                            try {
+                              const reviewed = localStorage.getItem(`reviewedDocs_${userId}`);
+                              const reviewedSet = reviewed ? new Set(JSON.parse(reviewed)) : new Set();
+                              
+                              if (!reviewedSet.has(d.id)) {
+                                reviewedSet.add(d.id);
+                                localStorage.setItem(`reviewedDocs_${userId}`, JSON.stringify([...reviewedSet]));
+                                console.log(`✅ Document ${d.id} marked as reviewed on card click`);
+                              }
+                            } catch (err) {
+                              console.error('Failed to mark document as reviewed:', err);
+                            }
+                          }
+                          
                           setSelectedId(d.id);
                           // On mobile, open full preview modal immediately
                           if (window.innerWidth < 1024) {
@@ -439,7 +455,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
       </div>
 
       {fullPreview && (
-        <FilePreviewModal preview={fullPreview} supabase={supabase} onClose={() => setFullPreview(null)} />
+        <FilePreviewModal preview={fullPreview} supabase={supabase} userId={userId} onClose={() => setFullPreview(null)} />
       )}
     </div>
   );

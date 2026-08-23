@@ -768,6 +768,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
           <FilePreviewModal
             preview={previewFile}
             supabase={supabase}
+            userId={userId}
             onClose={() => setPreviewFile(null)}
             onEdit={profile?.role === 'admin' ? (file) => {
               setPreviewFile(null);

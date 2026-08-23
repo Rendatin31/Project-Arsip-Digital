@@ -1285,7 +1285,8 @@ export default function App({ supabase }) {
       {previewFile && (
         <FilePreviewModal 
           preview={previewFile} 
-          supabase={supabase} 
+          supabase={supabase}
+          userId={user?.id}
           onClose={() => setPreviewFile(null)}
           hideDelete={isPreviewFromRecent}
           onEdit={(file) => {

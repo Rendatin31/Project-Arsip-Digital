@@ -2,12 +2,31 @@ import { useState, useEffect } from 'react';
 import { handleError } from '../utils/errorHandler';
 import FileTypeIcon from './FileTypeIcon';
 
-export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete, hideDelete = false }) {
+export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete, hideDelete = false, userId }) {
   const [url, setUrl] = useState(null);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
+
+  // Mark document as reviewed when opened
+  useEffect(() => {
+    if (userId && preview?.id) {
+      try {
+        const reviewed = localStorage.getItem(`reviewedDocs_${userId}`);
+        const reviewedSet = reviewed ? new Set(JSON.parse(reviewed)) : new Set();
+        
+        // Only mark if not already reviewed
+        if (!reviewedSet.has(preview.id)) {
+          reviewedSet.add(preview.id);
+          localStorage.setItem(`reviewedDocs_${userId}`, JSON.stringify([...reviewedSet]));
+          console.log(`✅ Document ${preview.id} marked as reviewed`);
+        }
+      } catch (err) {
+        console.error('Failed to mark document as reviewed:', err);
+      }
+    }
+  }, [userId, preview?.id]);
 
   useEffect(() => {
     let active = true;

@@ -296,7 +296,7 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
               <div>
                 <div className="flex justify-between items-center mb-md">
                   <h3 className="font-title-sm text-title-sm">Kapasitas Penyimpanan</h3>
-                  <div className="flex items-center gap-1 lg:gap-xs">
+                  <div className="flex items-center gap-2 lg:gap-xs">
                     <button
                       onClick={async () => {
                         setStorageLoading(true);
@@ -431,7 +431,20 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
             </div>
 
             <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-md">
-              <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" onClick={() => onNavigate?.('documents')}>
+              <div 
+                className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" 
+                onClick={() => {
+                  const userRole = profile?.role;
+                  // Admin, Super Admin, Editor → Direktori Arsip
+                  if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
+                    onNavigate?.('data-arsip');
+                  } 
+                  // Viewer → Pencarian
+                  else if (userRole === 'viewer') {
+                    onNavigate?.('search');
+                  }
+                }}
+              >
                 <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-secondary">
                   <span className="material-symbols-outlined filled-icon text-[28px]">pending_actions</span>
                 </div>
@@ -440,7 +453,20 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
                   <p className="text-3xl font-bold">{tinjauan}</p>
                 </div>
               </div>
-              <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" onClick={() => onNavigate?.('documents')}>
+              <div 
+                className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" 
+                onClick={() => {
+                  const userRole = profile?.role;
+                  // Admin, Super Admin, Editor → Direktori Arsip
+                  if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
+                    onNavigate?.('data-arsip');
+                  } 
+                  // Viewer → Pencarian
+                  else if (userRole === 'viewer') {
+                    onNavigate?.('search');
+                  }
+                }}
+              >
                 <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-secondary">
                   <span className="material-symbols-outlined filled-icon text-[28px]">new_releases</span>
                 </div>
@@ -449,7 +475,20 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
                   <p className="text-3xl font-bold">{dokumenBaru}</p>
                 </div>
               </div>
-              <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" onClick={() => onNavigate?.('documents')}>
+              <div 
+                className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer active:scale-95 lg:cursor-default lg:hover:scale-100 lg:active:scale-100" 
+                onClick={() => {
+                  const userRole = profile?.role;
+                  // Admin, Super Admin, Editor → Direktori Arsip
+                  if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'editor') {
+                    onNavigate?.('data-arsip');
+                  } 
+                  // Viewer → Pencarian
+                  else if (userRole === 'viewer') {
+                    onNavigate?.('search');
+                  }
+                }}
+              >
                 <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-secondary">
                   <span className="material-symbols-outlined filled-icon text-[28px]">description</span>
                 </div>
@@ -562,7 +601,8 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
       {previewFile && (
         <FilePreviewModal 
           preview={previewFile} 
-          supabase={supabase} 
+          supabase={supabase}
+          userId={userId}
           onClose={() => setPreviewFile(null)}
         />
       )}
