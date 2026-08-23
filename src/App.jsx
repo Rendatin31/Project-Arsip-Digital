@@ -144,26 +144,26 @@ export default function App({ supabase }) {
         const icons = document.querySelectorAll('.material-symbols-outlined');
         
         icons.forEach((icon) => {
-          // Special handling for header and nav icons - comfortable size
+          // Special handling for header and nav icons
           const isHeaderIcon = icon.closest('header');
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
-            // Header & Nav: 28px (comfortable)
-            icon.style.setProperty('font-size', '28px', 'important');
-            icon.style.setProperty('width', '28px', 'important');
-            icon.style.setProperty('height', '28px', 'important');
-            icon.style.setProperty('min-width', '28px', 'important');
-            icon.style.setProperty('min-height', '28px', 'important');
+            // Header & Nav: 38px (comfortable, tidak terlalu besar)
+            icon.style.setProperty('font-size', '38px', 'important');
+            icon.style.setProperty('width', '38px', 'important');
+            icon.style.setProperty('height', '38px', 'important');
+            icon.style.setProperty('min-width', '38px', 'important');
+            icon.style.setProperty('min-height', '38px', 'important');
           } else {
-            // All other icons: 24px (standard)
-            icon.style.setProperty('font-size', '24px', 'important');
-            icon.style.setProperty('min-width', '24px', 'important');
-            icon.style.setProperty('min-height', '24px', 'important');
+            // All other icons: 34px (standard size, easy to read)
+            icon.style.setProperty('font-size', '34px', 'important');
+            icon.style.setProperty('min-width', '34px', 'important');
+            icon.style.setProperty('min-height', '34px', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile (min 24px, header/nav 28px)`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (min 34px, header/nav 38px)`);
       }
     };
     

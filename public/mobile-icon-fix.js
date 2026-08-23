@@ -57,23 +57,23 @@
       const isNavIcon = icon.closest('nav');
       
       if (isHeaderIcon || isNavIcon) {
-        // Header & Nav: 28px (comfortable size)
-        icon.style.setProperty('font-size', '28px', 'important');
-        icon.style.setProperty('width', '28px', 'important');
-        icon.style.setProperty('height', '28px', 'important');
-        icon.style.setProperty('min-width', '28px', 'important');
-        icon.style.setProperty('min-height', '28px', 'important');
+        // Header & Nav: 38px (comfortable, tidak terlalu besar)
+        icon.style.setProperty('font-size', '38px', 'important');
+        icon.style.setProperty('width', '38px', 'important');
+        icon.style.setProperty('height', '38px', 'important');
+        icon.style.setProperty('min-width', '38px', 'important');
+        icon.style.setProperty('min-height', '38px', 'important');
       } else {
-        // All others: 24px (standard size)
-        icon.style.setProperty('font-size', '24px', 'important');
-        icon.style.setProperty('min-width', '24px', 'important');
-        icon.style.setProperty('min-height', '24px', 'important');
+        // All others: 34px (standard size, easy to read)
+        icon.style.setProperty('font-size', '34px', 'important');
+        icon.style.setProperty('min-width', '34px', 'important');
+        icon.style.setProperty('min-height', '34px', 'important');
       }
       
       resizedCount++;
     });
     
-    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 28px, Others: 24px)`);
+    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 38px, Others: 34px)`);
   }
   
   // Run multiple times to ensure it catches all icons
