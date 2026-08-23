@@ -5,21 +5,23 @@
   
   console.log('🔧 Mobile Icon Fix Script Loaded');
   
-  // Better mobile detection - check user agent AND touch support
+  // More aggressive mobile detection - use screen width as PRIMARY indicator
   function isMobileDevice() {
-    // Check user agent
+    // PRIMARY CHECK: Screen width (more reliable than user agent)
+    // Most mobile devices: < 900px, Most tablets: < 1100px
+    const width = window.innerWidth;
+    const isSmallScreen = width < 900;
+    
+    // SECONDARY CHECK: Touch support
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // TERTIARY CHECK: User agent (least reliable, can be spoofed)
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i;
     const isMobileUA = mobileRegex.test(userAgent.toLowerCase());
     
-    // Check touch support
-    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
-    // Check screen size (as fallback)
-    const isSmallScreen = window.innerWidth < 1024;
-    
-    // Consider mobile if ANY of these are true
-    return isMobileUA || (hasTouch && isSmallScreen);
+    // AGGRESSIVE: Consider mobile if screen is small OR (has touch AND not huge screen)
+    return isSmallScreen || (hasTouch && width < 1200);
   }
   
   function forceResizeIcons() {
@@ -55,23 +57,23 @@
       const isNavIcon = icon.closest('nav');
       
       if (isHeaderIcon || isNavIcon) {
-        // Header & Nav: 40px (EXTRA LARGE)
-        icon.style.fontSize = '40px';
-        icon.style.width = '40px';
-        icon.style.height = '40px';
-        icon.style.minWidth = '40px';
-        icon.style.minHeight = '40px';
+        // Header & Nav: 48px (MAXIMUM SIZE - even larger!)
+        icon.style.setProperty('font-size', '48px', 'important');
+        icon.style.setProperty('width', '48px', 'important');
+        icon.style.setProperty('height', '48px', 'important');
+        icon.style.setProperty('min-width', '48px', 'important');
+        icon.style.setProperty('min-height', '48px', 'important');
       } else {
-        // All others: 36px (LARGE)
-        icon.style.fontSize = '36px';
-        icon.style.minWidth = '36px';
-        icon.style.minHeight = '36px';
+        // All others: 40px (VERY LARGE)
+        icon.style.setProperty('font-size', '40px', 'important');
+        icon.style.setProperty('min-width', '40px', 'important');
+        icon.style.setProperty('min-height', '40px', 'important');
       }
       
       resizedCount++;
     });
     
-    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 40px, Others: 36px)`);
+    console.log(`✅ RESIZED ${resizedCount} ICONS (Header/Nav: 48px, Others: 40px)`);
   }
   
   // Run multiple times to ensure it catches all icons

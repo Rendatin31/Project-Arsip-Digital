@@ -132,7 +132,8 @@ export default function App({ supabase }) {
   // Force resize all Material Icons on mobile devices
   useEffect(() => {
     const resizeIconsForMobile = () => {
-      const isMobile = window.innerWidth < 768;
+      // More aggressive mobile detection - use 900px threshold
+      const isMobile = window.innerWidth < 900;
       
       if (isMobile) {
         console.log('📱 Mobile detected, resizing icons...');
@@ -143,24 +144,26 @@ export default function App({ supabase }) {
         const icons = document.querySelectorAll('.material-symbols-outlined');
         
         icons.forEach((icon) => {
-          const currentSize = window.getComputedStyle(icon).fontSize;
-          const sizeValue = parseInt(currentSize);
-          
-          // Special handling for header and nav icons - EXTRA LARGE
+          // Special handling for header and nav icons - MAXIMUM SIZE
           const isHeaderIcon = icon.closest('header');
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
-            icon.style.setProperty('font-size', '36px', 'important');
-            icon.style.setProperty('width', '36px', 'important');
-            icon.style.setProperty('height', '36px', 'important');
-          } else if (sizeValue < 32) {
-            // All other icons minimum 32px
-            icon.style.setProperty('font-size', '32px', 'important');
+            // Header & Nav: 48px (MAXIMUM)
+            icon.style.setProperty('font-size', '48px', 'important');
+            icon.style.setProperty('width', '48px', 'important');
+            icon.style.setProperty('height', '48px', 'important');
+            icon.style.setProperty('min-width', '48px', 'important');
+            icon.style.setProperty('min-height', '48px', 'important');
+          } else {
+            // All other icons: 40px (VERY LARGE)
+            icon.style.setProperty('font-size', '40px', 'important');
+            icon.style.setProperty('min-width', '40px', 'important');
+            icon.style.setProperty('min-height', '40px', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile (min 32px, header/nav 36px)`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (min 40px, header/nav 48px)`);
       }
     };
     
