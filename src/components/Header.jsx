@@ -209,23 +209,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       // Check if running on native Android app
       const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
-      // JANGAN tutup modal dulu - biarkan terbuka untuk melihat progress
-      // setShowPlatformMenu(false);
-      
-      // TODO: Replace with actual APK URL from your server
+      // APK URL - Latest version
       const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk';
-      
-      // Check if URL is still placeholder
-      if (apkUrl.includes('your-server.com')) {
-        setShowPlatformMenu(false); // Tutup modal jika error
-        setAlertConfig({
-          show: true,
-          title: 'APK URL Belum Dikonfigurasi',
-          message: 'Silakan upload APK ke server dan update URL di code.\n\nBaca APK-DOWNLOAD-SETUP.md untuk instruksi lengkap.',
-          icon: '⚠️'
-        });
-        return;
-      }
       
       if (isNativeAndroid) {
         // Native Android app - simple browser download
