@@ -5,8 +5,32 @@
   
   console.log('🔧 Mobile Icon Fix Script Loaded');
   
+  // Better mobile detection - check user agent AND touch support
+  function isMobileDevice() {
+    // Check user agent
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i;
+    const isMobileUA = mobileRegex.test(userAgent.toLowerCase());
+    
+    // Check touch support
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Check screen size (as fallback)
+    const isSmallScreen = window.innerWidth < 1024;
+    
+    // Consider mobile if ANY of these are true
+    return isMobileUA || (hasTouch && isSmallScreen);
+  }
+  
   function forceResizeIcons() {
-    const isMobile = window.innerWidth < 768;
+    const isMobile = isMobileDevice();
+    
+    console.log('🔍 Device Detection:');
+    console.log('  - User Agent Mobile:', /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(navigator.userAgent.toLowerCase()));
+    console.log('  - Has Touch:', 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+    console.log('  - Screen Width:', window.innerWidth);
+    console.log('  - Device Pixel Ratio:', window.devicePixelRatio);
+    console.log('  - IS MOBILE?', isMobile);
     
     if (!isMobile) {
       console.log('💻 Desktop detected, skipping icon resize');
@@ -14,8 +38,6 @@
     }
     
     console.log('📱 MOBILE DETECTED - Forcing icon resize');
-    console.log('Screen width:', window.innerWidth);
-    console.log('Device pixel ratio:', window.devicePixelRatio);
     
     // Get ALL Material Icons
     const icons = document.querySelectorAll('.material-symbols-outlined');
