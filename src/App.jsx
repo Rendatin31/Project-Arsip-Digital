@@ -146,21 +146,21 @@ export default function App({ supabase }) {
           const currentSize = window.getComputedStyle(icon).fontSize;
           const sizeValue = parseInt(currentSize);
           
-          // Special handling for header and nav icons - MUCH LARGER
+          // Special handling for header and nav icons - EXTRA LARGE
           const isHeaderIcon = icon.closest('header');
           const isNavIcon = icon.closest('nav');
           
           if (isHeaderIcon || isNavIcon) {
+            icon.style.setProperty('font-size', '36px', 'important');
+            icon.style.setProperty('width', '36px', 'important');
+            icon.style.setProperty('height', '36px', 'important');
+          } else if (sizeValue < 32) {
+            // All other icons minimum 32px
             icon.style.setProperty('font-size', '32px', 'important');
-            icon.style.setProperty('width', '32px', 'important');
-            icon.style.setProperty('height', '32px', 'important');
-          } else if (sizeValue < 28) {
-            // All other icons minimum 28px
-            icon.style.setProperty('font-size', '28px', 'important');
           }
         });
         
-        console.log(`✅ Resized ${icons.length} icons for mobile (min 28px, header/nav 32px)`);
+        console.log(`✅ Resized ${icons.length} icons for mobile (min 32px, header/nav 36px)`);
       }
     };
     
