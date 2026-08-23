@@ -586,7 +586,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                 )}
                               </div>
                               <p className="text-xs lg:text-body-sm text-on-surface-variant line-clamp-2 mb-xs">
-                                {notif.message}
+                                {notif.message.split(' ').map((word, index) => {
+                                  // Bold first word if it looks like a username (not common words)
+                                  if (index === 0 && !['Dokumen', 'Password', 'Hak', 'Role', 'File'].includes(word)) {
+                                    return <strong key={index} className="font-bold text-on-surface">{word} </strong>;
+                                  }
+                                  return word + ' ';
+                                })}
                               </p>
                               <p className="text-[10px] lg:text-label-sm text-on-surface-variant/70">
                                 {getTimeAgo(notif.created_at)}
