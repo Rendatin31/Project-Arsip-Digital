@@ -534,15 +534,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     alt="User Avatar"
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
-                                      // Fallback to badge icon if avatar fails to load
+                                      // Fallback to account_circle icon if avatar fails to load
                                       e.target.style.display = 'none';
                                       const parent = e.target.parentElement;
                                       parent.classList.add('bg-surface-container-low');
-                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 28px; display: flex; align-items: center; justify-content: center;">badge</span>';
+                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 28px; display: flex; align-items: center; justify-content: center;">account_circle</span>';
                                     }}
                                   />
                                 ) : (
-                                  // User action notification WITHOUT avatar → Show default badge icon
+                                  // User action notification WITHOUT avatar → Show default account_circle icon
                                   <span 
                                     className="material-symbols-outlined text-gray-500"
                                     style={{ 
@@ -552,7 +552,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       justifyContent: 'center'
                                     }}
                                   >
-                                    badge
+                                    account_circle
                                   </span>
                                 )}
                               </div>
