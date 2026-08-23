@@ -45,15 +45,40 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
       if (error) throw error;
       
       if (data?.signedUrl) {
-        // Copy to clipboard
-        await navigator.clipboard.writeText(data.signedUrl);
-        setShareAlert({
-          show: true,
-          message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
-          type: 'success'
-        });
+        // Check if Web Share API is supported (mobile devices)
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: doc.subject || 'Dokumen Arsip Digital',
+              text: `Dokumen: ${doc.subject}\nNo. Surat: ${doc.letter_number || '-'}\n\nDownload dokumen:`,
+              url: data.signedUrl
+            });
+            
+            console.log('Document shared successfully via native share');
+          } catch (shareError) {
+            // User cancelled share or error occurred
+            if (shareError.name !== 'AbortError') {
+              console.error('Share error:', shareError);
+              // Fallback to copy to clipboard
+              await navigator.clipboard.writeText(data.signedUrl);
+              setShareAlert({
+                show: true,
+                message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+                type: 'success'
+              });
+            }
+          }
+        } else {
+          // Fallback for desktop: Copy to clipboard
+          await navigator.clipboard.writeText(data.signedUrl);
+          setShareAlert({
+            show: true,
+            message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
+            type: 'success'
+          });
+        }
         
-        // Hide alert after 3 seconds
+        // Hide alert after 3 seconds (if shown)
         setTimeout(() => {
           setShareAlert({ show: false, message: '', type: 'success' });
         }, 3000);
