@@ -31,10 +31,14 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
   const [fullPreview, setFullPreview] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [shareAlert, setShareAlert] = useState({ show: false, message: '', type: 'success' });
+  const [sharingDocId, setSharingDocId] = useState(null); // Track which doc is being shared
 
   // Function to generate shareable download link
   const handleShare = async (doc, e) => {
     e.stopPropagation(); // Prevent card click
+    
+    // Set sharing state for visual feedback
+    setSharingDocId(doc.id);
     
     try {
       // Generate signed URL for download (valid for 7 days)
@@ -55,6 +59,9 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
             });
             
             console.log('Document shared successfully via native share');
+            
+            // Reset sharing state after delay
+            setTimeout(() => setSharingDocId(null), 500);
           } catch (shareError) {
             // User cancelled share or error occurred
             if (shareError.name !== 'AbortError') {
@@ -67,6 +74,9 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                 type: 'success'
               });
             }
+            
+            // Reset sharing state
+            setTimeout(() => setSharingDocId(null), 500);
           }
         } else {
           // Fallback for desktop: Copy to clipboard
@@ -76,6 +86,9 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
             message: 'Link download berhasil disalin! Link berlaku selama 7 hari.',
             type: 'success'
           });
+          
+          // Reset sharing state after delay
+          setTimeout(() => setSharingDocId(null), 500);
         }
         
         // Hide alert after 3 seconds (if shown)
@@ -90,6 +103,9 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
         message: 'Gagal membuat link download. Silakan coba lagi.',
         type: 'error'
       });
+      
+      // Reset sharing state
+      setTimeout(() => setSharingDocId(null), 500);
       
       setTimeout(() => {
         setShareAlert({ show: false, message: '', type: 'error' });
@@ -408,10 +424,18 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             {/* Share Button */}
                             <button
                               onClick={(e) => handleShare(d, e)}
-                              className="p-1.5 rounded-lg hover:bg-surface-container transition-colors group"
+                              className={`p-1.5 rounded-lg transition-all duration-300 group ${
+                                sharingDocId === d.id 
+                                  ? 'bg-secondary/10 scale-110' 
+                                  : 'hover:bg-surface-container'
+                              }`}
                               title="Bagikan link download"
                             >
-                              <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-secondary transition-colors">
+                              <span className={`material-symbols-outlined text-[16px] transition-all duration-300 ${
+                                sharingDocId === d.id 
+                                  ? 'filled-icon text-secondary font-bold' 
+                                  : 'text-on-surface-variant group-hover:text-secondary'
+                              }`}>
                                 share
                               </span>
                             </button>

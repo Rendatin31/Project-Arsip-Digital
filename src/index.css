@@ -445,6 +445,22 @@ body {
   animation: slide-down 0.3s ease-out;
 }
 
+@keyframes share-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-share-pop {
+  animation: share-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 /* Force icon sizes untuk mobile - SEMUA 26px */
 @media (max-width: 1023px) {
   /* SEMUA icon di header - 26px */
