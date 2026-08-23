@@ -509,10 +509,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                             {/* Avatar with Badge - App Logo for system, User Avatar for user actions */}
                             <div className="relative flex-shrink-0">
                               <div 
-                                className={`w-10 h-10 rounded-full overflow-hidden border-2 ${
+                                className={`w-12 h-12 rounded-full overflow-hidden border-[3px] ${
                                   !notif.is_read 
-                                    ? 'border-secondary ring-2 ring-secondary/30' 
-                                    : 'border-outline-variant'
+                                    ? 'border-secondary ring-2 ring-secondary/20' 
+                                    : 'border-outline-variant/50'
                                 } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
                                 style={{ 
                                   display: 'flex', 
@@ -538,7 +538,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       e.target.style.display = 'none';
                                       const parent = e.target.parentElement;
                                       parent.classList.add('bg-surface-container-low');
-                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 24px; display: flex; align-items: center; justify-content: center;">person</span>';
+                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-500" style="font-size: 28px; display: flex; align-items: center; justify-content: center;">person</span>';
                                     }}
                                   />
                                 ) : (
@@ -546,7 +546,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   <span 
                                     className="material-symbols-outlined text-gray-500"
                                     style={{ 
-                                      fontSize: '24px',
+                                      fontSize: '28px',
                                       display: 'flex',
                                       alignItems: 'center',
                                       justifyContent: 'center'
@@ -559,11 +559,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white shadow-md ${style.bg}`}
+                                className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center border-[3px] border-white shadow-lg ${style.bg}`}
                               >
                                 <span 
                                   style={{ 
-                                    fontSize: '14px',
+                                    fontSize: '15px',
                                     lineHeight: '1'
                                   }}
                                 >
