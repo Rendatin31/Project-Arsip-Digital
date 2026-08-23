@@ -188,16 +188,16 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   // Get icon and color based on notification type
   const getNotificationStyle = (type) => {
     const styles = {
-      upload: { icon: 'upload_file', color: 'text-secondary' },
-      security: { icon: 'warning', color: 'text-error' },
-      share: { icon: 'share', color: 'text-tertiary' },
-      system: { icon: 'update', color: 'text-primary' },
-      approval: { icon: 'task_alt', color: 'text-secondary' },
-      delete: { icon: 'delete', color: 'text-error' },
-      edit: { icon: 'edit', color: 'text-tertiary' },
-      access: { icon: 'admin_panel_settings', color: 'text-primary' },
+      upload: { icon: '📤', emoji: '📤', color: 'text-secondary', bg: 'bg-green-600' },
+      security: { icon: '⚠️', emoji: '⚠️', color: 'text-error', bg: 'bg-red-600' },
+      share: { icon: '🔗', emoji: '🔗', color: 'text-tertiary', bg: 'bg-purple-600' },
+      system: { icon: '🔄', emoji: '🔄', color: 'text-primary', bg: 'bg-blue-600' },
+      approval: { icon: '✅', emoji: '✅', color: 'text-secondary', bg: 'bg-green-600' },
+      delete: { icon: '🗑️', emoji: '🗑️', color: 'text-error', bg: 'bg-red-600' },
+      edit: { icon: '✏️', emoji: '✏️', color: 'text-tertiary', bg: 'bg-purple-600' },
+      access: { icon: '👤', emoji: '👤', color: 'text-primary', bg: 'bg-blue-600' },
     };
-    return styles[type] || { icon: 'notifications', color: 'text-on-surface-variant' };
+    return styles[type] || { icon: '🔔', emoji: '🔔', color: 'text-on-surface-variant', bg: 'bg-gray-600' };
   };
 
   // Format time ago
@@ -559,24 +559,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 shadow-md ${
-                                  style.color === 'text-primary' ? 'bg-blue-600 border-white' :
-                                  style.color === 'text-secondary' ? 'bg-green-600 border-white' :
-                                  style.color === 'text-tertiary' ? 'bg-purple-600 border-white' :
-                                  style.color === 'text-error' ? 'bg-red-600 border-white' : 
-                                  'bg-gray-600 border-white'
-                                }`}
+                                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white shadow-md ${style.bg}`}
                               >
                                 <span 
-                                  className="material-symbols-outlined text-white"
                                   style={{ 
-                                    fontSize: '16px',
-                                    fontWeight: 'bold',
-                                    WebkitFontSmoothing: 'antialiased',
-                                    MozOsxFontSmoothing: 'grayscale'
+                                    fontSize: '14px',
+                                    lineHeight: '1'
                                   }}
                                 >
-                                  {style.icon}
+                                  {style.emoji}
                                 </span>
                               </div>
                             </div>
