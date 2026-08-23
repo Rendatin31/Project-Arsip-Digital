@@ -492,7 +492,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                   <thead>
                     <tr className="bg-surface-container-low/50 text-label-caps text-on-surface-variant">
                       <th className="px-md py-sm border-b border-outline-variant">Pengguna</th>
-                      <th className="px-md py-sm border-b border-outline-variant">Peran</th>
+                      <th className="px-md py-sm border-b border-outline-variant w-32 min-w-[120px]">Peran</th>
                       <th className="px-md py-sm border-b border-outline-variant">Status</th>
                       <th className="px-md py-sm border-b border-outline-variant text-right">Aksi</th>
                     </tr>
@@ -522,8 +522,8 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
                               </div>
                             </div>
                           </td>
-                          <td className="px-md py-sm">
-                            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${roleBadgeClass(u.role)}`}>
+                          <td className="px-md py-sm whitespace-nowrap">
+                            <span className={`text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap ${roleBadgeClass(u.role)}`}>
                               {u.role === 'super_admin' ? 'Super Admin' : u.role === 'admin' ? 'Admin' : u.role === 'editor' ? 'Editor' : 'Viewer'}
                             </span>
                           </td>
