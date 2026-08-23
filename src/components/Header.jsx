@@ -540,7 +540,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       const parent = e.target.parentElement;
                                       parent.classList.remove('bg-surface-container-low');
                                       parent.style.background = 'transparent';
-                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 56px; display: block; width: 100%; height: 100%; line-height: 1; transform: scale(1.2);">account_circle</span>';
+                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 64px; display: block; width: 100%; height: 100%; line-height: 1; transform: scale(1.5);">account_circle</span>';
                                     }}
                                   />
                                 ) : (
