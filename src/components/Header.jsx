@@ -509,17 +509,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                             {/* Avatar with Badge - App Logo for system, User Avatar for user actions */}
                             <div className="relative flex-shrink-0">
                               <div 
-                                className={`w-12 h-12 rounded-full overflow-hidden ${
+                                className={`w-12 h-12 rounded-full overflow-hidden flex items-center justify-center ${
                                   !notif.is_read 
                                     ? 'border-[3px] border-secondary ring-2 ring-secondary/20' 
                                     : ''
                                 } ${isSystemNotification ? 'bg-surface-container' : ''}`}
-                                style={{ 
-                                  display: 'flex', 
-                                  alignItems: 'center', 
-                                  justifyContent: 'center',
-                                  background: isSystemNotification ? undefined : 'transparent'
-                                }}
                               >
                                 {isSystemNotification ? (
                                   // System/Access notification → Show app logo
@@ -545,20 +539,22 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                   />
                                 ) : (
                                   // User action notification WITHOUT avatar → Show default account_circle icon
-                                  <span 
-                                    className="material-symbols-outlined filled-icon text-gray-600"
-                                    style={{ 
-                                      fontSize: '48px',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      width: '100%',
-                                      height: '100%',
-                                      lineHeight: '1'
+                                  <div 
+                                    className="w-full h-full rounded-full overflow-hidden bg-gray-100 flex items-center justify-center"
+                                    style={{
+                                      border: '2px solid #e5e7eb'
                                     }}
                                   >
-                                    account_circle
-                                  </span>
+                                    <span 
+                                      className="material-symbols-outlined filled-icon text-gray-500"
+                                      style={{ 
+                                        fontSize: '40px',
+                                        lineHeight: '1'
+                                      }}
+                                    >
+                                      account_circle
+                                    </span>
+                                  </div>
                                 )}
                               </div>
                               
