@@ -319,14 +319,33 @@ body {
   vertical-align: middle;
 }
 
-/* Responsive icon sizing for mobile devices - Removed auto-scale */
+/* Responsive icon sizing for mobile devices - Use responsive font size instead of scale */
 @media (max-width: 480px) {
-  /* Keep icons at normal size, just ensure font settings */
+  /* Slightly increase icon sizes for better mobile readability */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
   
-  /* Remove forced minimum size - let components control their own icon sizes */
+  /* Increase small icons to minimum 18px for readability */
+  .material-symbols-outlined[style*="font-size: 12px"],
+  .material-symbols-outlined[style*="font-size: 14px"] {
+    font-size: 18px !important;
+  }
+  
+  /* Keep 16px icons at 20px for touch target */
+  .material-symbols-outlined[style*="font-size: 16px"] {
+    font-size: 20px !important;
+  }
+  
+  /* Keep 18px icons at 22px */
+  .material-symbols-outlined[style*="font-size: 18px"] {
+    font-size: 22px !important;
+  }
+  
+  /* Keep 20px icons at 24px */
+  .material-symbols-outlined[style*="font-size: 20px"] {
+    font-size: 24px !important;
+  }
 }
 
 /* Force icon sizes with Tailwind arbitrary values */
