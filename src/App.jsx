@@ -129,67 +129,6 @@ export default function App({ supabase }) {
     });
   };
 
-  // Force resize all Material Icons on mobile devices
-  useEffect(() => {
-    const resizeIconsForMobile = () => {
-      // More aggressive mobile detection - use 900px threshold
-      const isMobile = window.innerWidth < 900;
-      
-      if (isMobile) {
-        console.log('📱 Mobile detected, resizing icons...');
-        console.log('Screen width:', window.innerWidth);
-        console.log('Device pixel ratio:', window.devicePixelRatio);
-        
-        // Get all Material Icons
-        const icons = document.querySelectorAll('.material-symbols-outlined');
-        
-        icons.forEach((icon) => {
-          // Special handling for header and nav icons
-          const isHeaderIcon = icon.closest('header');
-          const isNavIcon = icon.closest('nav');
-          
-          if (isHeaderIcon || isNavIcon) {
-            // Header & Nav: 2x scale
-            icon.style.setProperty('transform', 'scale(2)', 'important');
-            icon.style.setProperty('transform-origin', 'center', 'important');
-          } else {
-            // All other icons: 2x scale
-            icon.style.setProperty('transform', 'scale(2)', 'important');
-            icon.style.setProperty('transform-origin', 'center', 'important');
-          }
-        });
-        
-        console.log(`✅ Resized ${icons.length} icons for mobile (All: 2x scale)`);
-      }
-    };
-    
-    // Run on mount with delay to ensure DOM is ready
-    setTimeout(resizeIconsForMobile, 100);
-    
-    // Run on every route change (when new icons are rendered)
-    const observer = new MutationObserver(() => {
-      setTimeout(resizeIconsForMobile, 50);
-    });
-    
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-    
-    // Run on window resize
-    window.addEventListener('resize', resizeIconsForMobile);
-    
-    // Run on orientation change
-    window.addEventListener('orientationchange', () => {
-      setTimeout(resizeIconsForMobile, 200);
-    });
-    
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', resizeIconsForMobile);
-    };
-  }, []);
-
   const closeAlert = () => {
     setAlert(prev => ({ ...prev, show: false }));
   };

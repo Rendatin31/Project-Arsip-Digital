@@ -12,7 +12,263 @@
 -- STEP 1: Tambah kolom creator_user_id dan creator_avatar_url
 -- =========================================
 
-ALTER TABLE notifications 
+Perfect! Git sudah terinstall. Sekarang mari kita lanjutkan dengan deployment steps:
+
+## 🚀 Langkah Selanjutnya
+
+### **Step 1: Jalankan SQL di Supabase Dulu** ⚠️ PENTING!
+
+Sebelum commit code, **WAJIB jalankan SQL dulu** supaya database siap:
+
+1. **Buka Supabase Dashboard**: https://supabase.com/dashboard
+2. Pilih project Anda
+3. Klik **SQL Editor** di sidebar kiri
+4. Klik **New Query**
+5. Copy file `setup-notification-avatars-complete.sql` yang sudah terbuka
+6. Paste ke SQL Editor
+7. Klik **Run** (atau tekan F5)
+8. Tunggu sampai muncul "Success"
+
+---
+
+### **Step 2: Git Commands untuk Commit & Push**
+
+Setelah SQL berhasil, jalankan command ini di terminal:
+
+Git baru saja diinstall, kita perlu restart terminal atau menambahkan ke PATH. Mari gunakan **GitHub Desktop** saja yang lebih mudah:
+
+## 📦 Deployment via GitHub Desktop (Cara Termudah)
+
+### **Step 1: Buka GitHub Desktop**
+
+1. Buka aplikasi **GitHub Desktop**
+2. Pastikan repository **Project-Arsip-Digital** terbuka
+3. Anda akan melihat daftar file yang berubah di panel kiri:
+
+```
+✅ src/components/Header.jsx
+✅ src/utils/notifications.js
+✅ add-creator-to-notifications.sql
+✅ update-create-notification-function.sql
+✅ setup-notification-avatars-complete.sql
+✅ SETUP-NOTIFICATION-AVATARS.md
+✅ NOTIFICATION-AVATAR-CHANGES.md
+```
+
+### **Step 2: Review Perubahan**
+
+Klik setiap file untuk melihat apa yang berubah:
+- **Garis hijau** = kode baru ditambahkan
+- **Garis merah** = kode lama dihapus
+- Pastikan semuanya sesuai
+
+### **Step 3: Commit Changes**
+
+1. Di bagian bawah kiri, ada box **"Summary"**
+2. Tulis commit message:
+   ```
+   Tampilkan avatar user di notifikasi & hapus border
+   ```
+
+3. (Opsional) Di box **"Description"**, tulis detail:
+   ```
+   - Tambah creator_user_id & creator_avatar_url ke notifications
+   - Update create_notification function
+   - Tampilkan foto profil user asli di notifikasi modal
+   - Hapus border abu-abu di icon person default
+   - Auto-fetch avatar dari profiles table
+   ```
+
+4. Klik tombol biru **"Commit to main"**
+
+### **Step 4: Push ke GitHub**
+
+1. Setelah commit, akan muncul tombol **"Push origin"** di atas
+2. Klik tombol **"Push origin"**
+3. Tunggu sampai selesai (progress bar akan hilang)
+
+### **Step 5: Vercel Auto-Deploy**
+
+1. Buka Vercel Dashboard: https://vercel.com/dashboard
+2. Klik project Anda
+3. Lihat di tab **"Deployments"**
+4. Akan muncul deployment baru dengan status:
+   - 🟡 **Building...** (sedang build, tunggu 2-5 menit)
+   - 🟢 **Ready** (selesai, deployment sukses!)
+
+### **Step 6: Test di Browser**
+
+1. Tunggu sampai Vercel deployment **Ready** ✅
+2. Buka: `https://rendatinarsip.vercel.app/`
+3. **Hard refresh**: `Ctrl + Shift + R` (penting!)
+4. Login dan test:
+   - Upload dokumen
+   - Buka notifikasi
+   - Cek apakah avatar muncul (jika user sudah upload foto)
+   - Cek apakah icon person tidak ada border abu-abu
+
+---
+
+## ⚠️ PENTING: Urutan yang Benar
+
+```
+1. ✅ Jalankan SQL di Supabase DULU
+   ↓
+2. ✅ Commit & Push code ke GitHub
+   ↓
+3. ✅ Tunggu Vercel auto-deploy
+   ↓
+4. ✅ Hard refresh browser
+   ↓
+5. ✅ Test hasilnya
+```
+
+**JANGAN DIBALIK!** Kalau push code dulu sebelum SQL dijalankan, aplikasi akan error karena kolom database belum ada.
+
+---
+
+## 🎯 Quick Checklist
+
+Sebelum push, pastikan:
+
+- [ ] ✅ Git sudah terinstall (DONE!)
+- [ ] ⚠️ SQL sudah dijalankan di Supabase (BELUM - LAKUKAN DULU!)
+- [ ] ⏳ GitHub Desktop terbuka
+- [ ] ⏳ File changes sudah direview
+- [ ] ⏳ Commit message sudah ditulis
+- [ ] ⏳ Ready untuk push
+
+---
+
+**Apakah SQL sudah dijalankan di Supabase?** Kalau sudah, lanjut ke GitHub Desktop. Kalau belum, jalankan SQL dulu sekarang! 😊Perfect! Git sudah terinstall. Sekarang mari kita lanjutkan dengan deployment steps:
+
+## 🚀 Langkah Selanjutnya
+
+### **Step 1: Jalankan SQL di Supabase Dulu** ⚠️ PENTING!
+
+Sebelum commit code, **WAJIB jalankan SQL dulu** supaya database siap:
+
+1. **Buka Supabase Dashboard**: https://supabase.com/dashboard
+2. Pilih project Anda
+3. Klik **SQL Editor** di sidebar kiri
+4. Klik **New Query**
+5. Copy file `setup-notification-avatars-complete.sql` yang sudah terbuka
+6. Paste ke SQL Editor
+7. Klik **Run** (atau tekan F5)
+8. Tunggu sampai muncul "Success"
+
+---
+
+### **Step 2: Git Commands untuk Commit & Push**
+
+Setelah SQL berhasil, jalankan command ini di terminal:
+
+Git baru saja diinstall, kita perlu restart terminal atau menambahkan ke PATH. Mari gunakan **GitHub Desktop** saja yang lebih mudah:
+
+## 📦 Deployment via GitHub Desktop (Cara Termudah)
+
+### **Step 1: Buka GitHub Desktop**
+
+1. Buka aplikasi **GitHub Desktop**
+2. Pastikan repository **Project-Arsip-Digital** terbuka
+3. Anda akan melihat daftar file yang berubah di panel kiri:
+
+```
+✅ src/components/Header.jsx
+✅ src/utils/notifications.js
+✅ add-creator-to-notifications.sql
+✅ update-create-notification-function.sql
+✅ setup-notification-avatars-complete.sql
+✅ SETUP-NOTIFICATION-AVATARS.md
+✅ NOTIFICATION-AVATAR-CHANGES.md
+```
+
+### **Step 2: Review Perubahan**
+
+Klik setiap file untuk melihat apa yang berubah:
+- **Garis hijau** = kode baru ditambahkan
+- **Garis merah** = kode lama dihapus
+- Pastikan semuanya sesuai
+
+### **Step 3: Commit Changes**
+
+1. Di bagian bawah kiri, ada box **"Summary"**
+2. Tulis commit message:
+   ```
+   Tampilkan avatar user di notifikasi & hapus border
+   ```
+
+3. (Opsional) Di box **"Description"**, tulis detail:
+   ```
+   - Tambah creator_user_id & creator_avatar_url ke notifications
+   - Update create_notification function
+   - Tampilkan foto profil user asli di notifikasi modal
+   - Hapus border abu-abu di icon person default
+   - Auto-fetch avatar dari profiles table
+   ```
+
+4. Klik tombol biru **"Commit to main"**
+
+### **Step 4: Push ke GitHub**
+
+1. Setelah commit, akan muncul tombol **"Push origin"** di atas
+2. Klik tombol **"Push origin"**
+3. Tunggu sampai selesai (progress bar akan hilang)
+
+### **Step 5: Vercel Auto-Deploy**
+
+1. Buka Vercel Dashboard: https://vercel.com/dashboard
+2. Klik project Anda
+3. Lihat di tab **"Deployments"**
+4. Akan muncul deployment baru dengan status:
+   - 🟡 **Building...** (sedang build, tunggu 2-5 menit)
+   - 🟢 **Ready** (selesai, deployment sukses!)
+
+### **Step 6: Test di Browser**
+
+1. Tunggu sampai Vercel deployment **Ready** ✅
+2. Buka: `https://rendatinarsip.vercel.app/`
+3. **Hard refresh**: `Ctrl + Shift + R` (penting!)
+4. Login dan test:
+   - Upload dokumen
+   - Buka notifikasi
+   - Cek apakah avatar muncul (jika user sudah upload foto)
+   - Cek apakah icon person tidak ada border abu-abu
+
+---
+
+## ⚠️ PENTING: Urutan yang Benar
+
+```
+1. ✅ Jalankan SQL di Supabase DULU
+   ↓
+2. ✅ Commit & Push code ke GitHub
+   ↓
+3. ✅ Tunggu Vercel auto-deploy
+   ↓
+4. ✅ Hard refresh browser
+   ↓
+5. ✅ Test hasilnya
+```
+
+**JANGAN DIBALIK!** Kalau push code dulu sebelum SQL dijalankan, aplikasi akan error karena kolom database belum ada.
+
+---
+
+## 🎯 Quick Checklist
+
+Sebelum push, pastikan:
+
+- [ ] ✅ Git sudah terinstall (DONE!)
+- [ ] ⚠️ SQL sudah dijalankan di Supabase (BELUM - LAKUKAN DULU!)
+- [ ] ⏳ GitHub Desktop terbuka
+- [ ] ⏳ File changes sudah direview
+- [ ] ⏳ Commit message sudah ditulis
+- [ ] ⏳ Ready untuk push
+
+---
+
+**Apakah SQL sudah dijalankan di Supabase?** Kalau sudah, lanjut ke GitHub Desktop. Kalau belum, jalankan SQL dulu sekarang! 😊ALTER TABLE notifications 
 ADD COLUMN IF NOT EXISTS creator_user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL;
 
 ALTER TABLE notifications 

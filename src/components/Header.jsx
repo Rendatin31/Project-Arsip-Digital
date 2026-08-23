@@ -14,18 +14,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
-  // Force icon size untuk mobile dengan !important - EXTRA LARGE for better visibility
-  const getIconStyle = () => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-    return {
-      fontSize: isMobile ? '36px !important' : '24px !important',
-      width: isMobile ? '36px !important' : '24px !important',
-      height: isMobile ? '36px !important' : '24px !important',
-      lineHeight: '1',
-      display: 'block',
-    };
-  };
-
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
     const roleMap = {
@@ -448,7 +436,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             >
               <span 
                 className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}
-                style={getIconStyle()}
               >
                 notifications
               </span>
@@ -680,7 +667,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             >
               <span 
                 className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}
-                style={getIconStyle()}
               >
                 download
               </span>
@@ -768,7 +754,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           >
             <span 
               className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
-              style={getIconStyle()}
             >
               settings
             </span>

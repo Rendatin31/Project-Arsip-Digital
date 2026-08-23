@@ -319,60 +319,21 @@ body {
   vertical-align: middle;
 }
 
-/* Responsive icon sizing for mobile devices - EXTRA LARGE */
-@media (max-width: 768px) {
-  /* Base size increase for ALL icons on mobile/tablet */
+/* Responsive icon sizing for mobile devices ONLY (true mobile, not tablet or resized desktop) */
+@media (max-width: 480px) {
+  /* Auto-scale ALL Material Icons 2x on mobile */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-    /* Use minimum font size to ensure readability */
-    min-width: 32px;
-    min-height: 32px;
+    transform: scale(2);
+    transform-origin: center;
+    display: inline-block;
   }
   
-  /* Force MUCH larger sizes */
+  /* Ensure minimum readable size for small icons on mobile */
   .material-symbols-outlined[style*="font-size: 12px"],
   .material-symbols-outlined[style*="font-size: 14px"],
-  .material-symbols-outlined[style*="font-size: 16px"],
-  .material-symbols-outlined[style*="font-size: 18px"],
-  .material-symbols-outlined[style*="font-size: 20px"] {
-    font-size: 32px !important;
-  }
-  
-  .material-symbols-outlined[style*="font-size: 22px"],
-  .material-symbols-outlined[style*="font-size: 24px"] {
-    font-size: 36px !important;
-  }
-  
-  /* Also target Tailwind text classes */
-  .material-symbols-outlined.text-\[12px\],
-  .material-symbols-outlined.text-\[14px\],
-  .material-symbols-outlined.text-\[16px\],
-  .material-symbols-outlined.text-\[18px\],
-  .material-symbols-outlined.text-\[20px\] {
-    font-size: 32px !important;
-  }
-  
-  .material-symbols-outlined.text-\[22px\],
-  .material-symbols-outlined.text-\[24px\] {
-    font-size: 36px !important;
-  }
-}
-
-/* For very small devices (phones in portrait) - EXTRA EXTRA LARGE */
-@media (max-width: 480px) {
-  /* Ensure minimum 32px for all icons */
-  .material-symbols-outlined {
-    font-size: 32px !important;
-  }
-  
-  /* Header icons should be EXTRA large */
-  header .material-symbols-outlined {
-    font-size: 36px !important;
-  }
-  
-  /* Bottom nav icons should be EXTRA large */
-  nav .material-symbols-outlined {
-    font-size: 36px !important;
+  .material-symbols-outlined[style*="font-size: 16px"] {
+    font-size: 20px !important;
   }
 }
 
