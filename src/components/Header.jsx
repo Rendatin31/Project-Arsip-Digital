@@ -509,10 +509,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                             {/* Avatar with Badge - App Logo for system, User Avatar for user actions */}
                             <div className="relative flex-shrink-0">
                               <div 
-                                className={`w-12 h-12 rounded-full overflow-hidden border-[3px] ${
+                                className={`w-12 h-12 rounded-full overflow-hidden ${
                                   !notif.is_read 
-                                    ? 'border-secondary ring-2 ring-secondary/20' 
-                                    : 'border-outline-variant/50'
+                                    ? 'border-[3px] border-secondary ring-2 ring-secondary/20' 
+                                    : ''
                                 } ${isSystemNotification ? 'bg-surface-container' : 'bg-surface-container-low'}`}
                                 style={{ 
                                   display: 'flex', 
@@ -559,7 +559,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               
                               {/* Badge icon indicator at bottom-right corner */}
                               <div 
-                                className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center border-[3px] border-white shadow-lg ${style.bg}`}
+                                className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow-lg ${style.bg}`}
                               >
                                 <span 
                                   style={{ 
