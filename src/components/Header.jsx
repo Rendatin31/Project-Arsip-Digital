@@ -188,16 +188,16 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   // Get icon and color based on notification type
   const getNotificationStyle = (type) => {
     const styles = {
-      upload: { icon: '📢', emoji: '📢', color: 'text-secondary', bg: 'bg-green-600', isEmoji: true },
-      security: { icon: '⚠️', emoji: '⚠️', color: 'text-error', bg: 'bg-red-600', isEmoji: true },
-      share: { icon: '🔗', emoji: '🔗', color: 'text-tertiary', bg: 'bg-purple-600', isEmoji: true },
-      system: { icon: '🔄', emoji: '🔄', color: 'text-primary', bg: 'bg-blue-600', isEmoji: true },
-      approval: { icon: '✅', emoji: '✅', color: 'text-secondary', bg: 'bg-green-600', isEmoji: true },
-      delete: { icon: '🗑️', emoji: '🗑️', color: 'text-error', bg: 'bg-red-600', isEmoji: true },
-      edit: { icon: '✏️', emoji: '✏️', color: 'text-tertiary', bg: 'bg-purple-600', isEmoji: true },
-      access: { icon: 'settings', emoji: 'settings', color: 'text-primary', bg: 'bg-blue-600', isEmoji: false }, // Material Icon instead of emoji
+      upload: { icon: '📢', emoji: '📢', color: 'text-secondary', bg: 'bg-green-600' },
+      security: { icon: '⚠️', emoji: '⚠️', color: 'text-error', bg: 'bg-red-600' },
+      share: { icon: '🔗', emoji: '🔗', color: 'text-tertiary', bg: 'bg-purple-600' },
+      system: { icon: '🔄', emoji: '🔄', color: 'text-primary', bg: 'bg-blue-600' },
+      approval: { icon: '✅', emoji: '✅', color: 'text-secondary', bg: 'bg-green-600' },
+      delete: { icon: '🗑️', emoji: '🗑️', color: 'text-error', bg: 'bg-red-600' },
+      edit: { icon: '✏️', emoji: '✏️', color: 'text-tertiary', bg: 'bg-purple-600' },
+      access: { icon: '⚙️', emoji: '⚙️', color: 'text-primary', bg: 'bg-blue-600' },
     };
-    return styles[type] || { icon: '🔔', emoji: '🔔', color: 'text-on-surface-variant', bg: 'bg-gray-600', isEmoji: true };
+    return styles[type] || { icon: '🔔', emoji: '🔔', color: 'text-on-surface-variant', bg: 'bg-gray-600' };
   };
 
   // Format time ago
@@ -565,27 +565,14 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                               <div 
                                 className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center bg-white shadow-md"
                               >
-                                {style.isEmoji ? (
-                                  <span 
-                                    style={{ 
-                                      fontSize: '12px',
-                                      lineHeight: '1'
-                                    }}
-                                  >
-                                    {style.emoji}
-                                  </span>
-                                ) : (
-                                  <span 
-                                    className="material-symbols-outlined text-gray-700"
-                                    style={{ 
-                                      fontSize: '8px',
-                                      lineHeight: '1',
-                                      fontWeight: '500'
-                                    }}
-                                  >
-                                    {style.icon}
-                                  </span>
-                                )}
+                                <span 
+                                  style={{ 
+                                    fontSize: '12px',
+                                    lineHeight: '1'
+                                  }}
+                                >
+                                  {style.emoji}
+                                </span>
                               </div>
                             </div>
                             
