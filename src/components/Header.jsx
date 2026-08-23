@@ -540,20 +540,20 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                       const parent = e.target.parentElement;
                                       parent.classList.remove('bg-surface-container-low');
                                       parent.style.background = 'transparent';
-                                      parent.innerHTML = '<span class="material-symbols-outlined text-gray-600" style="font-size: 48px; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">account_circle</span>';
+                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 56px; display: block; width: 100%; height: 100%; line-height: 1; transform: scale(1.2);">account_circle</span>';
                                     }}
                                   />
                                 ) : (
                                   // User action notification WITHOUT avatar → Show default account_circle icon
                                   <span 
-                                    className="material-symbols-outlined text-gray-600"
+                                    className="material-symbols-outlined filled-icon text-gray-600"
                                     style={{ 
-                                      fontSize: '48px',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
+                                      fontSize: '56px',
+                                      display: 'block',
                                       width: '100%',
-                                      height: '100%'
+                                      height: '100%',
+                                      lineHeight: '1',
+                                      transform: 'scale(1.2)'
                                     }}
                                   >
                                     account_circle
