@@ -56,6 +56,11 @@ export function getFriendlyErrorMessage(error, action = '') {
   const errorStr = error?.toString() || '';
   const errorMsg = error?.message || errorStr;
   
+  // Check for HTML error page (JSON parse errors)
+  if (errorMsg.includes('<!doctype') || errorMsg.includes('is not valid JSON') || errorMsg.includes('Unexpected token')) {
+    return '⚠️ Tidak dapat mengakses dokumen. Periksa koneksi internet Anda dan coba lagi.';
+  }
+  
   // Supabase specific errors
   if (errorMsg.includes('Invalid login credentials')) {
     return 'Email atau password salah. Silakan coba lagi.';

@@ -20,6 +20,7 @@ import ProfilePage from './pages/ProfilePage';
 import ModernAlert from './components/ModernAlert';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { notifyAllUsersExcept } from './utils/notifications';
+import { handleError } from './utils/errorHandler';
 import { initSessionTimeout, clearSessionData } from './utils/sessionTimeout';
 import { usePageTitle } from './hooks/usePageTitle';
 import { App as CapacitorApp } from '@capacitor/app';
@@ -1242,7 +1243,7 @@ export default function App({ supabase }) {
                             removeFromRecentPreviews(file.id);
                           } catch (err) {
                             console.error('Gagal menghapus dokumen:', err);
-                            showAlert('error', 'Gagal Menghapus', 'Gagal menghapus dokumen: ' + (err.message || 'Unknown error'));
+                            showAlert('error', 'Gagal Menghapus', handleError(err, 'delete'));
                             throw err; // Re-throw untuk error handling di FileTable
                           }
                         }}

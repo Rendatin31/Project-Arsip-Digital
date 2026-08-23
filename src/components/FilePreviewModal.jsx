@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { handleError } from '../utils/errorHandler';
 import FileTypeIcon from './FileTypeIcon';
 
 export default function FilePreviewModal({ preview, supabase, onClose, onEdit, onDelete, onConfirmDelete, hideDelete = false }) {
@@ -22,7 +23,7 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
           .from('documents')
           .createSignedUrl(preview.filePath, 60);
         if (err || !data?.signedUrl) {
-          setError('Gagal memuat preview: ' + (err?.message || 'Unknown error'));
+          setError(handleError(err, 'download'));
           setLoading(false);
           return;
         }
@@ -100,9 +101,9 @@ export default function FilePreviewModal({ preview, supabase, onClose, onEdit, o
           // For images and other files
           if (active) setLoading(false);
         }
-      } catch {
+      } catch (previewError) {
         if (active) {
-          setError('Terjadi kesalahan saat memuat preview.');
+          setError(handleError(previewError, 'download'));
           setLoading(false);
         }
       }
