@@ -92,12 +92,17 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               />
             ) : null}
             {!profile?.avatar_url && (
-              <span 
-                className="material-symbols-outlined filled-icon profile-icon-large"
-                style={{ color: '#6b7280' }}
+              <div 
+                className="w-full h-full rounded-full bg-gray-100 flex items-center justify-center"
+                style={{ border: '2px solid #e5e7eb' }}
               >
-                person
-              </span>
+                <span 
+                  className="material-symbols-outlined filled-icon profile-icon-large"
+                  style={{ color: '#6b7280', fontSize: '56px', lineHeight: '1' }}
+                >
+                  account_circle
+                </span>
+              </div>
             )}
           </button>
           
