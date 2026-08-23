@@ -14,13 +14,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
-  // Force icon size untuk mobile dengan !important
+  // Force icon size untuk mobile dengan !important - increased for better visibility
   const getIconStyle = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
     return {
-      fontSize: isMobile ? '22px !important' : '24px !important',
-      width: isMobile ? '22px !important' : '24px !important',
-      height: isMobile ? '22px !important' : '24px !important',
+      fontSize: isMobile ? '28px !important' : '24px !important',
+      width: isMobile ? '28px !important' : '24px !important',
+      height: isMobile ? '28px !important' : '24px !important',
       lineHeight: '1',
       display: 'block',
     };

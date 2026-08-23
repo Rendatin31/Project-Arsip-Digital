@@ -319,32 +319,79 @@ body {
   vertical-align: middle;
 }
 
-/* Responsive icon sizing for mobile devices - Use responsive font size instead of scale */
-@media (max-width: 480px) {
-  /* Slightly increase icon sizes for better mobile readability */
+/* Responsive icon sizing for mobile devices - More aggressive approach */
+@media (max-width: 768px) {
+  /* Base size increase for ALL icons on mobile/tablet */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    /* Use minimum font size to ensure readability */
+    min-width: 24px;
+    min-height: 24px;
   }
   
-  /* Increase small icons to minimum 18px for readability */
-  .material-symbols-outlined[style*="font-size: 12px"],
-  .material-symbols-outlined[style*="font-size: 14px"] {
-    font-size: 18px !important;
-  }
-  
-  /* Keep 16px icons at 20px for touch target */
-  .material-symbols-outlined[style*="font-size: 16px"] {
-    font-size: 20px !important;
-  }
-  
-  /* Keep 18px icons at 22px */
-  .material-symbols-outlined[style*="font-size: 18px"] {
-    font-size: 22px !important;
-  }
-  
-  /* Keep 20px icons at 24px */
-  .material-symbols-outlined[style*="font-size: 20px"] {
+  /* Force larger sizes for very small icons - more aggressive */
+  .material-symbols-outlined[style*="font-size: 12px"] {
     font-size: 24px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 14px"] {
+    font-size: 24px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 16px"] {
+    font-size: 24px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 18px"] {
+    font-size: 26px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 20px"] {
+    font-size: 28px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 22px"] {
+    font-size: 30px !important;
+  }
+  
+  .material-symbols-outlined[style*="font-size: 24px"] {
+    font-size: 32px !important;
+  }
+  
+  /* Also target Tailwind text classes */
+  .material-symbols-outlined.text-\[12px\],
+  .material-symbols-outlined.text-\[14px\],
+  .material-symbols-outlined.text-\[16px\] {
+    font-size: 24px !important;
+  }
+  
+  .material-symbols-outlined.text-\[18px\],
+  .material-symbols-outlined.text-\[20px\] {
+    font-size: 28px !important;
+  }
+  
+  .material-symbols-outlined.text-\[22px\],
+  .material-symbols-outlined.text-\[24px\] {
+    font-size: 32px !important;
+  }
+}
+
+/* For very small devices (phones in portrait) */
+@media (max-width: 480px) {
+  /* Even more aggressive sizing */
+  .material-symbols-outlined {
+    /* Ensure minimum 24px for all icons */
+    font-size: 24px !important;
+  }
+  
+  /* Header icons should be larger */
+  header .material-symbols-outlined {
+    font-size: 28px !important;
+  }
+  
+  /* Bottom nav icons should be larger */
+  nav .material-symbols-outlined {
+    font-size: 28px !important;
   }
 }
 
