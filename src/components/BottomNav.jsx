@@ -46,7 +46,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -113,7 +113,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -138,7 +138,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             {/* More Button */}
             <button
               onClick={handleMoreClick}
-              className={`flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+              className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                 showMoreMenu
                   ? 'text-secondary bg-secondary-container/30'
                   : 'text-on-surface-variant'
@@ -230,4 +230,5 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     </>
   );
 }
+
 
