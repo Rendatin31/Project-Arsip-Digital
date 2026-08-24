@@ -405,9 +405,9 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             });
                           }
                         }} 
-                        className={`bg-surface-container-lowest border p-md rounded-xl cursor-pointer hover:shadow-md transition-all ${selectedId === d.id ? 'border-primary border-l-4' : 'border-outline-variant'}`}
+                        className={`bg-surface-container-lowest border p-sm rounded-xl cursor-pointer hover:shadow-md transition-all ${selectedId === d.id ? 'border-primary border-l-4' : 'border-outline-variant'}`}
                       >
-                        <div className="flex justify-between items-start mb-sm gap-sm">
+                        <div className="flex justify-between items-center mb-sm gap-sm">
                           <div className="flex items-center gap-sm min-w-0 flex-1">
                             <FileTypeIcon type={fileType} size={32} className="flex-shrink-0" />
                             <h4 className="font-title-sm text-on-surface truncate">{d.subject || '-'}</h4>
@@ -417,7 +417,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             {/* Share Button */}
                             <button
                               onClick={(e) => handleShare(d, e)}
-                              className={`p-1.5 rounded-lg transition-all duration-300 group ${
+                              className={`p-1 rounded-lg transition-all duration-300 group flex items-center justify-center ${
                                 sharingDocId === d.id 
                                   ? 'bg-secondary/10 scale-110' 
                                   : 'hover:bg-surface-container'
@@ -425,7 +425,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                               title="Bagikan link download"
                             >
                               <span 
-                                className={`material-symbols-outlined transition-all duration-300 ${
+                                className={`material-symbols-outlined transition-all duration-300 text-[20px] ${
                                   sharingDocId === d.id 
                                     ? 'filled-icon text-secondary font-bold' 
                                     : 'text-on-surface-variant group-hover:text-secondary'
@@ -436,7 +436,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             </button>
                           </div>
                         </div>
-                        <p className="text-body-sm text-on-surface-variant mb-md truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
+                        <p className="text-body-sm text-on-surface-variant mb-sm truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
                         <div className="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface break-words line-clamp-3">{d.perihal || '-'}</div>
                       </div>
                     );
