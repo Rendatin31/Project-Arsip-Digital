@@ -506,14 +506,14 @@ body {
     font-size: 40px !important;
   }
   
-  /* Bottom Navigation - Larger for better visibility */
+  /* Bottom Navigation - Same as default for consistency */
   nav button .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
-  /* Header icons - Larger for better visibility */
+  /* Header icons - Same as default for consistency */
   header button .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
   /* Table action icons - Large for easy tap */
