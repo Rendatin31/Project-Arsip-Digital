@@ -327,11 +327,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         >
           <span 
             className="material-symbols-outlined text-on-surface-variant block"
-            style={{ 
-              fontSize: '24px',
-              width: '24px',
-              height: '24px'
-            }}
           >
             menu
           </span>
@@ -359,7 +354,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 <button onClick={() => onNavigate?.(crumb.id)} className="flex items-center hover:text-primary transition-colors">
                   <span 
                     className="material-symbols-outlined block"
-                    style={{ fontSize: '24px', width: '24px', height: '24px' }}
                   >
                     home
                   </span>
@@ -370,7 +364,6 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   {index > 1 && (
                     <span 
                       className="material-symbols-outlined block"
-                      style={{ fontSize: '18px', width: '18px', height: '18px' }}
                     >
                       chevron_right
                     </span>
