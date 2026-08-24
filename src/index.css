@@ -476,6 +476,11 @@ body {
     font-size: 40px !important;
   }
   
+  /* EXCEPTION: Bottom Navigation icons - Keep them small and clean */
+  nav button .material-symbols-outlined {
+    font-size: 24px !important;
+  }
+  
   /* Table action icons - Slightly smaller but still large */
   td button .material-symbols-outlined,
   td a .material-symbols-outlined {
