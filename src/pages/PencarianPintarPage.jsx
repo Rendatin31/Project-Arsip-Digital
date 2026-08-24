@@ -254,7 +254,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               {/* Header with Toggle Button */}
               <button
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className="w-full flex items-center justify-between p-md hover:bg-surface-container transition-colors"
+                className="w-full flex items-center justify-between px-md py-sm hover:bg-surface-container transition-colors"
               >
                 <div className="flex items-center gap-xs text-on-surface-variant">
                   <span className="material-symbols-outlined text-[20px]">filter_alt</span>
@@ -273,7 +273,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               
               {/* Collapsible Filter Content */}
               <div className={`
-                border-t border-outline-variant p-md
+                border-t border-outline-variant px-md py-sm
                 ${isFilterExpanded ? 'block' : 'hidden'}
               `}>
                 {/* Filter Fields - Stack on mobile, flex on desktop */}
