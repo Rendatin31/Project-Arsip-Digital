@@ -321,10 +321,10 @@ body {
 
 /* Responsive icon sizing for mobile devices ONLY (true mobile, not tablet or resized desktop) */
 @media (max-width: 480px) {
-  /* Normal size (1x) for Material Icons on mobile - no scaling */
+  /* Slightly smaller (0.9x) for Material Icons on mobile - compact size */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    transform: scale(1);
+    transform: scale(0.9);
     transform-origin: center;
     display: inline-block;
   }
