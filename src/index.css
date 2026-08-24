@@ -465,37 +465,45 @@ body {
 
 /* Global mobile icon sizing - LARGE for easy tap on mobile */
 @media (max-width: 1023px) {
-  /* DEFAULT: All icons 36px on mobile - COMFORTABLE SIZE */
+  /* DEFAULT: Respect the size defined in classes (remove forced 36px) */
   .material-symbols-outlined {
-    font-size: 36px !important;
+    /* No forced size - let Tailwind classes control it */
   }
   
-  /* Interactive icons (buttons, links) - LARGE 40px for easy tap */
-  button .material-symbols-outlined,
-  a .material-symbols-outlined {
-    font-size: 40px !important;
-  }
+  /* Only make icons larger for specific interactive elements that need tap targets */
   
-  /* EXCEPTION: Bottom Navigation icons - Keep them small and clean */
+  /* Bottom Navigation - Small and clean */
   nav button .material-symbols-outlined {
     font-size: 24px !important;
   }
   
-  /* Table action icons - Slightly smaller but still large */
+  /* Header icons - Comfortable size */
+  header button .material-symbols-outlined {
+    font-size: 24px !important;
+  }
+  
+  /* Table action icons - Medium for tap targets */
   td button .material-symbols-outlined,
   td a .material-symbols-outlined {
-    font-size: 32px !important;
+    font-size: 28px !important;
+  }
+  
+  /* FAB and primary action buttons - Larger for emphasis */
+  .fab .material-symbols-outlined,
+  button[class*="bg-primary"] .material-symbols-outlined,
+  button[class*="bg-secondary"] .material-symbols-outlined {
+    font-size: 24px !important;
   }
   
   /* Input field icons (search, calendar) - Medium size */
   input + .material-symbols-outlined,
   .material-symbols-outlined + input {
-    font-size: 28px !important;
+    font-size: 20px !important;
   }
   
   /* Small decorative icons - Optional small class */
   .material-symbols-outlined.icon-small {
-    font-size: 24px !important;
+    font-size: 18px !important;
   }
   
   /* Extra large feature icons - Optional large class */
