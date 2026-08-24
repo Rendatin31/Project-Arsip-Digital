@@ -96,6 +96,42 @@
   line-height: 28px;
 }
 
+/* Mobile: Larger fonts for better readability */
+@media (max-width: 1023px) {
+  .text-body-sm,
+  [class*="text-body-sm"] {
+    font-size: 16px !important;
+    line-height: 22px !important;
+  }
+  
+  .text-body-md,
+  [class*="text-body-md"] {
+    font-size: 18px !important;
+    line-height: 26px !important;
+  }
+  
+  .text-headline-md,
+  [class*="text-headline-md"],
+  h2 {
+    font-size: 28px !important;
+    line-height: 36px !important;
+  }
+  
+  .text-title-sm,
+  [class*="text-title-sm"],
+  h3, h4 {
+    font-size: 20px !important;
+    line-height: 30px !important;
+  }
+  
+  /* Label and small text */
+  .text-[11px],
+  .text-[12px],
+  .text-[13px] {
+    font-size: 14px !important;
+  }
+}
+
 @utility text-display-lg {
   font-size: 32px;
   line-height: 40px;
@@ -465,48 +501,48 @@ body {
 
 /* Global mobile icon sizing - LARGE for easy tap on mobile */
 @media (max-width: 1023px) {
-  /* DEFAULT: All icons 36px on mobile - comfortable size for tap targets */
+  /* DEFAULT: All icons 40px on mobile - larger for better visibility and tap targets */
   .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
-  /* Bottom Navigation - Small and clean */
+  /* Bottom Navigation - Medium size */
   nav button .material-symbols-outlined {
-    font-size: 24px !important;
+    font-size: 28px !important;
   }
   
-  /* Header icons - Comfortable size */
+  /* Header icons - Medium size */
   header button .material-symbols-outlined {
-    font-size: 24px !important;
+    font-size: 28px !important;
   }
   
-  /* Table action icons - Use default 36px */
+  /* Table action icons - Large for easy tap */
   td button .material-symbols-outlined,
   td a .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
   /* FAB and primary action buttons - Standard size */
   .fab .material-symbols-outlined,
   button[class*="bg-primary"] .material-symbols-outlined,
   button[class*="bg-secondary"] .material-symbols-outlined {
-    font-size: 28px !important;
+    font-size: 32px !important;
   }
   
   /* Input field icons (search, calendar) - Medium size */
   input + .material-symbols-outlined,
   .material-symbols-outlined + input {
-    font-size: 20px !important;
+    font-size: 24px !important;
   }
   
   /* Small decorative icons - Optional small class */
   .material-symbols-outlined.icon-small {
-    font-size: 20px !important;
+    font-size: 24px !important;
   }
   
   /* Extra large feature icons - Optional large class */
   .material-symbols-outlined.icon-xlarge {
-    font-size: 48px !important;
+    font-size: 56px !important;
   }
 }
 
@@ -522,7 +558,7 @@ body {
 
 /* Control input field sizes on mobile */
 @media (max-width: 1023px) {
-  /* All input fields - 16px to prevent iOS auto-zoom */
+  /* All input fields - 18px for better readability */
   input[type="text"],
   input[type="search"],
   input[type="email"],
@@ -530,35 +566,42 @@ body {
   input[type="date"],
   select,
   textarea {
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
   
-  /* Placeholder text - smaller size */
+  /* Placeholder text - slightly smaller */
   input::placeholder,
   textarea::placeholder {
-    font-size: 14px !important;
+    font-size: 16px !important;
     opacity: 0.6;
   }
   
   input::-webkit-input-placeholder {
-    font-size: 14px !important;
+    font-size: 16px !important;
     opacity: 0.6;
   }
   
   input::-moz-placeholder {
-    font-size: 14px !important;
+    font-size: 16px !important;
     opacity: 0.6;
   }
   
   input:-ms-input-placeholder {
-    font-size: 14px !important;
+    font-size: 16px !important;
     opacity: 0.6;
   }
   
   /* Search inputs with icons - adjust padding for mobile */
   input[placeholder*="Cari"] {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+  
+  /* Buttons - larger text */
+  button,
+  .button,
+  a[class*="button"] {
+    font-size: 16px !important;
   }
 }
 
