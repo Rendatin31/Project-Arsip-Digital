@@ -356,8 +356,8 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
               </div>
             </div>
 
-            <section className="grid grid-cols-1 lg:grid-cols-[1fr_600px] gap-lg min-h-[500px] -mx-[13px] lg:mx-0">
-              <div className="flex flex-col gap-md px-[13px] lg:px-0 lg:pr-md">
+            <section className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(500px,600px)] gap-lg min-h-[500px] -mx-[13px] lg:mx-0 lg:overflow-hidden">
+              <div className="flex flex-col gap-md px-[13px] lg:px-0 lg:pr-md overflow-hidden">
                 <div className="flex items-center justify-between mb-xs">
                   <h5 className="font-title-sm text-[14px] text-on-surface">Hasil Pencarian ({results.length} Dokumen)</h5>
                   <span className="font-label-caps text-[11px] text-secondary font-bold">WAKTU: {(Math.random() * 0.5 + 0.1).toFixed(2).toUpperCase()} DETIK</span>
@@ -509,7 +509,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                 )}
               </div>
 
-              <div className="hidden lg:flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm relative min-h-[500px]">
+              <div className="hidden lg:flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm relative min-h-[500px] max-w-[600px] w-full">
                 <div className="h-12 border-b border-outline-variant flex items-center justify-between px-md bg-surface-container-low">
                   <span className="font-label-caps text-[12px] text-on-surface-variant">PRATINJAU DOKUMEN</span>
                   <div className="flex gap-sm">
