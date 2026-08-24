@@ -1,13 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function BottomNav({ profile, currentPage, onNavigate, supabase }) {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 1024);
   const userRole = profile?.role || 'viewer';
   
-  // MOBILE ICON SIZE - Set ukuran icon untuk mobile
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-  const navIconActiveSize = isMobile ? '32px' : '26px'; // Active icon lebih besar
-  const navIconInactiveSize = isMobile ? '28px' : '22px'; // Inactive icon
+  // MOBILE ICON SIZE - Dynamic resize detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // UKURAN ICON UNTUK MOBILE - LEBIH BESAR!
+  const navIconActiveSize = isMobile ? '40px' : '26px'; // Active: 40px (sangat besar!)
+  const navIconInactiveSize = isMobile ? '34px' : '22px'; // Inactive: 34px
   
   // Menu items untuk bottom nav (4 items utama saja)
   // Layout: Dashboard | File Saya | [Profile di tengah] | Pencarian | Lainnya

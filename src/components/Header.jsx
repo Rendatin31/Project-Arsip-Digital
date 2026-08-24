@@ -11,11 +11,22 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ show: false, title: '', message: '', icon: '' });
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 1024);
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
-  // MOBILE ICON SIZE - Detect mobile dan set icon size yang sesuai
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+  // MOBILE ICON SIZE - Dynamic resize detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const headerIconSize = isMobile ? '36px' : '24px'; // Header icons lebih besar di mobile
   const navIconSize = isMobile ? '32px' : '24px'; // Nav icons
   const breadcrumbIconSize = isMobile ? '28px' : '24px'; // Breadcrumb home icon

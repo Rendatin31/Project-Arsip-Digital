@@ -34,6 +34,19 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
   const [previewUrl, setPreviewUrl] = useState(null);
   const [shareAlert, setShareAlert] = useState({ show: false, message: '', type: 'success' });
   const [sharingDocId, setSharingDocId] = useState(null); // Track which doc is being shared
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 1024);
+
+  // MOBILE DETECTION - Dynamic resize detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Function to generate shareable download link
   const handleShare = async (doc, e) => {
@@ -424,11 +437,14 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                               }`}
                               title="Bagikan link download"
                             >
-                              <span className={`material-symbols-outlined text-[16px] transition-all duration-300 ${
-                                sharingDocId === d.id 
-                                  ? 'filled-icon text-secondary font-bold' 
-                                  : 'text-on-surface-variant group-hover:text-secondary'
-                              }`}>
+                              <span 
+                                className={`material-symbols-outlined transition-all duration-300 ${
+                                  sharingDocId === d.id 
+                                    ? 'filled-icon text-secondary font-bold' 
+                                    : 'text-on-surface-variant group-hover:text-secondary'
+                                }`}
+                                style={{ fontSize: isMobile ? '32px' : '20px' }}
+                              >
                                 share
                               </span>
                             </button>

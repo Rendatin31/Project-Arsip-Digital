@@ -445,6 +445,17 @@ body {
 
 /* Mobile icon sizing removed - handled by inline styles in components */
 
+/* Global mobile icon sizing - Fallback untuk icon yang tidak punya inline style */
+@media (max-width: 1023px) {
+  /* Icon di body/content area */
+  .material-symbols-outlined {
+    font-size: 28px;
+  }
+  
+  /* Icon di header sudah dihandle inline style */
+  /* Icon di nav sudah dihandle inline style */
+}
+
 /* Prevent zoom scaling on small screens */
 @media (max-width: 480px) {
   html {
