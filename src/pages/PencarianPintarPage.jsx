@@ -443,7 +443,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                                     ? 'filled-icon text-secondary font-bold' 
                                     : 'text-on-surface-variant group-hover:text-secondary'
                                 }`}
-                                style={{ fontSize: isMobile ? '32px' : '20px' }}
+                                style={{ fontSize: isMobile ? '40px' : '20px' }}
                               >
                                 share
                               </span>

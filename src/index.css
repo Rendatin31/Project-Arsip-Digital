@@ -447,42 +447,42 @@ body {
 
 /* Global mobile icon sizing - STRONG RULES for all pages */
 @media (max-width: 1023px) {
-  /* GLOBAL: All icons default to 36px on mobile - SAMA DENGAN HEADER */
+  /* GLOBAL: All icons default to 40px on mobile - VERY LARGE & EASY TO TAP */
   .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
   /* EXCEPTION: Tiny icons (explicitly marked) stay small */
   .material-symbols-outlined.icon-tiny {
-    font-size: 20px !important;
+    font-size: 22px !important;
   }
   
   /* EXCEPTION: Small icons (explicitly marked) */
   .material-symbols-outlined.icon-small {
-    font-size: 28px !important;
+    font-size: 30px !important;
   }
   
   /* EXCEPTION: Extra large icons (decorative, stat cards) */
   .material-symbols-outlined.icon-xlarge {
-    font-size: 48px !important;
+    font-size: 52px !important;
   }
   
-  /* Action buttons and interactive icons - ALL 36px */
+  /* Action buttons and interactive icons - ALL 40px */
   button .material-symbols-outlined,
   a .material-symbols-outlined {
-    font-size: 36px !important;
+    font-size: 40px !important;
   }
   
   /* Table action icons (edit, delete, view) - Slightly smaller but still big */
   td button .material-symbols-outlined,
   td a .material-symbols-outlined {
-    font-size: 32px !important;
+    font-size: 36px !important;
   }
   
   /* Input field icons (search, calendar) - Medium size */
   input + .material-symbols-outlined,
   .material-symbols-outlined + input {
-    font-size: 28px !important;
+    font-size: 32px !important;
   }
 }
 
