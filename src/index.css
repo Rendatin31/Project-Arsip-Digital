@@ -445,6 +445,42 @@ body {
 
 /* Mobile icon sizing removed - handled by inline styles in components */
 
+/* Global mobile icon sizing - LARGE for easy tap on mobile */
+@media (max-width: 1023px) {
+  /* DEFAULT: All icons 36px on mobile - COMFORTABLE SIZE */
+  .material-symbols-outlined {
+    font-size: 36px !important;
+  }
+  
+  /* Interactive icons (buttons, links) - LARGE 40px for easy tap */
+  button .material-symbols-outlined,
+  a .material-symbols-outlined {
+    font-size: 40px !important;
+  }
+  
+  /* Table action icons - Slightly smaller but still large */
+  td button .material-symbols-outlined,
+  td a .material-symbols-outlined {
+    font-size: 32px !important;
+  }
+  
+  /* Input field icons (search, calendar) - Medium size */
+  input + .material-symbols-outlined,
+  .material-symbols-outlined + input {
+    font-size: 28px !important;
+  }
+  
+  /* Small decorative icons - Optional small class */
+  .material-symbols-outlined.icon-small {
+    font-size: 24px !important;
+  }
+  
+  /* Extra large feature icons - Optional large class */
+  .material-symbols-outlined.icon-xlarge {
+    font-size: 48px !important;
+  }
+}
+
 /* Prevent zoom scaling on small screens */
 @media (max-width: 480px) {
   html {

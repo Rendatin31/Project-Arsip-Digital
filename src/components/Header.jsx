@@ -27,10 +27,10 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const headerIconSize = isMobile ? '32px' : '24px'; // Header icons
-  const navIconSize = isMobile ? '28px' : '24px'; // Nav icons
-  const breadcrumbIconSize = isMobile ? '26px' : '24px'; // Breadcrumb home icon
-  const chevronIconSize = isMobile ? '20px' : '18px'; // Breadcrumb chevron
+  const headerIconSize = isMobile ? '40px' : '24px'; // Header icons - LARGE for easy tap
+  const navIconSize = isMobile ? '36px' : '24px'; // Nav icons
+  const breadcrumbIconSize = isMobile ? '32px' : '24px'; // Breadcrumb home icon
+  const chevronIconSize = isMobile ? '24px' : '18px'; // Breadcrumb chevron
 
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {

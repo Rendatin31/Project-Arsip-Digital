@@ -17,9 +17,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // UKURAN ICON UNTUK MOBILE
-  const navIconActiveSize = isMobile ? '32px' : '26px'; // Active: 32px
-  const navIconInactiveSize = isMobile ? '28px' : '22px'; // Inactive: 28px
+  // UKURAN ICON UNTUK MOBILE - LARGE for easy tap!
+  const navIconActiveSize = isMobile ? '40px' : '26px'; // Active: 40px
+  const navIconInactiveSize = isMobile ? '36px' : '22px'; // Inactive: 36px
   
   // Menu items untuk bottom nav (4 items utama saja)
   // Layout: Dashboard | File Saya | [Profile di tengah] | Pencarian | Lainnya
