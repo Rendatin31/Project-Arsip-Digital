@@ -321,10 +321,10 @@ body {
 
 /* Responsive icon sizing for mobile devices ONLY (true mobile, not tablet or resized desktop) */
 @media (max-width: 480px) {
-  /* Auto-scale ALL Material Icons 1.5x on mobile - more reasonable size */
+  /* Normal size (1x) for Material Icons on mobile - no scaling */
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 36;
-    transform: scale(1.5);
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    transform: scale(1);
     transform-origin: center;
     display: inline-block;
   }
@@ -333,7 +333,7 @@ body {
   .material-symbols-outlined[style*="font-size: 12px"],
   .material-symbols-outlined[style*="font-size: 14px"],
   .material-symbols-outlined[style*="font-size: 16px"] {
-    font-size: 18px !important;
+    font-size: 16px !important;
   }
 }
 
