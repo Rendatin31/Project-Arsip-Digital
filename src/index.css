@@ -445,15 +445,44 @@ body {
 
 /* Mobile icon sizing removed - handled by inline styles in components */
 
-/* Global mobile icon sizing - Fallback untuk icon yang tidak punya inline style */
+/* Global mobile icon sizing - STRONG RULES for all pages */
 @media (max-width: 1023px) {
-  /* Icon di body/content area */
+  /* GLOBAL: All icons default to 28px on mobile */
   .material-symbols-outlined {
-    font-size: 28px;
+    font-size: 28px !important;
   }
   
-  /* Icon di header sudah dihandle inline style */
-  /* Icon di nav sudah dihandle inline style */
+  /* EXCEPTION: Tiny icons (explicitly marked) stay small */
+  .material-symbols-outlined.icon-tiny {
+    font-size: 18px !important;
+  }
+  
+  /* EXCEPTION: Small icons (explicitly marked) */
+  .material-symbols-outlined.icon-small {
+    font-size: 20px !important;
+  }
+  
+  /* EXCEPTION: Large icons (stat cards, feature icons) */
+  .material-symbols-outlined.icon-large {
+    font-size: 36px !important;
+  }
+  
+  /* EXCEPTION: Extra large icons (decorative) */
+  .material-symbols-outlined.icon-xlarge {
+    font-size: 48px !important;
+  }
+  
+  /* Action buttons and interactive icons */
+  button .material-symbols-outlined,
+  a .material-symbols-outlined {
+    font-size: 28px !important;
+  }
+  
+  /* Table action icons (edit, delete, view) */
+  td button .material-symbols-outlined,
+  td a .material-symbols-outlined {
+    font-size: 24px !important;
+  }
 }
 
 /* Prevent zoom scaling on small screens */
