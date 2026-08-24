@@ -58,7 +58,6 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     className={`material-symbols-outlined transition-all ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
-                    style={{ fontSize: isActive && isAllowed ? navIconActiveSize : navIconInactiveSize }}
                   >
                     {item.icon}
                   </span>
@@ -126,7 +125,6 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     className={`material-symbols-outlined transition-all ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
-                    style={{ fontSize: isActive && isAllowed ? navIconActiveSize : navIconInactiveSize }}
                   >
                     {item.icon}
                   </span>
@@ -149,7 +147,6 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               <span className={`material-symbols-outlined transition-all ${
                 showMoreMenu ? 'filled-icon' : ''
               }`}
-              style={{ fontSize: showMoreMenu ? navIconActiveSize : navIconInactiveSize }}
               >
                 more_horiz
               </span>
@@ -233,3 +230,4 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     </>
   );
 }
+
