@@ -405,7 +405,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             });
                           }
                         }} 
-                        className={`bg-surface-container-lowest border p-sm rounded-xl cursor-pointer hover:shadow-md transition-all ${selectedId === d.id ? 'border-primary border-l-4' : 'border-outline-variant'}`}
+                        className={`bg-surface-container-lowest border px-md py-sm rounded-xl cursor-pointer hover:shadow-md transition-all ${selectedId === d.id ? 'border-primary border-l-4' : 'border-outline-variant'}`}
                       >
                         <div className="flex justify-between items-center mb-sm gap-sm">
                           <div className="flex items-center gap-sm min-w-0 flex-1">
