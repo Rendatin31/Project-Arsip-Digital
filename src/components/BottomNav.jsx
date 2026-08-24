@@ -55,7 +55,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all ${
+                    className={`material-symbols-outlined transition-all text-[24px] ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
                   >
@@ -93,7 +93,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             ) : null}
             {!profile?.avatar_url && (
               <span 
-                className="material-symbols-outlined filled-icon profile-icon-large"
+                className="material-symbols-outlined filled-icon text-[40px]"
                 style={{ color: '#6b7280' }}
               >
                 person
@@ -122,7 +122,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all ${
+                    className={`material-symbols-outlined transition-all text-[24px] ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
                   >
@@ -144,7 +144,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   : 'text-on-surface-variant'
               }`}
             >
-              <span className={`material-symbols-outlined transition-all ${
+              <span className={`material-symbols-outlined transition-all text-[24px] ${
                 showMoreMenu ? 'filled-icon' : ''
               }`}
               >
