@@ -14,6 +14,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
+  // MOBILE ICON SIZE - Detect mobile dan set icon size yang sesuai
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+  const headerIconSize = isMobile ? '36px' : '24px'; // Header icons lebih besar di mobile
+  const navIconSize = isMobile ? '32px' : '24px'; // Nav icons
+  const breadcrumbIconSize = isMobile ? '28px' : '24px'; // Breadcrumb home icon
+  const chevronIconSize = isMobile ? '22px' : '18px'; // Breadcrumb chevron
+
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
     const roleMap = {
@@ -354,6 +361,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 <button onClick={() => onNavigate?.(crumb.id)} className="flex items-center hover:text-primary transition-colors">
                   <span 
                     className="material-symbols-outlined block"
+                    style={{ fontSize: breadcrumbIconSize }}
                   >
                     home
                   </span>
@@ -364,6 +372,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                   {index > 1 && (
                     <span 
                       className="material-symbols-outlined block"
+                      style={{ fontSize: chevronIconSize }}
                     >
                       chevron_right
                     </span>
@@ -414,6 +423,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             >
               <span 
                 className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}
+                style={{ fontSize: headerIconSize }}
               >
                 notifications
               </span>
@@ -645,6 +655,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             >
               <span 
                 className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}
+                style={{ fontSize: headerIconSize }}
               >
                 download
               </span>
@@ -732,6 +743,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           >
             <span 
               className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
+              style={{ fontSize: headerIconSize }}
             >
               settings
             </span>

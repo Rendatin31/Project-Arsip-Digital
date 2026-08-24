@@ -4,6 +4,11 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const userRole = profile?.role || 'viewer';
   
+  // MOBILE ICON SIZE - Set ukuran icon untuk mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+  const navIconActiveSize = isMobile ? '32px' : '26px'; // Active icon lebih besar
+  const navIconInactiveSize = isMobile ? '28px' : '22px'; // Inactive icon
+  
   // Menu items untuk bottom nav (4 items utama saja)
   // Layout: Dashboard | File Saya | [Profile di tengah] | Pencarian | Lainnya
   const mainMenuItems = [
@@ -56,8 +61,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive && isAllowed ? 'filled-icon text-[26px]' : 'text-[22px]'
+                      isActive && isAllowed ? 'filled-icon' : ''
                     }`}
+                    style={{ fontSize: isActive && isAllowed ? navIconActiveSize : navIconInactiveSize }}
                   >
                     {item.icon}
                   </span>
@@ -123,8 +129,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 >
                   <span 
                     className={`material-symbols-outlined transition-all ${
-                      isActive && isAllowed ? 'filled-icon text-[26px]' : 'text-[22px]'
+                      isActive && isAllowed ? 'filled-icon' : ''
                     }`}
+                    style={{ fontSize: isActive && isAllowed ? navIconActiveSize : navIconInactiveSize }}
                   >
                     {item.icon}
                   </span>
@@ -145,8 +152,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               }`}
             >
               <span className={`material-symbols-outlined transition-all ${
-                showMoreMenu ? 'filled-icon text-[26px]' : 'text-[22px]'
-              }`}>
+                showMoreMenu ? 'filled-icon' : ''
+              }`}
+              style={{ fontSize: showMoreMenu ? navIconActiveSize : navIconInactiveSize }}
+              >
                 more_horiz
               </span>
               <span className={`text-[11px] font-medium ${showMoreMenu ? 'font-bold' : ''}`}>
