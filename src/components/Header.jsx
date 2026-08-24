@@ -11,26 +11,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ show: false, title: '', message: '', icon: '' });
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 1024);
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
-
-  // MOBILE ICON SIZE - Dynamic resize detection
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const headerIconSize = isMobile ? '40px' : '24px'; // Header icons - LARGE for easy tap
-  const navIconSize = isMobile ? '36px' : '24px'; // Nav icons
-  const breadcrumbIconSize = isMobile ? '32px' : '24px'; // Breadcrumb home icon
-  const chevronIconSize = isMobile ? '24px' : '18px'; // Breadcrumb chevron
 
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
@@ -370,10 +352,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {/* Home icon untuk breadcrumb pertama */}
               {index === 0 && crumb.id === null ? (
                 <button onClick={() => onNavigate?.(crumb.id)} className="flex items-center hover:text-primary transition-colors">
-                  <span 
-                    className="material-symbols-outlined block"
-                    style={{ fontSize: breadcrumbIconSize }}
-                  >
+                  <span className="material-symbols-outlined block">
                     home
                   </span>
                 </button>
@@ -381,10 +360,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 <>
                   {/* Chevron separator (skip untuk home dan Arsip Digital) */}
                   {index > 1 && (
-                    <span 
-                      className="material-symbols-outlined block"
-                      style={{ fontSize: chevronIconSize }}
-                    >
+                    <span className="material-symbols-outlined block">
                       chevron_right
                     </span>
                   )}
@@ -432,10 +408,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowNotifications(!showNotifications)}
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
-              <span 
-                className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}
-                style={{ fontSize: headerIconSize }}
-              >
+              <span className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}>
                 notifications
               </span>
               {unreadCount > 0 && (
@@ -664,10 +637,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowPlatformMenu(!showPlatformMenu)}
               className="p-1.5 rounded-full hover:bg-surface-container transition-colors relative right-[3px]"
             >
-              <span 
-                className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}
-                style={{ fontSize: headerIconSize }}
-              >
+              <span className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}>
                 download
               </span>
             </button>
@@ -752,10 +722,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             onClick={() => onNavigate?.('settings')} 
             className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0 group"
           >
-            <span 
-              className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
-              style={{ fontSize: headerIconSize }}
-            >
+            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">
               settings
             </span>
           </button>

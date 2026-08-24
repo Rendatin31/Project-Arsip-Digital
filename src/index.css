@@ -319,6 +319,24 @@ body {
   vertical-align: middle;
 }
 
+/* Responsive icon sizing for mobile devices ONLY (true mobile, not tablet or resized desktop) */
+@media (max-width: 480px) {
+  /* Auto-scale ALL Material Icons 2x on mobile */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    transform: scale(2);
+    transform-origin: center;
+    display: inline-block;
+  }
+  
+  /* Ensure minimum readable size for small icons on mobile */
+  .material-symbols-outlined[style*="font-size: 12px"],
+  .material-symbols-outlined[style*="font-size: 14px"],
+  .material-symbols-outlined[style*="font-size: 16px"] {
+    font-size: 20px !important;
+  }
+}
+
 /* Force icon sizes with Tailwind arbitrary values */
 .material-symbols-outlined.\!text-\[48px\] {
   font-size: 48px !important;
