@@ -445,41 +445,37 @@ body {
 
 /* Force icon sizes untuk mobile - Ukuran optimal untuk touch interaction */
 @media (max-width: 1023px) {
-  /* SEMUA icon di header - 32px (lebih besar untuk visibility) */
+  /* SEMUA icon di header - scale 1.3x untuk visibility */
   header .material-symbols-outlined {
-    font-size: 32px !important;
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    max-width: 32px !important;
-    min-height: 32px !important;
-    max-height: 32px !important;
+    font-size: 24px !important;
+    transform: scale(1.3) !important;
+    transform-origin: center !important;
   }
   
-  /* SEMUA icon di bottom navigation - 28px */
+  /* SEMUA icon di bottom navigation - scale 1.2x */
   nav .material-symbols-outlined {
-    font-size: 28px !important;
+    font-size: 24px !important;
+    transform: scale(1.2) !important;
+    transform-origin: center !important;
   }
   
-  /* SEMUA icon di body - 28px */
+  /* SEMUA icon di body - scale 1.2x */
   body .material-symbols-outlined {
-    font-size: 28px !important;
+    font-size: 24px !important;
+    transform: scale(1.2) !important;
+    transform-origin: center !important;
   }
   
   /* EXCEPTION: Profile icon person - besar untuk mobile */
   .profile-avatar-icon {
-    font-size: 90px !important;
-    width: auto !important;
-    height: auto !important;
-    min-width: auto !important;
-    max-width: none !important;
-    min-height: auto !important;
-    max-height: none !important;
+    font-size: 80px !important;
+    transform: none !important;
   }
   
   /* EXCEPTION: Bottom nav profile icon - tetap kecil */
   nav .profile-icon-large {
-    font-size: 36px !important;
+    font-size: 32px !important;
+    transform: none !important;
   }
 }
 
