@@ -319,9 +319,9 @@ body {
   vertical-align: middle;
 }
 
-/* Responsive icon sizing for ALL mobile devices and tablets */
-@media (max-width: 1023px) {
-  /* Medium size (1.3x) for Material Icons on mobile/tablet - balanced size */
+/* Responsive icon sizing for smartphones ONLY (not tablets) */
+@media (max-width: 854px) {
+  /* Medium size (1.3x) for Material Icons on smartphones - balanced size */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32;
     transform: scale(1.3);
