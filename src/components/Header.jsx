@@ -59,10 +59,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   useEffect(() => {
     if (showNotifications && notifications.length > 0 && supabase) {
       console.log('🔔 Notification panel opened, refreshing avatars...');
-      refreshAvatars(notifications).then((refreshed) => {
-        console.log('✅ Avatars refreshed, updating state');
-        setNotifications(refreshed);
-      });
+      
+      // Add small delay to avoid race condition with DOM manipulation
+      const timeoutId = setTimeout(() => {
+        refreshAvatars(notifications).then((refreshed) => {
+          console.log('✅ Avatars refreshed, updating state');
+          setNotifications(refreshed);
+        }).catch((err) => {
+          console.error('Error refreshing avatars:', err);
+        });
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
     }
   }, [showNotifications, supabase]);
 
@@ -703,12 +711,9 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     className="w-full h-full object-cover"
                                     style={{ objectFit: 'cover', objectPosition: 'center' }}
                                     onError={(e) => {
-                                      // Fallback to account_circle icon if avatar fails to load
+                                      // Fallback to default icon if image fails to load
+                                      console.warn('Avatar failed to load:', notif.creator_avatar_url);
                                       e.target.style.display = 'none';
-                                      const parent = e.target.parentElement;
-                                      parent.classList.remove('bg-surface-container-low');
-                                      parent.style.background = 'transparent';
-                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 48px; display: block; width: 100%; height: 100%; line-height: 1;">account_circle</span>';
                                     }}
                                   />
                                 ) : (
