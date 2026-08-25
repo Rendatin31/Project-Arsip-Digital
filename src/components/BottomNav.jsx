@@ -55,9 +55,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all text-[40px] ${
-                      isActive && isAllowed ? 'filled-icon' : ''
-                    }`}
+                    className="material-symbols-outlined transition-all text-[40px]"
+                    style={{
+                      fontVariationSettings: isActive && isAllowed
+                        ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                        : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                    }}
                   >
                     {item.icon}
                   </span>
@@ -93,8 +96,13 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             ) : null}
             {!profile?.avatar_url && (
               <span 
-                className="material-symbols-outlined filled-icon text-[40px]"
-                style={{ color: '#6b7280' }}
+                className="material-symbols-outlined text-[40px]"
+                style={{ 
+                  color: '#6b7280',
+                  fontVariationSettings: currentPage === 'profile'
+                    ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                    : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                }}
               >
                 person
               </span>
@@ -122,9 +130,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all text-[40px] ${
-                      isActive && isAllowed ? 'filled-icon' : ''
-                    }`}
+                    className="material-symbols-outlined transition-all text-[40px]"
+                    style={{
+                      fontVariationSettings: isActive && isAllowed
+                        ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                        : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                    }}
                   >
                     {item.icon}
                   </span>
@@ -144,9 +155,13 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   : 'text-on-surface-variant'
               }`}
             >
-              <span className={`material-symbols-outlined transition-all text-[40px] ${
-                showMoreMenu ? 'filled-icon' : ''
-              }`}
+              <span 
+                className="material-symbols-outlined transition-all text-[40px]"
+                style={{
+                  fontVariationSettings: showMoreMenu
+                    ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                    : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                }}
               >
                 more_horiz
               </span>
