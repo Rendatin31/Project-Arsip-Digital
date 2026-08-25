@@ -419,7 +419,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                               onClick={(e) => handleShare(d, e)}
                               className={`p-1 rounded-lg transition-all duration-300 group flex items-center justify-center ${
                                 sharingDocId === d.id 
-                                  ? 'bg-secondary/10 scale-110' 
+                                  ? 'bg-transparent' 
                                   : 'hover:bg-surface-container'
                               }`}
                               title="Bagikan link download"
