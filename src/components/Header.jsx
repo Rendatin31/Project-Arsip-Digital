@@ -14,6 +14,38 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const notifRef = useRef(null);
   const platformMenuRef = useRef(null);
 
+  // Function to refresh avatars from profiles table
+  const refreshAvatars = async (notificationList) => {
+    if (!supabase) return notificationList;
+    
+    const refreshed = await Promise.all(
+      notificationList.map(async (notif) => {
+        if (notif.created_by) {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('avatar_url')
+            .eq('id', notif.created_by)
+            .single();
+          
+          return {
+            ...notif,
+            creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
+          };
+        }
+        return notif;
+      })
+    );
+    
+    return refreshed;
+  };
+
+  // Refresh avatars when notification panel is opened
+  useEffect(() => {
+    if (showNotifications && notifications.length > 0) {
+      refreshAvatars(notifications).then(setNotifications);
+    }
+  }, [showNotifications]);
+
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
     const roleMap = {
