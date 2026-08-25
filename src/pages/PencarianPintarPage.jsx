@@ -407,7 +407,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                         }} 
                         className={`bg-surface-container-lowest border px-md py-sm rounded-xl cursor-pointer hover:shadow-md transition-all ${selectedId === d.id ? 'border-primary border-l-4' : 'border-outline-variant'}`}
                       >
-                        <div className="flex justify-between items-center mb-sm gap-sm">
+                        <div className="flex justify-between items-center mb-xs md:mb-sm gap-sm">
                           <div className="flex items-center gap-sm min-w-0 flex-1">
                             <FileTypeIcon type={fileType} size={32} className="flex-shrink-0" />
                             <h4 className="text-base md:font-title-sm font-semibold text-on-surface truncate">{d.subject || '-'}</h4>
@@ -436,7 +436,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             </button>
                           </div>
                         </div>
-                        <p className="!text-[13px] md:text-body-sm text-on-surface-variant mb-sm truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
+                        <p className="!text-[13px] md:text-body-sm text-on-surface-variant mb-xs md:mb-sm truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
                         <div className="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic !text-[13px] md:text-body-sm text-on-surface break-words line-clamp-3">{d.perihal || '-'}</div>
                       </div>
                     );
