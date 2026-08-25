@@ -410,7 +410,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                         <div className="flex justify-between items-center mb-sm gap-sm">
                           <div className="flex items-center gap-sm min-w-0 flex-1">
                             <FileTypeIcon type={fileType} size={32} className="flex-shrink-0" />
-                            <h4 className="font-title-sm text-on-surface truncate">{d.subject || '-'}</h4>
+                            <h4 className="!text-[15px] md:font-title-sm md:text-base font-title-sm text-on-surface truncate">{d.subject || '-'}</h4>
                           </div>
                           <div className="flex items-center gap-2 flex-shrink-0">
                             <span className={`px-sm py-0.5 rounded text-[12px] font-bold border whitespace-nowrap ${st.cls}`}>{st.label}</span>
