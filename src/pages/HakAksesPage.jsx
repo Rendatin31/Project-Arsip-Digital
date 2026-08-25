@@ -445,8 +445,8 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
           <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-md">
             {/* Title & Description */}
             <div>
-              <h5 className="text-xl font-semibold text-primary">Manajemen Hak Akses</h5>
-              <p className="text-xs text-on-surface-variant">Kelola izin pengguna dan tingkatan akses keamanan dokumen.</p>
+              <h5 className="font-headline-md text-xl text-primary">Manajemen Hak Akses</h5>
+              <p className="text-[14px] text-on-surface-variant">Kelola izin pengguna dan tingkatan akses keamanan dokumen.</p>
             </div>
             
             {/* Add Button - Desktop only */}
