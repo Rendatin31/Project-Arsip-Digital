@@ -147,7 +147,7 @@ useEffect(() => {
 
 2. **Upload APK ke Storage**:
    - Build release APK (signed)
-   - Upload ke Supabase Storage: `apk-files/rendatin-arsip-v.1.0.0.apk`
+   - Upload ke Supabase Storage: `apk-files/rendatin-arsip-v.1.0.1.apk`
    - Update download link di Header.jsx (sudah done)
 
 3. **Deploy Web Version**:
@@ -182,7 +182,7 @@ useEffect(() => {
 
 Download link yang sudah dikonfigurasi di Header.jsx:
 ```
-https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk
+https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.1.apk
 ```
 
 **Reminder**: Upload APK baru setelah rebuild untuk include push notification & back button features.

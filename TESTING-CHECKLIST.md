@@ -217,7 +217,7 @@ _________________________________
 ## 🚀 Next Steps After Testing
 
 1. [ ] Upload signed APK to Supabase Storage
-2. [ ] Update download link: `https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk`
+2. [ ] Update download link: `https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.1.apk`
 3. [ ] Test download from mobile browser
 4. [ ] Test installation from downloaded APK
 5. [ ] Deploy web version to Vercel

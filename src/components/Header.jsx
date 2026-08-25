@@ -210,7 +210,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       const isNativeAndroid = window.Capacitor && window.Capacitor.getPlatform() === 'android';
       
       // APK URL - Latest version
-      const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.0.apk';
+      const apkUrl = 'https://axpanhequppcviaimwte.supabase.co/storage/v1/object/public/apk-files/rendatin-arsip-v.1.0.1.apk';
       
       if (isNativeAndroid) {
         // Native Android app - simple browser download
