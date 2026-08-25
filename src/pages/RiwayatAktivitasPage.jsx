@@ -431,7 +431,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   <div className="min-w-0 flex-1">
                     <div>
                       <p className="text-label-caps text-[14px] text-on-surface-variant">Total Aktivitas Hari Ini</p>
-                      <h3 className="text-[40px] font-bold text-primary leading-tight">{todayActivitiesCount}</h3>
+                      <h3 className="text-[48px] font-bold text-primary leading-tight">{todayActivitiesCount}</h3>
                       <p className="text-[14px] text-secondary flex items-center gap-xs mt-xs">
                         <span className="material-symbols-outlined text-[16px]">trending_up</span>
                         Menampilkan data nyata
@@ -446,7 +446,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   <div className="min-w-0 flex-1">
                     <div>
                       <p className="text-label-caps text-[14px] text-on-surface-variant">Peringatan Keamanan</p>
-                      <h3 className="text-[40px] font-bold text-error leading-tight">{securityWarningsCount}</h3>
+                      <h3 className="text-[48px] font-bold text-error leading-tight">{securityWarningsCount}</h3>
                       <p className="text-[14px] text-error flex items-center gap-xs mt-xs">
                         <span className="material-symbols-outlined text-[16px]">warning</span>
                         Butuh perhatian segera
