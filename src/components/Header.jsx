@@ -39,6 +39,38 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           }
         }
         
+        // FALLBACK: If still no user ID, try to find user by name from message
+        // Message format: "username mengunggah/memperbarui/mempublikasikan dokumen ..."
+        if (!userIdToFetch && notif.message) {
+          const nameMatch = notif.message.match(/^(\w+)\s+(mengunggah|memperbarui|mempublikasikan)/);
+          if (nameMatch) {
+            const username = nameMatch[1];
+            console.log('🔍 [FALLBACK] Trying to find user by name:', username);
+            
+            try {
+              const { data: userByName } = await supabase
+                .from('profiles')
+                .select('id, avatar_url')
+                .ilike('full_name', `%${username}%`)
+                .single();
+              
+              if (userByName) {
+                userIdToFetch = userByName.id;
+                console.log('✅ Found user by name:', username, '→ ID:', userIdToFetch);
+                
+                // Return immediately with the found avatar
+                return {
+                  ...notif,
+                  created_by: userIdToFetch,
+                  creator_avatar_url: userByName.avatar_url
+                };
+              }
+            } catch (err) {
+              console.warn('Could not find user by name:', username);
+            }
+          }
+        }
+        
         if (userIdToFetch) {
           try {
             const { data: profileData, error } = await supabase
@@ -64,7 +96,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             console.error('Error refreshing avatar:', err);
           }
         } else {
-          console.log('⚠️ Notification has no created_by:', notif.id, 'Type:', notif.type, 'Avatar URL:', notif.creator_avatar_url || 'none');
+          console.log('⚠️ Notification has no created_by:', notif.id, 'Type:', notif.type, 'Avatar URL:', notif.creator_avatar_url || 'none', 'Message:', notif.message?.substring(0, 50));
         }
         return notif;
       })
