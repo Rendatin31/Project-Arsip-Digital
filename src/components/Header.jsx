@@ -54,28 +54,36 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
 
     const fetchNotifications = async () => {
       try {
-        // Join with profiles table to get the latest avatar_url
+        // Fetch notifications first
         const { data, error } = await supabase
           .from('notifications')
-          .select(`
-            *,
-            creator_profile:created_by (
-              avatar_url
-            )
-          `)
+          .select('*')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(10);
 
         if (error) {
           console.error('Error fetching notifications:', error);
-        } else {
-          // Map notifications to include the latest avatar from creator_profile
-          const notificationsWithLatestAvatar = (data || []).map(notif => ({
-            ...notif,
-            // Override creator_avatar_url with the latest avatar from profiles table
-            creator_avatar_url: notif.creator_profile?.avatar_url || notif.creator_avatar_url
-          }));
+        } else if (data) {
+          // For each notification, fetch the latest avatar from profiles if created_by exists
+          const notificationsWithLatestAvatar = await Promise.all(
+            data.map(async (notif) => {
+              if (notif.created_by) {
+                const { data: profileData } = await supabase
+                  .from('profiles')
+                  .select('avatar_url')
+                  .eq('id', notif.created_by)
+                  .single();
+                
+                return {
+                  ...notif,
+                  creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
+                };
+              }
+              return notif;
+            })
+          );
+          
           setNotifications(notificationsWithLatestAvatar);
         }
       } catch (err) {
