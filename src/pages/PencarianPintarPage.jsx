@@ -126,7 +126,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
   const runSearch = () => {
     const q = query.trim().toLowerCase();
     const filtered = documents.filter((d) => {
-      const haystack = `${d.file_name || ''} ${d.letter_number || ''} ${d.subject || ''}`.toLowerCase();
+      const haystack = `${d.file_name || ''} ${d.letter_number || ''} ${d.subject || ''} ${d.perihal || ''}`.toLowerCase();
       const matchQuery = !q || haystack.includes(q);
       const matchLetter = !letterNumber.trim() || (d.letter_number || '').toLowerCase().includes(letterNumber.trim().toLowerCase());
       const matchCat = !category || (d.category_id && d.category_id === category);
@@ -243,7 +243,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && runSearch()}
                     placeholder="Cari dokumen berdasarkan nama, subjek, atau nomor surat..."
-                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-body-sm text-on-surface outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all"
+                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-4 !text-[16px] md:text-body-sm text-on-surface outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all"
                   />
                 </div>
               </div>
@@ -532,11 +532,11 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                   ) : (
                     <div className="w-full max-w-2xl bg-white shadow-2xl p-xl flex flex-col gap-lg" style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
                       <div className="flex flex-col gap-sm border-b-2 border-primary pb-md">
-                        <h5 className="font-headline-md text-center">{(selected.subject || 'DOKUMEN').toUpperCase()}</h5>
-                        <p className="text-center text-body-sm font-semibold">NOMOR: {selected.letter_number || '-'}</p>
+                        <h5 className="font-headline-md text-center !text-[16px] md:text-[24px]">{(selected.subject || 'DOKUMEN').toUpperCase()}</h5>
+                        <p className="text-center text-body-sm font-semibold !text-[13px] md:text-[14px]">NOMOR: {selected.letter_number || '-'}</p>
                       </div>
                       <div className="flex flex-col gap-md text-body-sm leading-relaxed">
-                        <p><strong>Perihal:</strong> {selected.subject || '-'}</p>
+                        <p className="!text-[13px] md:text-[14px]"><strong>Perihal:</strong> {selected.perihal || selected.subject || '-'}</p>
                         <p><strong>Tanggal:</strong> {fmtDate(selected.letter_date || selected.uploaded_at)}</p>
                         <p><strong>Kategori:</strong> {selected.category_id || 'Umum'}</p>
                         <p className="bg-yellow-100 p-2 border-l-4 border-yellow-400"><strong>Snippets:</strong> {snippet(selected)}</p>

@@ -409,7 +409,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
               <span 
-                className={`material-symbols-outlined transition-colors !text-[44px] md:!text-[24px] ${
+                className={`material-symbols-outlined transition-colors !text-[42px] md:!text-[24px] ${
                   showNotifications 
                     ? 'text-primary !opacity-70' 
                     : 'text-on-surface-variant'
@@ -648,7 +648,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowPlatformMenu(!showPlatformMenu)}
               className="p-1.5 rounded-full hover:bg-surface-container transition-colors relative right-[3px]"
             >
-              <span className={`material-symbols-outlined transition-colors !text-[44px] md:!text-[24px] ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}>
+              <span className={`material-symbols-outlined transition-colors !text-[42px] md:!text-[24px] ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}>
                 download
               </span>
             </button>
@@ -734,7 +734,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0 group"
           >
             <span 
-              className={`material-symbols-outlined group-hover:text-primary transition-colors !text-[44px] md:!text-[24px] ${
+              className={`material-symbols-outlined group-hover:text-primary transition-colors !text-[42px] md:!text-[24px] ${
                 currentPage === 'settings' 
                   ? 'text-primary !opacity-70' 
                   : 'text-on-surface-variant'
