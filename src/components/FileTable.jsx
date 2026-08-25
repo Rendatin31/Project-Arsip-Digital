@@ -589,7 +589,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
                       onKeyDown={(e) => handleRenameKeyDown(e, file)}
                       autoFocus
                       rows={1}
-                      className="text-[12px] text-center text-on-surface leading-tight w-full px-1 py-0.5 border border-primary rounded bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary resize-none overflow-hidden"
+                      className="text-[12px] !text-[12px] text-center text-on-surface leading-tight w-full px-1 py-0.5 border border-primary rounded bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary resize-none overflow-hidden"
                       onClick={(e) => e.stopPropagation()}
                     />
                   ) : (
