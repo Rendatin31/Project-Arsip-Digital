@@ -85,7 +85,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
             {/* Header */}
             <div className="mb-2">
-              <h2 className="text-[13px] md:text-sm font-medium text-gray-800 mb-2">Sign in</h2>
+              <h2 className="text-[12px] !text-[12px] md:text-sm font-medium text-gray-800 mb-2">Sign in</h2>
             </div>
 
             {/* Error Message */}
@@ -147,7 +147,7 @@ export default function LoginPage({ onLogin, supabase }) {
                 <button
                   type="button"
                   onClick={() => setShowForgotPasswordModal(true)}
-                  className="text-[11px] md:text-xs text-gray-400 hover:text-[#1976d2] font-bold"
+                  className="text-[11px] !text-[11px] md:text-xs text-gray-400 hover:text-[#1976d2] font-bold"
                 >
                   Forgot Password?
                 </button>
