@@ -286,7 +286,7 @@ export default function DashboardPage({ supabase, userId, user, profile, categor
         <main className="px-lg pt-3 pb-lg space-y-md bg-background min-h-screen">
           <section className="flex flex-col md:flex-row justify-between items-start md:items-end mb-sm">
             <div>
-              <h2 className="font-headline-md !text-lg text-on-surface">Ringkasan Dashboard</h2>
+              <h2 className="font-headline-md !text-xl text-on-surface">Ringkasan Dashboard</h2>
               <p className="text-body-sm text-on-surface-variant">Selamat datang kembali, berikut adalah status arsip Anda hari ini.</p>
             </div>
           </section>
