@@ -50,12 +50,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
-                      ? 'text-secondary bg-secondary-container/30'
+                      ? 'text-secondary'
                       : 'text-on-surface-variant'
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all text-[24px] ${
+                    className={`material-symbols-outlined transition-all text-[40px] ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
                   >
@@ -117,12 +117,12 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
-                      ? 'text-secondary bg-secondary-container/30'
+                      ? 'text-secondary'
                       : 'text-on-surface-variant'
                   }`}
                 >
                   <span 
-                    className={`material-symbols-outlined transition-all text-[24px] ${
+                    className={`material-symbols-outlined transition-all text-[40px] ${
                       isActive && isAllowed ? 'filled-icon' : ''
                     }`}
                   >
@@ -140,11 +140,11 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               onClick={handleMoreClick}
               className={`flex flex-col items-center justify-center gap-0 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                 showMoreMenu
-                  ? 'text-secondary bg-secondary-container/30'
+                  ? 'text-secondary'
                   : 'text-on-surface-variant'
               }`}
             >
-              <span className={`material-symbols-outlined transition-all text-[24px] ${
+              <span className={`material-symbols-outlined transition-all text-[40px] ${
                 showMoreMenu ? 'filled-icon' : ''
               }`}
               >
