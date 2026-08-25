@@ -22,23 +22,41 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
     
     const refreshed = await Promise.all(
       notificationList.map(async (notif) => {
-        if (notif.created_by) {
+        let userIdToFetch = notif.created_by;
+        
+        // If created_by is undefined but creator_avatar_url exists, extract user ID from avatar path
+        if (!userIdToFetch && notif.creator_avatar_url) {
+          // Try multiple patterns to extract user ID
+          let match = notif.creator_avatar_url.match(/avatars\/([a-f0-9-]{36})\//i);
+          
+          if (!match) {
+            match = notif.creator_avatar_url.match(/([a-f0-9-]{36})/i);
+          }
+          
+          if (match) {
+            userIdToFetch = match[1];
+            console.log('🔍 [REFRESH] Extracted user ID from avatar path:', userIdToFetch, 'for notification type:', notif.type);
+          }
+        }
+        
+        if (userIdToFetch) {
           try {
             const { data: profileData, error } = await supabase
               .from('profiles')
               .select('avatar_url')
-              .eq('id', notif.created_by)
+              .eq('id', userIdToFetch)
               .single();
             
             if (error) {
-              console.warn('Failed to fetch avatar for user:', notif.created_by, error);
+              console.warn('Failed to fetch avatar for user:', userIdToFetch, error);
               return notif;
             }
             
             if (profileData) {
-              console.log('✅ Avatar refreshed for notification:', notif.id, 'User:', notif.created_by, 'Avatar:', profileData.avatar_url ? 'has avatar' : 'no avatar');
+              console.log('✅ Avatar refreshed for notification:', notif.id, 'User:', userIdToFetch, 'Avatar:', profileData.avatar_url ? 'has avatar' : 'no avatar');
               return {
                 ...notif,
+                created_by: userIdToFetch, // Persist the extracted ID
                 creator_avatar_url: profileData.avatar_url
               };
             }
@@ -46,7 +64,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             console.error('Error refreshing avatar:', err);
           }
         } else {
-          console.log('⚠️ Notification has no created_by:', notif.id, 'Type:', notif.type);
+          console.log('⚠️ Notification has no created_by:', notif.id, 'Type:', notif.type, 'Avatar URL:', notif.creator_avatar_url || 'none');
         }
         return notif;
       })
