@@ -701,13 +701,14 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}?t=${Date.now()}`}
                                     alt="User Avatar"
                                     className="w-full h-full object-cover"
+                                    style={{ objectFit: 'cover', objectPosition: 'center' }}
                                     onError={(e) => {
                                       // Fallback to account_circle icon if avatar fails to load
                                       e.target.style.display = 'none';
                                       const parent = e.target.parentElement;
                                       parent.classList.remove('bg-surface-container-low');
                                       parent.style.background = 'transparent';
-                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 80px; display: block; width: 100%; height: 100%; line-height: 1; transform: scale(2);">account_circle</span>';
+                                      parent.innerHTML = '<span class="material-symbols-outlined filled-icon text-gray-600" style="font-size: 48px; display: block; width: 100%; height: 100%; line-height: 1;">account_circle</span>';
                                     }}
                                   />
                                 ) : (
