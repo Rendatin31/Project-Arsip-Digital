@@ -285,7 +285,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
   return (
     <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-visible shadow-sm">
       <div className="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-        <h2 className="text-[12px] !text-[12px] font-bold md:font-title-sm md:font-semibold text-on-surface">
+        <h2 className="text-[16px] !text-[16px] font-bold md:font-title-sm md:font-semibold text-on-surface">
           {title}{' '}
           <span className="text-on-surface-variant font-normal text-body-sm ml-sm">
             ({files.length} File)
