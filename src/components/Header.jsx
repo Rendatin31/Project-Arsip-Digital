@@ -57,10 +57,14 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
 
   // Refresh avatars when notification panel is opened
   useEffect(() => {
-    if (showNotifications && notifications.length > 0) {
-      refreshAvatars(notifications).then(setNotifications);
+    if (showNotifications && notifications.length > 0 && supabase) {
+      console.log('🔔 Notification panel opened, refreshing avatars...');
+      refreshAvatars(notifications).then((refreshed) => {
+        console.log('✅ Avatars refreshed, updating state');
+        setNotifications(refreshed);
+      });
     }
-  }, [showNotifications]);
+  }, [showNotifications, supabase]);
 
   // Helper function to get display name for role
   const getRoleDisplayName = (role) => {
@@ -113,15 +117,26 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         if (error) {
           console.error('Error fetching notifications:', error);
         } else if (data) {
+          console.log('📥 Fetched', data.length, 'notifications from database');
+          
           // For each notification, fetch the latest avatar from profiles if created_by exists
           const notificationsWithLatestAvatar = await Promise.all(
             data.map(async (notif) => {
+              console.log('Notification:', notif.id, 'Type:', notif.type, 'created_by:', notif.created_by, 'Old avatar:', notif.creator_avatar_url);
+              
               if (notif.created_by) {
-                const { data: profileData } = await supabase
+                const { data: profileData, error: profileError } = await supabase
                   .from('profiles')
                   .select('avatar_url')
                   .eq('id', notif.created_by)
                   .single();
+                
+                if (profileError) {
+                  console.warn('❌ Failed to fetch profile for user:', notif.created_by, profileError);
+                  return notif;
+                }
+                
+                console.log('✅ Fetched profile - avatar_url:', profileData?.avatar_url);
                 
                 return {
                   ...notif,
@@ -132,6 +147,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             })
           );
           
+          console.log('📦 Final notifications with avatars:', notificationsWithLatestAvatar);
           setNotifications(notificationsWithLatestAvatar);
         }
       } catch (err) {
@@ -669,7 +685,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                 ) : notif.creator_avatar_url ? (
                                   // User action notification WITH avatar → Show actual user avatar
                                   <img 
-                                    src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                                    src={`${supabase.storage.from('avatars').getPublicUrl(notif.creator_avatar_url.replace('avatars/', '')).data.publicUrl}?t=${Date.now()}`}
                                     alt="User Avatar"
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
