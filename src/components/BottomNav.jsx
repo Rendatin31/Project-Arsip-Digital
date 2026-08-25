@@ -13,13 +13,13 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
   ];
 
   // Menu items untuk "Lainnya" - urutan dari atas: Pengaturan, Riwayat Aktivitas, Hak Akses, Direktori Arsip
-  // SEMUA MENU DITAMPILKAN, tapi yang tidak sesuai role akan disabled
+  // HANYA TAMPILKAN MENU SESUAI ROLE USER
   const moreMenuItems = [
     { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
     { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
     { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['super_admin', 'admin'] },
     { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['super_admin', 'admin', 'editor'] },
-  ];
+  ].filter(item => item.allowedRoles.includes(userRole)); // Filter hanya menu yang diizinkan
 
   const handleMoreClick = () => {
     setShowMoreMenu(true);
@@ -186,38 +186,23 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               </div>
             </button>
             
-            {/* Menu Buttons - SHOW ALL, disable if not allowed */}
+            {/* Menu Buttons - HANYA TAMPILKAN SESUAI ROLE */}
             {moreMenuItems.slice().reverse().map((item, index) => {
-              const isAllowed = item.allowedRoles.includes(userRole);
-              
               return (
                 <button
                   key={item.id}
-                  onClick={() => isAllowed && handleMenuItemClick(item.id)}
-                  disabled={!isAllowed}
-                  className={`flex items-center gap-3 animate-scale-in ${
-                    !isAllowed ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className="flex items-center gap-3 animate-scale-in"
                   style={{ animationDelay: `${(index + 1) * 50}ms` }}
                 >
-                  {/* Label - Always visible, grayed out if disabled */}
-                  <span className={`px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap ${
-                    isAllowed 
-                      ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white' 
-                      : 'bg-gray-300 text-gray-500'
-                  }`}>
+                  {/* Label */}
+                  <span className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md whitespace-nowrap">
                     {item.label}
                   </span>
                   
-                  {/* Icon Button - Grayed out if disabled */}
-                  <div className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all ${
-                    isAllowed 
-                      ? 'bg-gradient-to-br from-blue-400 to-blue-500 active:scale-95' 
-                      : 'bg-gray-300'
-                  }`}>
-                    <span className={`material-symbols-outlined text-xl ${
-                      isAllowed ? 'text-white' : 'text-gray-500'
-                    }`}>
+                  {/* Icon Button */}
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-95">
+                    <span className="material-symbols-outlined text-white text-xl">
                       {item.icon}
                     </span>
                   </div>
