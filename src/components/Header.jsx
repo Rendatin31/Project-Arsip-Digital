@@ -54,9 +54,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
 
     const fetchNotifications = async () => {
       try {
+        // Join with profiles table to get the latest avatar_url
         const { data, error } = await supabase
           .from('notifications')
-          .select('*')
+          .select(`
+            *,
+            creator_profile:created_by (
+              avatar_url
+            )
+          `)
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(10);
@@ -64,7 +70,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         if (error) {
           console.error('Error fetching notifications:', error);
         } else {
-          setNotifications(data || []);
+          // Map notifications to include the latest avatar from creator_profile
+          const notificationsWithLatestAvatar = (data || []).map(notif => ({
+            ...notif,
+            // Override creator_avatar_url with the latest avatar from profiles table
+            creator_avatar_url: notif.creator_profile?.avatar_url || notif.creator_avatar_url
+          }));
+          setNotifications(notificationsWithLatestAvatar);
         }
       } catch (err) {
         console.error('Failed to fetch notifications:', err);
@@ -86,17 +98,46 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
           table: 'notifications',
           filter: `user_id=eq.${user.id}`,
         },
-        (payload) => {
+        async (payload) => {
           console.log('Notification change:', payload);
           if (payload.eventType === 'INSERT') {
             const newNotification = payload.new;
+            
+            // Fetch the latest avatar from profiles table for the creator
+            if (newNotification.created_by) {
+              const { data: profileData } = await supabase
+                .from('profiles')
+                .select('avatar_url')
+                .eq('id', newNotification.created_by)
+                .single();
+              
+              if (profileData) {
+                newNotification.creator_avatar_url = profileData.avatar_url;
+              }
+            }
+            
             setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
             
             // 🔔 Send push notification to device
             sendPushNotification(newNotification);
           } else if (payload.eventType === 'UPDATE') {
+            // For updates, also refresh the avatar from profiles
+            const updatedNotification = payload.new;
+            
+            if (updatedNotification.created_by) {
+              const { data: profileData } = await supabase
+                .from('profiles')
+                .select('avatar_url')
+                .eq('id', updatedNotification.created_by)
+                .single();
+              
+              if (profileData) {
+                updatedNotification.creator_avatar_url = profileData.avatar_url;
+              }
+            }
+            
             setNotifications((prev) =>
-              prev.map((n) => (n.id === payload.new.id ? payload.new : n))
+              prev.map((n) => (n.id === updatedNotification.id ? updatedNotification : n))
             );
           } else if (payload.eventType === 'DELETE') {
             setNotifications((prev) => prev.filter((n) => n.id !== payload.old.id));
@@ -105,8 +146,39 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
       )
       .subscribe();
 
+    // Subscribe to profile changes to update avatars in notifications
+    const profileChannel = supabase
+      .channel('profile_avatar_updates')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'profiles',
+        },
+        (payload) => {
+          console.log('Profile updated:', payload);
+          const updatedProfile = payload.new;
+          
+          // Update all notifications from this user with the new avatar
+          setNotifications((prev) =>
+            prev.map((n) => {
+              if (n.created_by === updatedProfile.id) {
+                return {
+                  ...n,
+                  creator_avatar_url: updatedProfile.avatar_url
+                };
+              }
+              return n;
+            })
+          );
+        }
+      )
+      .subscribe();
+
     return () => {
       supabase.removeChannel(channel);
+      supabase.removeChannel(profileChannel);
     };
   }, [user, supabase]);
 
