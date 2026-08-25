@@ -401,14 +401,14 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         )}
       </div>
       <div className="flex items-center gap-lg lg:ml-auto">
-        <div className="flex items-center gap-2 lg:gap-sm">
+        <div className="flex items-center gap-4 lg:gap-sm">
           {/* Notification Button with Dropdown */}
           <div className="relative" ref={notifRef}>
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
-              <span className={`material-symbols-outlined transition-colors ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}>
+              <span className={`material-symbols-outlined transition-colors text-[48px] lg:!text-[24px] ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}>
                 notifications
               </span>
               {unreadCount > 0 && (
@@ -637,7 +637,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowPlatformMenu(!showPlatformMenu)}
               className="p-1.5 rounded-full hover:bg-surface-container transition-colors relative right-[3px]"
             >
-              <span className={`material-symbols-outlined transition-colors ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}>
+              <span className={`material-symbols-outlined transition-colors text-[48px] lg:!text-[24px] ${showPlatformMenu ? 'text-primary' : 'text-on-surface-variant'}`}>
                 download
               </span>
             </button>
@@ -722,7 +722,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             onClick={() => onNavigate?.('settings')} 
             className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0 group"
           >
-            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">
+            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[48px] lg:!text-[24px]">
               settings
             </span>
           </button>
