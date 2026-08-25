@@ -850,7 +850,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               ) : null}
               {/* Default avatar icon - Simple person circle icon with gray background */}
               <div className={`w-8 lg:w-8 h-8 lg:h-8 rounded-full bg-gray-100 flex items-center justify-center avatar-fallback relative left-[4px] lg:left-0 ${profile?.avatar_url ? 'hidden' : ''}`} style={{ border: '2px solid #e5e7eb' }}>
-                <span className="material-symbols-outlined filled-icon text-gray-500" style={{ fontSize: '32px', lineHeight: '1' }}>
+                <span className="material-symbols-outlined filled-icon text-gray-500 text-[32px] lg:!text-[28px]" style={{ lineHeight: '1' }}>
                   account_circle
                 </span>
               </div>
