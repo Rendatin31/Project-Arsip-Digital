@@ -408,7 +408,11 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               onClick={() => setShowNotifications(!showNotifications)}
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
-              <span className={`material-symbols-outlined transition-colors !text-[44px] md:!text-[24px] ${showNotifications ? 'text-primary' : 'text-on-surface-variant'}`}>
+              <span className={`material-symbols-outlined transition-colors !text-[44px] md:!text-[24px] ${
+                showNotifications 
+                  ? 'text-primary filled-icon' 
+                  : 'text-on-surface-variant'
+              }`}>
                 notifications
               </span>
               {unreadCount > 0 && (
