@@ -119,20 +119,32 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         } else if (data) {
           console.log('📥 Fetched', data.length, 'notifications from database');
           
-          // For each notification, fetch the latest avatar from profiles if created_by exists
+          // For each notification, fetch the latest avatar from profiles
           const notificationsWithLatestAvatar = await Promise.all(
             data.map(async (notif) => {
-              console.log('Notification:', notif.id, 'Type:', notif.type, 'created_by:', notif.created_by, 'Old avatar:', notif.creator_avatar_url);
+              let userIdToFetch = notif.created_by;
               
-              if (notif.created_by) {
+              // If created_by is undefined but creator_avatar_url exists, extract user ID from avatar path
+              if (!userIdToFetch && notif.creator_avatar_url) {
+                // Extract user ID from path like: "avatars/68be9126-957e-4b4f-82d4-9d9f790fefe8/avatar.png"
+                const match = notif.creator_avatar_url.match(/avatars\/([a-f0-9-]+)\//);
+                if (match) {
+                  userIdToFetch = match[1];
+                  console.log('🔍 Extracted user ID from avatar path:', userIdToFetch);
+                }
+              }
+              
+              console.log('Notification:', notif.id, 'Type:', notif.type, 'created_by:', notif.created_by, 'extracted_id:', userIdToFetch, 'Old avatar:', notif.creator_avatar_url);
+              
+              if (userIdToFetch) {
                 const { data: profileData, error: profileError } = await supabase
                   .from('profiles')
                   .select('avatar_url')
-                  .eq('id', notif.created_by)
+                  .eq('id', userIdToFetch)
                   .single();
                 
                 if (profileError) {
-                  console.warn('❌ Failed to fetch profile for user:', notif.created_by, profileError);
+                  console.warn('❌ Failed to fetch profile for user:', userIdToFetch, profileError);
                   return notif;
                 }
                 
@@ -140,6 +152,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 
                 return {
                   ...notif,
+                  created_by: userIdToFetch, // Set created_by for future use
                   creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
                 };
               }
