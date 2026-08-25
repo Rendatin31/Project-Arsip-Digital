@@ -411,7 +411,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               <span 
                 className={`material-symbols-outlined transition-colors !text-[44px] md:!text-[24px] ${
                   showNotifications 
-                    ? 'text-primary opacity-40' 
+                    ? 'text-primary !opacity-40' 
                     : 'text-on-surface-variant'
                 }`}
                 style={{
@@ -736,7 +736,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             <span 
               className={`material-symbols-outlined group-hover:text-primary transition-colors !text-[44px] md:!text-[24px] ${
                 currentPage === 'settings' 
-                  ? 'text-primary opacity-40' 
+                  ? 'text-primary !opacity-40' 
                   : 'text-on-surface-variant'
               }`}
               style={{
