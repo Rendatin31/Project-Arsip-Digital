@@ -64,7 +64,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
+                  <span className={`text-[11px] ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -134,7 +134,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] font-medium ${isActive && isAllowed ? 'font-bold' : ''}`}>
+                  <span className={`text-[11px] ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -160,7 +160,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               >
                 more_horiz
               </span>
-              <span className={`text-[11px] font-medium ${showMoreMenu ? 'font-bold' : ''}`}>
+              <span className={`text-[11px] ${showMoreMenu ? 'font-bold' : 'font-normal'}`}>
                 Lainnya
               </span>
             </button>
