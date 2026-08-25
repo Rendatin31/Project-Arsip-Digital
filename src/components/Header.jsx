@@ -18,19 +18,35 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
   const refreshAvatars = async (notificationList) => {
     if (!supabase) return notificationList;
     
+    console.log('🔄 Refreshing avatars for', notificationList.length, 'notifications');
+    
     const refreshed = await Promise.all(
       notificationList.map(async (notif) => {
         if (notif.created_by) {
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('avatar_url')
-            .eq('id', notif.created_by)
-            .single();
-          
-          return {
-            ...notif,
-            creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
-          };
+          try {
+            const { data: profileData, error } = await supabase
+              .from('profiles')
+              .select('avatar_url')
+              .eq('id', notif.created_by)
+              .single();
+            
+            if (error) {
+              console.warn('Failed to fetch avatar for user:', notif.created_by, error);
+              return notif;
+            }
+            
+            if (profileData) {
+              console.log('✅ Avatar refreshed for notification:', notif.id, 'User:', notif.created_by, 'Avatar:', profileData.avatar_url ? 'has avatar' : 'no avatar');
+              return {
+                ...notif,
+                creator_avatar_url: profileData.avatar_url
+              };
+            }
+          } catch (err) {
+            console.error('Error refreshing avatar:', err);
+          }
+        } else {
+          console.log('⚠️ Notification has no created_by:', notif.id, 'Type:', notif.type);
         }
         return notif;
       })
