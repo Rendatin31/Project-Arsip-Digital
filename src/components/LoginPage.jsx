@@ -6,13 +6,27 @@ export default function LoginPage({ onLogin, supabase }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [savedEmail, setSavedEmail] = useState('');
+  const [savedPassword, setSavedPassword] = useState('');
 
   // Check for error from localStorage (set by App.jsx when status is Non-aktif)
+  // Also load saved credentials if "Remember Me" was checked
   useEffect(() => {
     const loginError = localStorage.getItem('loginError');
     if (loginError) {
       setError(loginError);
       localStorage.removeItem('loginError'); // Clear after showing
+    }
+
+    // Load saved credentials
+    const remembered = localStorage.getItem('rememberMe') === 'true';
+    if (remembered) {
+      const email = localStorage.getItem('savedEmail') || '';
+      const password = localStorage.getItem('savedPassword') || '';
+      setSavedEmail(email);
+      setSavedPassword(password);
+      setRememberMe(true);
     }
   }, []);
 
@@ -41,6 +55,18 @@ export default function LoginPage({ onLogin, supabase }) {
         btn.classList.remove('opacity-80');
         btn.disabled = false;
         return;
+      }
+
+      // Save credentials if "Remember Me" is checked
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('savedEmail', email);
+        localStorage.setItem('savedPassword', password);
+      } else {
+        // Clear saved credentials if "Remember Me" is unchecked
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('savedEmail');
+        localStorage.removeItem('savedPassword');
       }
 
       // Login berhasil - tunggu sebentar untuk App.jsx check status
@@ -110,6 +136,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   name="username"
                   placeholder="User Name"
                   type="text"
+                  defaultValue={savedEmail}
                   required
                 />
               </div>
@@ -127,6 +154,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   name="password"
                   placeholder="Password"
                   type={showPassword ? 'text' : 'password'}
+                  defaultValue={savedPassword}
                   required
                 />
                 <button
@@ -141,7 +169,12 @@ export default function LoginPage({ onLogin, supabase }) {
               {/* Options: Remember Me & Forgot Password */}
               <div className="flex items-center justify-between text-xs">
                 <label className="flex items-center space-x-2 cursor-pointer">
-                  <input className="h-4 w-4 text-[#1976d2] focus:ring-[#1976d2] border-gray-300 rounded" type="checkbox" />
+                  <input 
+                    className="h-4 w-4 text-[#1976d2] focus:ring-[#1976d2] border-gray-300 rounded" 
+                    type="checkbox" 
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
                   <span className="text-[13px] !text-[13px] text-gray-600 font-medium">Remember me</span>
                 </label>
                 <button
