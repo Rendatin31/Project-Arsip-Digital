@@ -134,35 +134,57 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               
               // If created_by is undefined but creator_avatar_url exists, extract user ID from avatar path
               if (!userIdToFetch && notif.creator_avatar_url) {
-                // Extract user ID from path like: "avatars/68be9126-957e-4b4f-82d4-9d9f790fefe8/avatar.png"
-                const match = notif.creator_avatar_url.match(/avatars\/([a-f0-9-]+)\//);
+                // Try multiple patterns to extract user ID
+                // Pattern 1: "avatars/68be9126-957e-4b4f-82d4-9d9f790fefe8/avatar.png"
+                let match = notif.creator_avatar_url.match(/avatars\/([a-f0-9-]{36})\//i);
+                
+                // Pattern 2: Just the UUID without "avatars/" prefix
+                if (!match) {
+                  match = notif.creator_avatar_url.match(/([a-f0-9-]{36})/i);
+                }
+                
                 if (match) {
                   userIdToFetch = match[1];
-                  console.log('🔍 Extracted user ID from avatar path:', userIdToFetch);
+                  console.log('🔍 Extracted user ID from avatar path:', userIdToFetch, 'for notification:', notif.id, 'type:', notif.type);
+                } else {
+                  console.warn('⚠️ Could not extract user ID from:', notif.creator_avatar_url);
                 }
               }
               
-              console.log('Notification:', notif.id, 'Type:', notif.type, 'created_by:', notif.created_by, 'extracted_id:', userIdToFetch, 'Old avatar:', notif.creator_avatar_url);
+              console.log('📝 Processing notification:', {
+                id: notif.id,
+                type: notif.type,
+                created_by: notif.created_by,
+                extracted_id: userIdToFetch,
+                old_avatar: notif.creator_avatar_url
+              });
               
               if (userIdToFetch) {
-                const { data: profileData, error: profileError } = await supabase
-                  .from('profiles')
-                  .select('avatar_url')
-                  .eq('id', userIdToFetch)
-                  .single();
-                
-                if (profileError) {
-                  console.warn('❌ Failed to fetch profile for user:', userIdToFetch, profileError);
+                try {
+                  const { data: profileData, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('avatar_url')
+                    .eq('id', userIdToFetch)
+                    .single();
+                  
+                  if (profileError) {
+                    console.warn('❌ Failed to fetch profile for user:', userIdToFetch, profileError);
+                    return notif;
+                  }
+                  
+                  console.log('✅ Fetched profile for', userIdToFetch, '- avatar_url:', profileData?.avatar_url);
+                  
+                  return {
+                    ...notif,
+                    created_by: userIdToFetch, // Set created_by for future use
+                    creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
+                  };
+                } catch (err) {
+                  console.error('💥 Exception fetching profile:', err);
                   return notif;
                 }
-                
-                console.log('✅ Fetched profile - avatar_url:', profileData?.avatar_url);
-                
-                return {
-                  ...notif,
-                  created_by: userIdToFetch, // Set created_by for future use
-                  creator_avatar_url: profileData?.avatar_url || notif.creator_avatar_url
-                };
+              } else {
+                console.warn('⚠️ No user ID for notification:', notif.id, 'type:', notif.type);
               }
               return notif;
             })
