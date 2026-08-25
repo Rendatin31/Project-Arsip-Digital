@@ -425,7 +425,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                               title="Bagikan link download"
                             >
                               <span 
-                                className={`material-symbols-outlined transition-all duration-300 text-[20px] ${
+                                className={`material-symbols-outlined transition-all duration-300 text-[18px] md:text-[20px] ${
                                   sharingDocId === d.id 
                                     ? 'filled-icon text-secondary font-bold' 
                                     : 'text-on-surface-variant group-hover:text-secondary'
