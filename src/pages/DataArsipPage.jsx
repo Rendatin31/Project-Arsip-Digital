@@ -648,7 +648,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                   <div
                     id={`doc-${doc.id}`}
                     key={doc.id}
-                    className={`bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-sm ${highlightedDocId === doc.id ? 'ring-4 ring-secondary/50 bg-secondary/10 animate-pulse' : ''}`}
+                    className={`bg-surface-container-lowest rounded-xl border border-outline-variant px-md py-sm shadow-sm ${highlightedDocId === doc.id ? 'ring-4 ring-secondary/50 bg-secondary/10 animate-pulse' : ''}`}
                   >
                     {/* Category & Status */}
                     <div className="flex items-center justify-between mb-sm">
