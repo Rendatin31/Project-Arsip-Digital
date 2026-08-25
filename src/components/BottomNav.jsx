@@ -58,8 +58,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     className="material-symbols-outlined transition-all text-[40px]"
                     style={{
                       fontVariationSettings: isActive && isAllowed
-                        ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
-                        : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                        ? "'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24"
+                        : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
                     }}
                   >
                     {item.icon}
@@ -96,13 +96,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             ) : null}
             {!profile?.avatar_url && (
               <span 
-                className="material-symbols-outlined text-[40px]"
-                style={{ 
-                  color: '#6b7280',
-                  fontVariationSettings: currentPage === 'profile'
-                    ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
-                    : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
-                }}
+                className="material-symbols-outlined filled-icon text-[40px]"
+                style={{ color: '#6b7280' }}
               >
                 person
               </span>
@@ -133,8 +128,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                     className="material-symbols-outlined transition-all text-[40px]"
                     style={{
                       fontVariationSettings: isActive && isAllowed
-                        ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
-                        : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                        ? "'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24"
+                        : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
                     }}
                   >
                     {item.icon}
@@ -159,8 +154,8 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 className="material-symbols-outlined transition-all text-[40px]"
                 style={{
                   fontVariationSettings: showMoreMenu
-                    ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
-                    : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+                    ? "'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24"
+                    : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
                 }}
               >
                 more_horiz
