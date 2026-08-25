@@ -96,7 +96,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             ) : null}
             {!profile?.avatar_url && (
               <span 
-                className="material-symbols-outlined filled-icon !text-[48px]"
+                className="material-symbols-outlined filled-icon !text-[50px]"
                 style={{ color: '#6b7280' }}
               >
                 person
