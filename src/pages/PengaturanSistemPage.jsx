@@ -383,7 +383,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                     </div>
                     <button
                       onClick={handleAddCategory}
-                      className="flex items-center gap-xs md:gap-sm px-md py-sm bg-secondary text-on-secondary rounded-lg font-medium md:font-semibold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm w-full sm:w-auto justify-center"
+                      className="flex items-center gap-xs md:gap-sm px-md py-sm bg-secondary text-on-secondary rounded-lg !font-medium md:font-semibold text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-sm w-full sm:w-auto justify-center"
                     >
                       <span className="material-symbols-outlined text-[20px]">add</span>
                       Tambah
@@ -473,14 +473,14 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                               <div className="flex gap-xs mt-md pt-md border-t border-outline-variant">
                                 <button
                                   onClick={() => handleEditCategory(category)}
-                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-secondary-container text-secondary rounded-lg font-medium text-sm hover:brightness-95 active:scale-[0.98] transition-all"
+                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-secondary-container text-secondary rounded-lg !font-medium text-sm hover:brightness-95 active:scale-[0.98] transition-all"
                                 >
                                   <span className="material-symbols-outlined text-[18px]">edit</span>
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => handleDeleteCategory(category.id)}
-                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-error-container text-error rounded-lg font-medium text-sm hover:brightness-95 active:scale-[0.98] transition-all"
+                                  className="flex-1 flex items-center justify-center gap-xs px-md py-sm bg-error-container text-error rounded-lg !font-medium text-sm hover:brightness-95 active:scale-[0.98] transition-all"
                                 >
                                   <span className="material-symbols-outlined text-[18px]">delete</span>
                                   Hapus

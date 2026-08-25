@@ -462,7 +462,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 <div className="bg-primary-container p-lg rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1 relative z-10">
                     <p className="text-label-caps text-[14px] text-primary-fixed opacity-70 mb-sm">Status Database Log</p>
-                    <h3 className="!text-[26px] md:!text-[38px] font-bold text-primary-fixed leading-tight mb-sm">Optimal</h3>
+                    <h3 className="!text-[24px] md:!text-[38px] font-bold text-primary-fixed leading-tight mb-sm">Optimal</h3>
                     <p className="text-[14px] text-primary-fixed opacity-90">Pembersihan berkala: 2 Hari lagi</p>
                   </div>
                   <div className="bg-on-primary-fixed-variant p-md rounded-full text-primary-fixed relative z-10">
