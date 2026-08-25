@@ -161,19 +161,21 @@ export default function AddDocumentModal({ categories, directories, userId, curr
         console.error('Gagal mencatat aktivitas unggah:', auditError);
       }
 
-      // Get user profile for notification
+      // Get user profile for notification (including avatar)
       const { data: userProfile } = await supabase
         .from('profiles')
-        .select('full_name')
+        .select('full_name, avatar_url')
         .eq('id', userId)
         .single();
 
       const uploaderName = userProfile?.full_name || 'User';
+      const uploaderAvatar = userProfile?.avatar_url || null;
 
       // Send notification based on document status
       if (form.status === 'PUBLISHED') {
         console.log('=== SENDING UPLOAD NOTIFICATION ===');
         console.log('Uploader:', userId, uploaderName);
+        console.log('Avatar:', uploaderAvatar);
         console.log('Document:', form.subject);
         console.log('Target roles: super_admin, admin, editor, viewer');
         
@@ -184,9 +186,12 @@ export default function AddDocumentModal({ categories, directories, userId, curr
           'upload',
           'Dokumen Baru Dipublikasikan',
           `${uploaderName} mempublikasikan dokumen "${form.subject}"`,
-          ['super_admin', 'admin', 'editor', 'viewer']
+          ['super_admin', 'admin', 'editor', 'viewer'],
+          userId, // creatorUserId
+          uploaderAvatar // creatorAvatarUrl
         );
         
+        console.log('✅ Upload notification sent with avatar');
         console.log('Upload notification result:', result);
         console.log('=== END UPLOAD NOTIFICATION ===');
       }
