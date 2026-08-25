@@ -130,7 +130,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   required
                 />
                 <button
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[13px] !text-[13px] font-bold text-gray-600 hover:text-blue-600"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[12px] !text-[12px] font-bold text-gray-600 hover:text-blue-600"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >
