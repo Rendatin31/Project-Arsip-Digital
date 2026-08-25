@@ -414,7 +414,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               {unreadCount > 0 && (
                 <>
                   <span className="absolute top-1.5 right-1.5 lg:top-2 lg:right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-                  <span className="absolute top-[8px] right-[8px] md:top-1 md:right-1 bg-error text-white text-[11px] lg:text-[10px] font-bold rounded-full w-4 h-4 lg:w-4 lg:h-4 flex items-center justify-center">
+                  <span className="absolute top-[8px] right-[2px] md:top-1 md:right-1 bg-error text-white text-[11px] lg:text-[10px] font-bold rounded-full w-4 h-4 lg:w-4 lg:h-4 flex items-center justify-center">
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 </>
