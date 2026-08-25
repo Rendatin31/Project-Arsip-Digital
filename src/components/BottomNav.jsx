@@ -16,7 +16,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
   // HANYA TAMPILKAN MENU SESUAI ROLE USER
   const moreMenuItems = [
     { id: 'settings', icon: 'settings', label: 'Pengaturan', allowedRoles: ['super_admin', 'admin', 'editor', 'viewer'] },
-    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin', 'admin'] },
+    { id: 'history', icon: 'history', label: 'Riwayat Aktivitas', allowedRoles: ['super_admin'] },
     { id: 'access', icon: 'admin_panel_settings', label: 'Hak Akses', allowedRoles: ['super_admin', 'admin'] },
     { id: 'data-arsip', icon: 'folder', label: 'Direktori Arsip', allowedRoles: ['super_admin', 'admin', 'editor'] },
   ].filter(item => item.allowedRoles.includes(userRole)); // Filter hanya menu yang diizinkan

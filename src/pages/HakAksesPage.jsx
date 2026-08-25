@@ -462,7 +462,7 @@ export default function HakAksesPage({ supabase, userId, user, profile, onNaviga
           {/* Add Button - Mobile only (below description, above table) */}
           <div className="md:hidden mt-md flex justify-end">
             <button 
-              className="flex items-center gap-xs bg-secondary text-on-secondary px-md py-sm rounded-lg text-sm font-semibold hover:opacity-90 transition-all shadow-md" 
+              className="flex items-center gap-xs bg-secondary text-on-secondary px-md py-sm rounded-lg text-sm font-medium hover:opacity-90 transition-all shadow-md" 
               onClick={() => { setForm({ full_name: '', email: '', role: '', status: 'Aktif' }); setShowAddUserModal(true); }}
             >
               <span className="material-symbols-outlined text-[20px]" data-icon="person_add">person_add</span>

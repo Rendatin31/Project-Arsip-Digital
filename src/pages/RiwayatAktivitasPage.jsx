@@ -388,14 +388,14 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
       <div className={renderHeader ? "ml-0 lg:ml-[230px] flex flex-col min-h-screen lg:w-[calc(100%-230px)]" : "flex flex-col min-h-screen"} style={{ width: '100%', minWidth: 0 }}>
         {renderHeader && <Header user={user} profile={currentProfile} onLogout={() => {}} breadcrumbs={[{ id: null, name: 'home' }, { id: 'arsip-digital', name: 'Arsip Digital' }, { id: 'history', name: 'Riwayat Aktivitas' }]} onNavigate={onNavigate} supabase={supabase} />}
 
-        {/* Access Guard - Only Super Admin and Admin */}
-        {profile?.role !== 'super_admin' && profile?.role !== 'admin' ? (
+        {/* Access Guard - Only Super Admin */}
+        {profile?.role !== 'super_admin' ? (
           <div className="flex-1 overflow-auto flex items-center justify-center">
             <div className="text-center max-w-md p-lg">
               <span className="material-symbols-outlined text-6xl text-outline mb-md block">lock</span>
               <h2 className="text-2xl font-bold text-primary mb-sm">Akses Terbatas</h2>
               <p className="text-on-surface-variant mb-lg">
-                Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Super Admin</span> dan <span className="font-bold text-primary">Admin</span>.
+                Halaman ini hanya dapat diakses oleh <span className="font-bold text-primary">Super Admin</span>.
               </p>
               <button 
                 onClick={() => onNavigate?.('dashboard')} 
@@ -411,7 +411,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
             <section className="space-y-md px-lg sm:px-md lg:px-[25px] max-w-full">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
-                  <h2 className="font-headline-md text-xl text-on-surface">Riwayat Aktivitas</h2>
+                  <h2 className="font-headline-md text-lg text-on-surface">Riwayat Aktivitas</h2>
                   <p className="text-[15px] text-on-surface-variant mb-md">Pantau jejak digital dan log keamanan sistem secara real-time.</p>
                 </div>
                 {/* Hidden export buttons
@@ -433,7 +433,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   <div className="min-w-0 flex-1">
                     <div>
                       <p className="text-label-caps text-[14px] text-on-surface-variant mb-sm">Total Aktivitas Hari Ini</p>
-                      <h3 className="!text-[34px] md:!text-[38px] font-bold text-primary leading-tight mb-sm">{todayActivitiesCount}</h3>
+                      <h3 className="!text-[30px] md:!text-[38px] font-bold text-primary leading-tight mb-sm">{todayActivitiesCount}</h3>
                       <p className="text-[14px] text-secondary flex items-center gap-xs">
                         <span className="material-symbols-outlined text-[16px]">trending_up</span>
                         Menampilkan data nyata
@@ -448,7 +448,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                   <div className="min-w-0 flex-1">
                     <div>
                       <p className="text-label-caps text-[14px] text-on-surface-variant mb-sm">Peringatan Keamanan</p>
-                      <h3 className="!text-[34px] md:!text-[38px] font-bold text-error leading-tight mb-sm">{securityWarningsCount}</h3>
+                      <h3 className="!text-[30px] md:!text-[38px] font-bold text-error leading-tight mb-sm">{securityWarningsCount}</h3>
                       <p className="text-[14px] text-error flex items-center gap-xs">
                         <span className="material-symbols-outlined text-[16px]">warning</span>
                         Butuh perhatian segera
@@ -462,7 +462,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 <div className="bg-primary-container p-lg rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1 relative z-10">
                     <p className="text-label-caps text-[14px] text-primary-fixed opacity-70 mb-sm">Status Database Log</p>
-                    <h3 className="!text-[30px] md:!text-[38px] font-bold text-primary-fixed leading-tight mb-sm">Optimal</h3>
+                    <h3 className="!text-[26px] md:!text-[38px] font-bold text-primary-fixed leading-tight mb-sm">Optimal</h3>
                     <p className="text-[14px] text-primary-fixed opacity-90">Pembersihan berkala: 2 Hari lagi</p>
                   </div>
                   <div className="bg-on-primary-fixed-variant p-md rounded-full text-primary-fixed relative z-10">
