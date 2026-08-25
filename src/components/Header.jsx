@@ -416,7 +416,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                 }`}
                 style={{
                   fontVariationSettings: showNotifications 
-                    ? "'FILL' 0.5, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
+                    ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
                     : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
                 }}
               >
@@ -741,7 +741,7 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               }`}
               style={{
                 fontVariationSettings: currentPage === 'settings' 
-                  ? "'FILL' 0.5, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
+                  ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
                   : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
               }}
             >
