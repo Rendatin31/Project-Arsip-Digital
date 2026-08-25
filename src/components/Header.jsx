@@ -41,33 +41,15 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
         
         // FALLBACK: If still no user ID, try to find user by name from message
         // Message format: "username mengunggah/memperbarui/mempublikasikan dokumen ..."
+        // Note: This fallback is disabled because it requires RPC function for RLS bypass
+        // New notifications (after this fix) will have created_by and creator_avatar_url
         if (!userIdToFetch && notif.message) {
-          const nameMatch = notif.message.match(/^(\w+)\s+(mengunggah|memperbarui|mempublikasikan)/);
+          const nameMatch = notif.message.match(/^(\w+)\s+(mengunggah|memperbarui|mempublikasikan|memperbarui)/);
           if (nameMatch) {
             const username = nameMatch[1];
-            console.log('🔍 [FALLBACK] Trying to find user by name:', username);
-            
-            try {
-              const { data: userByName } = await supabase
-                .from('profiles')
-                .select('id, avatar_url')
-                .ilike('full_name', `%${username}%`)
-                .single();
-              
-              if (userByName) {
-                userIdToFetch = userByName.id;
-                console.log('✅ Found user by name:', username, '→ ID:', userIdToFetch);
-                
-                // Return immediately with the found avatar
-                return {
-                  ...notif,
-                  created_by: userIdToFetch,
-                  creator_avatar_url: userByName.avatar_url
-                };
-              }
-            } catch (err) {
-              console.warn('Could not find user by name:', username);
-            }
+            console.log('⚠️ [FALLBACK SKIPPED] Old notification without creator info:', username);
+            // Skip fallback - old notifications will show default avatar
+            // New notifications will have proper creator info
           }
         }
         
