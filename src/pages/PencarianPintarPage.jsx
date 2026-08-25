@@ -224,7 +224,7 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
             <section className="space-y-md">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
-                  <h2 className="font-headline-md text-lg text-on-surface">Temukan Dokumen Anda</h2>
+                  <h2 className="font-headline-md !text-lg text-on-surface">Temukan Dokumen Anda</h2>
                   <p className="text-[13px] text-on-surface-variant">Cari berdasarkan metadata atau konten teks dalam dokumen (OCR).</p>
                 </div>
                 <div className="flex bg-surface-container rounded-full p-1 border border-outline-variant">

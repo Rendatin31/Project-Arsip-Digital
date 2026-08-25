@@ -411,7 +411,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
             <section className="space-y-md px-lg sm:px-md lg:px-[25px] max-w-full">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
-                  <h2 className="font-headline-md text-lg text-on-surface">Riwayat Aktivitas</h2>
+                  <h2 className="font-headline-md !text-lg text-on-surface">Riwayat Aktivitas</h2>
                   <p className="text-[15px] text-on-surface-variant mb-md">Pantau jejak digital dan log keamanan sistem secara real-time.</p>
                 </div>
                 {/* Hidden export buttons

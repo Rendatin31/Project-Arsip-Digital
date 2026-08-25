@@ -366,7 +366,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
 {/* Page Header & Action Bar */}
                 <div style={{ marginTop: '24px' }} className="flex flex-col gap-sm md:flex-row md:items-end md:justify-between">
                   <div className="space-y-0">
-                    <h5 className="font-display-md text-lg font-bold text-primary">Direktori Arsip</h5>
+                    <h5 className="font-display-md !text-xl font-bold text-primary">Direktori Arsip</h5>
                    <p className="text-on-surface-variant text-body-sm">Pusat manajemen dan penyimpanan dokumen digital terpadu.</p>
                 </div>
               </div>
