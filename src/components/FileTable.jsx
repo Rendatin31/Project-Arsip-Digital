@@ -285,7 +285,7 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
   return (
     <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-visible shadow-sm">
       <div className="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-        <h2 className="font-title-sm text-on-surface">
+        <h2 className="text-[16px] md:font-title-sm text-on-surface">
           {title}{' '}
           <span className="text-on-surface-variant font-normal text-body-sm ml-sm">
             ({files.length} File)
@@ -589,12 +589,12 @@ export default function FileTable({ files, title = 'File Saya', onOpenAdd, supab
                       onKeyDown={(e) => handleRenameKeyDown(e, file)}
                       autoFocus
                       rows={1}
-                      className="text-[11px] md:text-[12px] text-center text-on-surface leading-tight w-full px-1 py-0.5 border border-primary rounded bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary resize-none overflow-hidden"
+                      className="text-[12px] text-center text-on-surface leading-tight w-full px-1 py-0.5 border border-primary rounded bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary resize-none overflow-hidden"
                       onClick={(e) => e.stopPropagation()}
                     />
                   ) : (
                     <p 
-                      className="text-[11px] md:text-[12px] text-center text-on-surface leading-tight w-full line-clamp-4 break-words cursor-text hover:bg-primary/10 px-1 py-0.5 rounded transition-colors" 
+                      className="text-[12px] text-center text-on-surface leading-tight w-full line-clamp-4 break-words cursor-text hover:bg-primary/10 px-1 py-0.5 rounded transition-colors" 
                       title={file.fileName}
                       onClick={(e) => {
                         e.stopPropagation();

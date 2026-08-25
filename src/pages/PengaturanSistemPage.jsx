@@ -502,7 +502,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   <div>
                     <div className="space-y-sm max-w-2xl">
                       <div className="mb-sm">
-                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Password Saat Ini</label>
+                        <label className="text-[15px] md:text-base font-semibold text-on-surface block mb-xs">Password Saat Ini</label>
                         <div className="relative">
                           <input
                             type={showCurrentPassword ? "text" : "password"}
@@ -524,7 +524,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-sm">
-                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Password Baru</label>
+                        <label className="text-[15px] md:text-base font-semibold text-on-surface block mb-xs">Password Baru</label>
                         <div className="relative">
                           <input
                             type={showNewPassword ? "text" : "password"}
@@ -546,7 +546,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                         </div>
                       </div>
                       <div className="mb-md">
-                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
+                        <label className="text-[15px] md:text-base font-semibold text-on-surface block mb-xs">Konfirmasi Password Baru</label>
                         <div className="relative">
                           <input
                             type={showConfirmPassword ? "text" : "password"}
@@ -599,7 +599,7 @@ export default function PengaturanSistemPage({ supabase, userId, user, profile, 
                   {!Capacitor.isNativePlatform() && (
                     <div className="mb-md mt-md">
                       <div className="max-w-2xl">
-                        <label className="text-sm md:text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
+                        <label className="text-[15px] md:text-base font-semibold text-on-surface block mb-xs">Timeout Otomatis</label>
                         <select
                           value={sessionTimeout}
                           onChange={(e) => setSessionTimeout(e.target.value)}
