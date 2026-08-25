@@ -783,9 +783,8 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
                                     }}
                                   >
                                     <span 
-                                      className="material-symbols-outlined filled-icon text-gray-500"
+                                      className="material-symbols-outlined filled-icon text-gray-500 !text-[48px] md:!text-[40px]"
                                       style={{ 
-                                        fontSize: '40px',
                                         lineHeight: '1',
                                         display: 'block',
                                         textAlign: 'center'
