@@ -436,8 +436,8 @@ export default function PencarianPintarPage({ supabase, userId, user, profile, o
                             </button>
                           </div>
                         </div>
-                        <p className="text-body-sm text-on-surface-variant mb-sm truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
-                        <div className="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic text-body-sm text-on-surface break-words line-clamp-3">{d.perihal || '-'}</div>
+                        <p className="!text-[13px] md:text-body-sm text-on-surface-variant mb-sm truncate">No: {d.letter_number || '-'} | Tanggal: {fmtDate(d.letter_date || d.uploaded_at)}</p>
+                        <div className="bg-surface-container-low p-sm rounded-lg border border-outline-variant italic !text-[13px] md:text-body-sm text-on-surface break-words line-clamp-3">{d.perihal || '-'}</div>
                       </div>
                     );
                   })

@@ -111,7 +111,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
             {/* Header */}
             <div className="mb-2">
-              <h2 className="text-[16px] !text-[16px] md:text-sm font-bold md:font-bold text-gray-500 mb-2">Sign in</h2>
+              <h2 className="text-[16px] !text-[16px] md:text-sm font-bold md:font-bold text-gray-800 mb-2">Sign in</h2>
             </div>
 
             {/* Error Message */}
