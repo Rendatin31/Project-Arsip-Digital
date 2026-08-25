@@ -124,6 +124,14 @@
     line-height: 26px !important;
   }
   
+  /* Subheader text - force 14px */
+  h2 + p,
+  .text-headline-md + p,
+  [class*="text-headline-md"] + p {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+  
   /* Label and small text */
   .text-[11px],
   .text-[12px],
