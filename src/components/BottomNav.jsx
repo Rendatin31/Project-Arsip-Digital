@@ -125,7 +125,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className="material-symbols-outlined transition-all text-[41px]"
+                    className="material-symbols-outlined transition-all text-[42px]"
                     style={{
                       fontVariationSettings: isActive && isAllowed
                         ? "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
