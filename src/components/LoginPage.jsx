@@ -85,7 +85,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
             {/* Header */}
             <div className="mb-2">
-              <h2 className="text-[12px] !text-[12px] md:text-sm font-medium text-gray-800 mb-2">Sign in</h2>
+              <h2 className="text-[14px] !text-[14px] md:text-sm font-medium text-gray-800 mb-2">Sign in</h2>
             </div>
 
             {/* Error Message */}
@@ -105,7 +105,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   </svg>
                 </div>
                 <input
-                  className="block w-full pl-10 pr-3 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[13px] md:text-sm !text-[13px] md:!text-sm placeholder-gray-400 transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[14px] md:text-sm !text-[14px] md:!text-sm placeholder-gray-400 transition-all outline-none"
                   id="username"
                   name="username"
                   placeholder="User Name"
@@ -122,7 +122,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   </svg>
                 </div>
                 <input
-                  className="block w-full pl-10 pr-16 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[13px] md:text-sm !text-[13px] md:!text-sm placeholder-gray-400 transition-all outline-none"
+                  className="block w-full pl-10 pr-16 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[14px] md:text-sm !text-[14px] md:!text-sm placeholder-gray-400 transition-all outline-none"
                   id="password"
                   name="password"
                   placeholder="Password"
@@ -130,7 +130,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   required
                 />
                 <button
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[10px] font-bold text-gray-600 hover:text-blue-600"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[14px] !text-[14px] font-bold text-gray-600 hover:text-blue-600"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -141,13 +141,13 @@ export default function LoginPage({ onLogin, supabase }) {
               {/* Options: Remember Me & Forgot Password */}
               <div className="flex items-center justify-between text-xs">
                 <label className="flex items-center space-x-2 cursor-pointer">
-                  <input className="h-4 w-4 text-[#006c49] focus:ring-[#006c49] border-gray-300 rounded" type="checkbox" />
-                  <span className="text-gray-600 font-medium">Remember me</span>
+                  <input className="h-4 w-4 text-[#1976d2] focus:ring-[#1976d2] border-gray-300 rounded" type="checkbox" />
+                  <span className="text-[12px] !text-[12px] text-gray-600 font-medium">Remember me</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowForgotPasswordModal(true)}
-                  className="text-[11px] !text-[11px] md:text-xs text-gray-400 hover:text-[#1976d2] font-bold"
+                  className="text-[12px] !text-[12px] md:text-xs text-gray-400 hover:text-[#1976d2] font-bold"
                 >
                   Forgot Password?
                 </button>
