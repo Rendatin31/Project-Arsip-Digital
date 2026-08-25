@@ -85,7 +85,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
             {/* Header */}
             <div className="mb-2">
-              <h2 className="text-sm font-medium text-gray-800 mb-2">Sign in</h2>
+              <h2 className="text-[13px] md:text-sm font-medium text-gray-800 mb-2">Sign in</h2>
             </div>
 
             {/* Error Message */}
@@ -105,7 +105,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   </svg>
                 </div>
                 <input
-                  className="block w-full pl-10 pr-3 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#006c49] text-sm placeholder-gray-400 transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[13px] md:text-sm !text-[13px] md:!text-sm placeholder-gray-400 transition-all outline-none"
                   id="username"
                   name="username"
                   placeholder="User Name"
@@ -122,7 +122,7 @@ export default function LoginPage({ onLogin, supabase }) {
                   </svg>
                 </div>
                 <input
-                  className="block w-full pl-10 pr-16 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#006c49] text-sm placeholder-gray-400 transition-all outline-none"
+                  className="block w-full pl-10 pr-16 py-3 border-none bg-gray-100 rounded-lg focus:ring-2 focus:ring-[#1976d2] text-[13px] md:text-sm !text-[13px] md:!text-sm placeholder-gray-400 transition-all outline-none"
                   id="password"
                   name="password"
                   placeholder="Password"
@@ -147,7 +147,7 @@ export default function LoginPage({ onLogin, supabase }) {
                 <button
                   type="button"
                   onClick={() => setShowForgotPasswordModal(true)}
-                  className="text-gray-400 hover:text-[#006c49] font-bold"
+                  className="text-[11px] md:text-xs text-gray-400 hover:text-[#1976d2] font-bold"
                 >
                   Forgot Password?
                 </button>
@@ -155,7 +155,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
               {/* Main Sign In Button */}
               <button
-                className="w-full bg-[#10b981] text-white font-bold py-2.5 rounded-lg hover:bg-[#059669] transition-colors shadow-lg active:scale-[0.98] transform"
+                className="w-full bg-[#1976d2] text-white font-bold py-2.5 rounded-lg hover:bg-[#1565c0] transition-colors shadow-lg active:scale-[0.98] transform"
                 type="submit"
               >
                 Sign in
