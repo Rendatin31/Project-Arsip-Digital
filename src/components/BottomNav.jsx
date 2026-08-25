@@ -46,7 +46,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center gap-0 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -64,7 +64,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
+                  <span className={`text-[11px] -mt-1 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -116,7 +116,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center gap-0 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -134,7 +134,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
+                  <span className={`text-[11px] -mt-1 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -144,7 +144,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             {/* More Button */}
             <button
               onClick={handleMoreClick}
-              className={`flex flex-col items-center justify-center gap-0 px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+              className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
                 showMoreMenu
                   ? 'text-secondary'
                   : 'text-on-surface-variant'
@@ -160,7 +160,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               >
                 more_horiz
               </span>
-              <span className={`text-[11px] ${showMoreMenu ? 'font-bold' : 'font-normal'}`}>
+              <span className={`text-[11px] -mt-1 ${showMoreMenu ? 'font-bold' : 'font-normal'}`}>
                 Lainnya
               </span>
             </button>
