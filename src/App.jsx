@@ -1114,6 +1114,7 @@ export default function App({ supabase }) {
           searchPlaceholder="Cari dokumen berdasarkan nama, subjek, atau nomor surat..."
           supabase={supabase}
           onMenuClick={() => setIsSidebarOpen(true)}
+          currentPage={currentPage}
         />
         
         {currentPage === 'dashboard' ? (

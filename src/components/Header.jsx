@@ -3,7 +3,7 @@ import CompactAlert from './CompactAlert';
 import { initializePushNotifications, sendPushNotification, setupNotificationListeners } from '../utils/pushNotifications';
 import { downloadAndInstallAPK } from '../utils/apkDownloader';
 
-export default function Header({ user, profile, onLogout, breadcrumbs = [], onNavigate, showSearch = false, searchValue = '', onSearchChange, searchPlaceholder = 'Cari dokumen...', supabase, onMenuClick }) {
+export default function Header({ user, profile, onLogout, breadcrumbs = [], onNavigate, showSearch = false, searchValue = '', onSearchChange, searchPlaceholder = 'Cari dokumen...', supabase, onMenuClick, currentPage }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -733,7 +733,18 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
             onClick={() => onNavigate?.('settings')} 
             className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative right-[3px] lg:right-0 group"
           >
-            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors !text-[44px] md:!text-[24px]">
+            <span 
+              className={`material-symbols-outlined group-hover:text-primary transition-colors !text-[44px] md:!text-[24px] ${
+                currentPage === 'settings' 
+                  ? 'text-primary' 
+                  : 'text-on-surface-variant'
+              }`}
+              style={{
+                fontVariationSettings: currentPage === 'settings' 
+                  ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
+                  : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+              }}
+            >
               settings
             </span>
           </button>
