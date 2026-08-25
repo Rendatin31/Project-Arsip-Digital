@@ -376,7 +376,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant mb-3 overflow-hidden">
                {/* Filter Header - Always Visible, Clickable on Mobile */}
                <div 
-                 className="p-md flex items-center justify-between cursor-pointer md:cursor-default"
+                 className="px-md py-sm flex items-center justify-between cursor-pointer md:cursor-default"
                  onClick={() => setIsFilterExpanded(!isFilterExpanded)}
                >
                  <div className="flex items-center gap-sm text-on-surface-variant">
@@ -400,7 +400,7 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                {/* Filter Content - Collapsible on Mobile, Always Visible on Desktop */}
                <div className={`${isFilterExpanded ? 'block' : 'hidden'} md:block border-t border-outline-variant`}>
                  {/* Mobile Layout - Stacked */}
-                 <div className="md:hidden p-md space-y-md">
+                 <div className="md:hidden px-md py-sm space-y-md">
                    {/* Filter Inputs */}
                    <div className="flex flex-wrap gap-sm">
                      <div className="relative group flex-1 min-w-[160px]">
@@ -661,14 +661,14 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                     
                     {/* Subject */}
                     <div className="mb-sm">
-                      <p className="font-semibold text-primary text-sm">{doc.subject}</p>
+                      <p className="font-semibold text-primary text-base">{doc.subject}</p>
                       {doc.perihal && (
-                        <p className="text-[12px] text-on-surface-variant mt-1">{doc.perihal}</p>
+                        <p className="text-[14px] text-on-surface-variant mt-1">{doc.perihal}</p>
                       )}
                     </div>
                     
                     {/* Date */}
-                    <div className="flex items-center gap-xs text-[12px] text-on-surface-variant mb-md">
+                    <div className="flex items-center gap-xs text-[14px] text-on-surface-variant mb-md">
                       <span className="material-symbols-outlined text-[16px]">calendar_today</span>
                       <span>{doc.dateModified}</span>
                     </div>
@@ -677,23 +677,23 @@ export default function DataArsipPage({ supabase, userId, user, profile, onBack,
                     <div className="flex items-center gap-xs pt-sm border-t border-outline-variant">
                       <button 
                         onClick={() => handleView(doc)} 
-                        className="flex-1 flex items-center justify-center gap-xs py-sm px-md bg-secondary text-white rounded-lg text-[13px] font-semibold hover:brightness-110 transition-all"
+                        className="flex-1 flex items-center justify-center gap-xs py-xs px-md bg-secondary text-white rounded-lg text-[14px] font-semibold hover:brightness-110 transition-all"
                       >
-                        <span className="material-symbols-outlined text-[18px]">visibility</span>
+                        <span className="material-symbols-outlined text-[20px]">visibility</span>
                         Lihat
                       </button>
                       <button 
                         onClick={() => handleDownload(doc)} 
-                        className="flex items-center justify-center gap-xs py-sm px-md bg-surface-container rounded-lg text-[13px] font-semibold hover:bg-surface-container-high transition-all"
+                        className="flex items-center justify-center gap-xs py-xs px-md bg-surface-container rounded-lg text-[14px] font-semibold hover:bg-surface-container-high transition-all"
                       >
-                        <span className="material-symbols-outlined text-[18px]">download</span>
+                        <span className="material-symbols-outlined text-[20px]">download</span>
                       </button>
                       {profile?.role === 'super_admin' && (
                         <button 
                           onClick={() => handleDelete(doc)} 
-                          className="flex items-center justify-center gap-xs py-sm px-md bg-error-container/30 text-error rounded-lg text-[13px] font-semibold hover:bg-error-container/50 transition-all"
+                          className="flex items-center justify-center gap-xs py-xs px-md bg-error-container/30 text-error rounded-lg text-[14px] font-semibold hover:bg-error-container/50 transition-all"
                         >
-                          <span className="material-symbols-outlined text-[18px]">delete</span>
+                          <span className="material-symbols-outlined text-[20px]">delete</span>
                         </button>
                       )}
                     </div>
