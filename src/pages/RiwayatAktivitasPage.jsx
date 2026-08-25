@@ -733,10 +733,10 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                       {/* Header: Time & Activity Badge */}
                       <div className="flex items-start justify-between mb-sm gap-sm">
                         <div className="flex-1 min-w-0">
-                          <p className="text-[11px] text-on-surface-variant font-medium">{row.time}</p>
+                          <p className="text-[14px] text-on-surface-variant font-medium">{row.time}</p>
                         </div>
-                        <span className={`px-sm py-xs ${row.typeColor} rounded text-[11px] font-bold inline-flex items-center gap-xs flex-shrink-0`}>
-                          <span className="material-symbols-outlined text-[12px]">{row.icon}</span>
+                        <span className={`px-sm py-xs ${row.typeColor} rounded text-[13px] font-bold inline-flex items-center gap-xs flex-shrink-0`}>
+                          <span className="material-symbols-outlined text-[14px]">{row.icon}</span>
                           {row.type}
                         </span>
                       </div>
@@ -751,17 +751,17 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-on-surface truncate">{displayName}</p>
-                          <p className="text-[11px] text-on-surface-variant font-mono">{row.ip}</p>
+                          <p className="text-base font-semibold text-on-surface truncate">{displayName}</p>
+                          <p className="text-[13px] text-on-surface-variant font-mono">{row.ip}</p>
                         </div>
                       </div>
                       
                       {/* Detail */}
                       <div className="mb-md">
                         <div className="flex items-start gap-xs">
-                          <p className="text-[13px] text-on-surface break-words flex-1">{row.detail}</p>
+                          <p className="text-[15px] text-on-surface break-words flex-1">{row.detail}</p>
                           {reviewedIds.has(row.id) && (
-                            <span className="material-symbols-outlined text-[16px] text-[#4CAF50] drop-shadow-md flex-shrink-0">check</span>
+                            <span className="material-symbols-outlined text-[18px] text-[#4CAF50] drop-shadow-md flex-shrink-0">check</span>
                           )}
                         </div>
                       </div>
@@ -769,22 +769,22 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                       {/* Action Button */}
                       <div className="pt-sm border-t border-outline-variant">
                         {reviewedIds.has(row.id) ? (
-                          <div className="py-sm text-[13px] font-bold text-[#4CAF50] text-center">
+                          <div className="py-sm text-[15px] font-bold text-[#4CAF50] text-center">
                             ✓ Telah ditinjau
                           </div>
                         ) : (
                           <button
                             onClick={() => handleReview(row.id)}
-                            className="w-full py-sm px-md bg-secondary text-white rounded-lg text-[13px] font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-xs"
+                            className="w-full py-sm px-md bg-secondary text-white rounded-lg text-[15px] font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-xs"
                           >
                             {reviewingId === row.id ? (
                               <>
-                                <span className="material-symbols-outlined text-[16px] animate-pulse">check</span>
+                                <span className="material-symbols-outlined text-[18px] animate-pulse">check</span>
                                 Menyimpan...
                               </>
                             ) : (
                               <>
-                                <span className="material-symbols-outlined text-[16px]">task_alt</span>
+                                <span className="material-symbols-outlined text-[18px]">task_alt</span>
                                 Tinjau Aktivitas
                               </>
                             )}
@@ -798,7 +798,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
               
               {/* Mobile Pagination */}
               <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
-                <p className="text-[12px] text-on-surface-variant text-center mb-sm">
+                <p className="text-[14px] text-on-surface-variant text-center mb-sm">
                   Menampilkan {filtered.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filtered.length)} dari {filtered.length} aktivitas
                 </p>
                 <div className="flex items-center justify-center gap-xs">
@@ -807,10 +807,10 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                     disabled={currentPage === 1}
                     className="w-9 h-9 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+                    <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                   </button>
                   
-                  <span className="px-md py-xs text-[13px] font-semibold text-on-surface">
+                  <span className="px-md py-xs text-[15px] font-semibold text-on-surface">
                     {currentPage} / {totalPages || 1}
                   </span>
                   
