@@ -76,11 +76,11 @@ export default function LoginPage({ onLogin, supabase }) {
                   className="h-24 w-auto object-contain"
                 />
               </div>
-              <h1 className="text-2xl uppercase mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, letterSpacing: '0.08em' }}>
+              <h1 className="text-2xl !text-[25px] md:!text-2xl uppercase mb-0" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, letterSpacing: '0.08em' }}>
                 <span style={{ color: '#3b82f6' }}>ARSIP</span>
                 <span style={{ color: '#1f2937' }}> DIGITAL</span>
               </h1>
-              <p className="text-xs font-medium text-gray-600 mb-10">Divisi Rendatin - KPU Halmahera Utara</p>
+              <p className="text-xs font-medium text-gray-600 mb-10 !text-[13px] md:!text-xs">Divisi Rendatin - KPU Halmahera Utara</p>
             </div>
 
             {/* Header */}
@@ -164,7 +164,7 @@ export default function LoginPage({ onLogin, supabase }) {
 
             {/* Footer */}
             <div className="mt-8 text-center">
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-400 !text-[13px] md:!text-xs">
                 Don't have an account?{' '}
                 <a className="text-gray-600 font-bold hover:underline" href="#">
                   Contact Admin
