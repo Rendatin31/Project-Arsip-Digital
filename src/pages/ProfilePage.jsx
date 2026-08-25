@@ -449,7 +449,7 @@ export default function ProfilePage({ supabase, userId, user, profile, onNavigat
               onClick={handleLogout}
               className="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1 transition-colors ml-auto"
             >
-              <span className="material-symbols-outlined !text-[14px] md:!text-[16px] hidden md:inline">logout</span>
+              <span className="material-symbols-outlined !text-[14px] md:!text-[16px] hidden">logout</span>
               <span>Log Out</span>
             </button>
           </div>
