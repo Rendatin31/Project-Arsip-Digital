@@ -410,7 +410,7 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-md">
                 <div>
                   <h2 className="font-headline-md text-xl text-on-surface">Riwayat Aktivitas</h2>
-                  <p className="text-[13px] text-on-surface-variant mb-md">Pantau jejak digital dan log keamanan sistem secara real-time.</p>
+                  <p className="text-[15px] text-on-surface-variant mb-md">Pantau jejak digital dan log keamanan sistem secara real-time.</p>
                 </div>
                 {/* Hidden export buttons
                 <div className="flex gap-sm">
@@ -430,10 +430,10 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center justify-between min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1">
                     <div>
-                      <p className="text-label-caps text-on-surface-variant">Total Aktivitas Hari Ini</p>
-                      <h3 className="text-display-lg font-bold text-primary">{todayActivitiesCount}</h3>
-                      <p className="text-[12px] text-secondary flex items-center gap-xs mt-xs">
-                        <span className="material-symbols-outlined text-[14px]">trending_up</span>
+                      <p className="text-label-caps text-[14px] text-on-surface-variant">Total Aktivitas Hari Ini</p>
+                      <h3 className="text-[40px] font-bold text-primary leading-tight">{todayActivitiesCount}</h3>
+                      <p className="text-[14px] text-secondary flex items-center gap-xs mt-xs">
+                        <span className="material-symbols-outlined text-[16px]">trending_up</span>
                         Menampilkan data nyata
                       </p>
                     </div>
@@ -445,10 +445,10 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center justify-between min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1">
                     <div>
-                      <p className="text-label-caps text-on-surface-variant">Peringatan Keamanan</p>
-                      <h3 className="text-display-lg font-bold text-error">{securityWarningsCount}</h3>
-                      <p className="text-[12px] text-error flex items-center gap-xs mt-xs">
-                        <span className="material-symbols-outlined text-[14px]">warning</span>
+                      <p className="text-label-caps text-[14px] text-on-surface-variant">Peringatan Keamanan</p>
+                      <h3 className="text-[40px] font-bold text-error leading-tight">{securityWarningsCount}</h3>
+                      <p className="text-[14px] text-error flex items-center gap-xs mt-xs">
+                        <span className="material-symbols-outlined text-[16px]">warning</span>
                         Butuh perhatian segera
                       </p>
                     </div>
@@ -459,9 +459,9 @@ export default function RiwayatAktivitasPage({ supabase, userId, user, profile, 
                 </div>
                 <div className="bg-primary-container p-lg rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden min-w-0 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default">
                   <div className="min-w-0 flex-1 relative z-10">
-                    <p className="text-label-caps text-primary-fixed opacity-70">Status Database Log</p>
-                    <h3 className="text-display-lg font-bold text-primary-fixed">Optimal</h3>
-                    <p className="text-[12px] text-primary-fixed opacity-90 mt-xs">Pembersihan berkala: 2 Hari lagi</p>
+                    <p className="text-label-caps text-[14px] text-primary-fixed opacity-70">Status Database Log</p>
+                    <h3 className="text-[40px] font-bold text-primary-fixed leading-tight">Optimal</h3>
+                    <p className="text-[14px] text-primary-fixed opacity-90 mt-xs">Pembersihan berkala: 2 Hari lagi</p>
                   </div>
                   <div className="bg-on-primary-fixed-variant p-md rounded-full text-primary-fixed relative z-10">
                     <span className="material-symbols-outlined text-3xl">database</span>
