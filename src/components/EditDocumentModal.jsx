@@ -200,14 +200,22 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
         console.error('Gagal mencatat aktivitas ubah:', auditError);
       }
 
-      // Get user profile for notification
+      // Get user profile for notification (including avatar)
       const { data: userProfile } = await supabase
         .from('profiles')
-        .select('full_name')
+        .select('full_name, avatar_url')
         .eq('id', userId)
         .single();
 
       const editorName = userProfile?.full_name || 'User';
+      const editorAvatar = userProfile?.avatar_url || null;
+
+      console.log('📤 Sending notification with editor info:', {
+        userId,
+        editorName,
+        editorAvatar,
+        documentSubject: form.subject
+      });
 
       // Check if status changed to PUBLISHED or already PUBLISHED
       const isPublished = form.status === 'PUBLISHED';
@@ -223,9 +231,11 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
             'approval',
             'Dokumen Dipublikasikan',
             `${editorName} mempublikasikan dokumen "${form.subject}"`,
-            ['super_admin', 'admin', 'editor', 'viewer']
+            ['super_admin', 'admin', 'editor', 'viewer'],
+            userId, // creatorUserId
+            editorAvatar // creatorAvatarUrl
           );
-          console.log('Publish notification sent to all users except editor');
+          console.log('✅ Publish notification sent to all users except editor with avatar');
         } else {
           // Already PUBLISHED, just an update - notify only super_admin, admin & editor (NOT viewer)
           await notifyAllUsersExcept(
@@ -234,9 +244,11 @@ export default function EditDocumentModal({ doc, categories, directories = [], s
             'edit',
             'Dokumen Publik Diperbarui',
             `${editorName} memperbarui dokumen "${form.subject}"`,
-            ['super_admin', 'admin', 'editor']
+            ['super_admin', 'admin', 'editor'],
+            userId, // creatorUserId
+            editorAvatar // creatorAvatarUrl
           );
-          console.log('Edit notification sent to super_admin, admin & editor only (PUBLISHED document)');
+          console.log('✅ Edit notification sent to super_admin, admin & editor with avatar');
         }
       }
       // If DRAFT or PRIVATE, no notification (internal document)
