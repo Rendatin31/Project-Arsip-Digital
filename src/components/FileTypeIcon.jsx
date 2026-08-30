@@ -1,10 +1,18 @@
 export default function FileTypeIcon({ type, size = 40, className = '' }) {
+  // Convert pixel size to responsive rem units for better mobile scaling
+  // 1rem = 16px by default, so divide by 16 to get rem value
+  const responsiveSize = typeof size === 'number' ? `${size / 16}rem` : size;
+  
   const common = {
-    width: size,
-    height: size,
-    className,
+    width: responsiveSize,
+    height: responsiveSize,
+    className: `${className} flex-shrink-0`,
     role: 'img',
     'aria-label': type,
+    style: {
+      minWidth: responsiveSize,
+      minHeight: responsiveSize,
+    }
   };
 
   // PDF Icon
