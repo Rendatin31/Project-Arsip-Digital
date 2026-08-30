@@ -628,12 +628,13 @@ export default function Header({ user, profile, onLogout, breadcrumbs = [], onNa
               className="p-1.5 lg:p-2 rounded-full hover:bg-surface-container transition-colors relative"
             >
               <span 
-                className={`material-symbols-outlined transition-colors !text-[42px] md:!text-[24px] ${
+                className={`material-symbols-outlined transition-colors ${
                   showNotifications 
                     ? 'text-primary !opacity-70' 
                     : 'text-on-surface-variant'
                 }`}
                 style={{
+                  fontSize: 'clamp(1.5rem, 3vw, 1.75rem)', // Responsive: 24px to 28px
                   fontVariationSettings: showNotifications 
                     ? "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24" 
                     : "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"

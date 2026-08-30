@@ -34,9 +34,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     <>
       {/* Bottom Navigation Bar */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-50">
-        <div className="flex items-center justify-between h-18 pl-1 pr-1 relative">
-          {/* Left side - 2 items */}
-          <div className="flex items-center gap-0">
+        <div className="flex items-center justify-around h-18 px-2 relative max-w-screen-sm mx-auto">
+          {/* Left side - 2 items with flexible spacing */}
+          <div className="flex items-center justify-evenly flex-1">
             {mainMenuItems.slice(0, 2).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
@@ -46,7 +46,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -55,8 +55,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className="material-symbols-outlined transition-all text-[42px]"
+                    className="material-symbols-outlined transition-all"
                     style={{
+                      fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', // Responsive: 28px to 36px
                       fontVariationSettings: isActive && isAllowed
                         ? "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
                         : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
@@ -64,7 +65,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] -mt-1 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
+                  <span className={`text-[10px] sm:text-[11px] mt-0.5 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -72,15 +73,20 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             })}
           </div>
           
-          {/* Center Profile Button - Elevated & Bigger */}
+          {/* Center Profile Button - Elevated & Responsive Size */}
           <button
             onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 -top-8 w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+            className={`absolute left-1/2 -translate-x-1/2 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
               currentPage === 'profile' 
                 ? 'ring-4 ring-blue-500' 
                 : 'ring-4 ring-gray-300'
             }`}
-            style={{ borderRadius: '50%' }}
+            style={{ 
+              borderRadius: '50%',
+              width: 'clamp(64px, 18vw, 80px)', // Responsive: 64px to 80px
+              height: 'clamp(64px, 18vw, 80px)',
+              top: 'clamp(-32px, -9vw, -40px)' // Responsive positioning
+            }}
           >
             {profile?.avatar_url && supabase ? (
               <img
@@ -96,16 +102,19 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             ) : null}
             {!profile?.avatar_url && (
               <span 
-                className="material-symbols-outlined filled-icon !text-[50px]"
-                style={{ color: '#6b7280' }}
+                className="material-symbols-outlined filled-icon"
+                style={{ 
+                  color: '#6b7280',
+                  fontSize: 'clamp(2.5rem, 8vw, 3.125rem)' // Responsive: 40px to 50px
+                }}
               >
                 person
               </span>
             )}
           </button>
           
-          {/* Right side - Pencarian & Lainnya */}
-          <div className="flex items-center gap-3">
+          {/* Right side - Pencarian & Lainnya with flexible spacing */}
+          <div className="flex items-center justify-evenly flex-1">
             {/* Pencarian */}
             {mainMenuItems.slice(2, 3).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
@@ -116,7 +125,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -125,8 +134,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   }`}
                 >
                   <span 
-                    className="material-symbols-outlined transition-all text-[42px]"
+                    className="material-symbols-outlined transition-all"
                     style={{
+                      fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', // Responsive: 28px to 36px
                       fontVariationSettings: isActive && isAllowed
                         ? "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
                         : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
@@ -134,7 +144,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   >
                     {item.icon}
                   </span>
-                  <span className={`text-[11px] -mt-1 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
+                  <span className={`text-[10px] sm:text-[11px] mt-0.5 ${isActive && isAllowed ? 'font-bold' : 'font-normal'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -144,15 +154,16 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             {/* More Button */}
             <button
               onClick={handleMoreClick}
-              className={`flex flex-col items-center justify-center px-3 py-1 rounded-lg transition-all duration-200 min-w-[60px] ${
+              className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
                 showMoreMenu
                   ? 'text-secondary'
                   : 'text-on-surface-variant'
               }`}
             >
               <span 
-                className="material-symbols-outlined transition-all text-[42px]"
+                className="material-symbols-outlined transition-all"
                 style={{
+                  fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', // Responsive: 28px to 36px
                   fontVariationSettings: showMoreMenu
                     ? "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"
                     : "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24"
@@ -160,7 +171,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
               >
                 more_horiz
               </span>
-              <span className={`text-[11px] -mt-1 ${showMoreMenu ? 'font-bold' : 'font-normal'}`}>
+              <span className={`text-[10px] sm:text-[11px] mt-0.5 ${showMoreMenu ? 'font-bold' : 'font-normal'}`}>
                 Lainnya
               </span>
             </button>
