@@ -1101,7 +1101,7 @@ export default function App({ supabase }) {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="ml-0 lg:ml-[230px] min-h-screen flex-1 flex flex-col pb-16 lg:pb-0">
+      <div className="ml-0 lg:ml-[230px] min-h-screen flex-1 flex flex-col pb-20 lg:pb-0">
         <Header 
           user={user} 
           profile={profile} 

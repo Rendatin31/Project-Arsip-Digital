@@ -33,7 +33,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
   return (
     <>
       {/* Bottom Navigation Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-50">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-[60]">
         <div className="flex items-center justify-between h-18 px-1 relative max-w-screen-sm mx-auto">
           {/* Left side - 2 items with spacing */}
           <div className="flex items-center justify-start flex-1 gap-1">
@@ -74,10 +74,10 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
           </div>
           
           {/* Center Profile Button - Elevated & Responsive Size with extra space */}
-          <div className="flex items-center justify-center" style={{ width: 'clamp(90px, 24vw, 110px)' }}>
+          <div className="flex items-center justify-center relative" style={{ width: 'clamp(90px, 24vw, 110px)' }}>
             <button
               onClick={() => onNavigate?.('profile')}
-              className={`rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+              className={`rounded-full bg-white shadow-xl flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden relative ${
                 currentPage === 'profile' 
                   ? 'ring-4 ring-blue-500' 
                   : 'ring-4 ring-gray-300'
@@ -86,7 +86,11 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                 borderRadius: '50%',
                 width: 'clamp(64px, 18vw, 80px)', // Responsive: 64px to 80px
                 height: 'clamp(64px, 18vw, 80px)',
-                marginTop: 'clamp(-32px, -9vw, -40px)' // Responsive positioning
+                position: 'absolute',
+                top: 'calc(-1 * clamp(32px, 9vw, 40px) - 8px)', // Elevated higher with extra 8px
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10
               }}
             >
               {profile?.avatar_url && supabase ? (
