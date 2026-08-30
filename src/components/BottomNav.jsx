@@ -34,9 +34,9 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
     <>
       {/* Bottom Navigation Bar */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant z-50">
-        <div className="flex items-center justify-around h-18 px-2 relative max-w-screen-sm mx-auto">
-          {/* Left side - 2 items with flexible spacing */}
-          <div className="flex items-center justify-evenly flex-1">
+        <div className="flex items-center justify-between h-18 px-1 relative max-w-screen-sm mx-auto">
+          {/* Left side - 2 items with spacing */}
+          <div className="flex items-center justify-start flex-1 gap-1">
             {mainMenuItems.slice(0, 2).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
               const isActive = currentPage === item.id;
@@ -46,7 +46,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
+                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 min-w-[70px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -73,48 +73,50 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             })}
           </div>
           
-          {/* Center Profile Button - Elevated & Responsive Size */}
-          <button
-            onClick={() => onNavigate?.('profile')}
-            className={`absolute left-1/2 -translate-x-1/2 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
-              currentPage === 'profile' 
-                ? 'ring-4 ring-blue-500' 
-                : 'ring-4 ring-gray-300'
-            }`}
-            style={{ 
-              borderRadius: '50%',
-              width: 'clamp(64px, 18vw, 80px)', // Responsive: 64px to 80px
-              height: 'clamp(64px, 18vw, 80px)',
-              top: 'clamp(-32px, -9vw, -40px)' // Responsive positioning
-            }}
-          >
-            {profile?.avatar_url && supabase ? (
-              <img
-                src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
-                alt="Profile"
-                className="w-full h-full object-cover scale-[1.1] absolute inset-0 z-10"
-                style={{ objectPosition: '60% 25%' }}
-                onError={(e) => {
-                  // Fallback to icon if image fails to load
-                  e.target.style.display = 'none';
-                }}
-              />
-            ) : null}
-            {!profile?.avatar_url && (
-              <span 
-                className="material-symbols-outlined filled-icon"
-                style={{ 
-                  color: '#6b7280',
-                  fontSize: 'clamp(2.5rem, 8vw, 3.125rem)' // Responsive: 40px to 50px
-                }}
-              >
-                person
-              </span>
-            )}
-          </button>
+          {/* Center Profile Button - Elevated & Responsive Size with extra space */}
+          <div className="flex items-center justify-center" style={{ width: 'clamp(90px, 24vw, 110px)' }}>
+            <button
+              onClick={() => onNavigate?.('profile')}
+              className={`rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white transition-all hover:scale-105 overflow-hidden ${
+                currentPage === 'profile' 
+                  ? 'ring-4 ring-blue-500' 
+                  : 'ring-4 ring-gray-300'
+              }`}
+              style={{ 
+                borderRadius: '50%',
+                width: 'clamp(64px, 18vw, 80px)', // Responsive: 64px to 80px
+                height: 'clamp(64px, 18vw, 80px)',
+                marginTop: 'clamp(-32px, -9vw, -40px)' // Responsive positioning
+              }}
+            >
+              {profile?.avatar_url && supabase ? (
+                <img
+                  src={`${supabase.storage.from('avatars').getPublicUrl(profile.avatar_url.replace('avatars/', '')).data.publicUrl}`}
+                  alt="Profile"
+                  className="w-full h-full object-cover scale-[1.1] absolute inset-0 z-10"
+                  style={{ objectPosition: '60% 25%' }}
+                  onError={(e) => {
+                    // Fallback to icon if image fails to load
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : null}
+              {!profile?.avatar_url && (
+                <span 
+                  className="material-symbols-outlined filled-icon"
+                  style={{ 
+                    color: '#6b7280',
+                    fontSize: 'clamp(2.5rem, 8vw, 3.125rem)' // Responsive: 40px to 50px
+                  }}
+                >
+                  person
+                </span>
+              )}
+            </button>
+          </div>
           
-          {/* Right side - Pencarian & Lainnya with flexible spacing */}
-          <div className="flex items-center justify-evenly flex-1">
+          {/* Right side - Pencarian & Lainnya with spacing */}
+          <div className="flex items-center justify-end flex-1 gap-1">
             {/* Pencarian */}
             {mainMenuItems.slice(2, 3).map((item) => {
               const isAllowed = item.allowedRoles.includes(userRole);
@@ -125,7 +127,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
                   key={item.id}
                   onClick={() => isAllowed && onNavigate?.(item.id)}
                   disabled={!isAllowed}
-                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
+                  className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 min-w-[70px] ${
                     !isAllowed
                       ? 'text-on-surface-variant/40 cursor-not-allowed'
                       : isActive
@@ -154,7 +156,7 @@ export default function BottomNav({ profile, currentPage, onNavigate, supabase }
             {/* More Button */}
             <button
               onClick={handleMoreClick}
-              className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 flex-1 max-w-[80px] ${
+              className={`flex flex-col items-center justify-center py-1 rounded-lg transition-all duration-200 min-w-[70px] ${
                 showMoreMenu
                   ? 'text-secondary'
                   : 'text-on-surface-variant'
